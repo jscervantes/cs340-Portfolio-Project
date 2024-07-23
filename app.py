@@ -8,7 +8,7 @@ app = Flask(__name__)
 # Routes
 @app.route('/')
 def root():
-    return "Ciani Synths"
+    return render_template("main.j2")
 
 # Listener
 if __name__ == "__main__":
