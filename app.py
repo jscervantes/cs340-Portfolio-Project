@@ -11,23 +11,23 @@ app = Flask(__name__)
 def root():
     return render_template("main.j2")
 
-@app.route('/synthesizers')
+@app.route('/synthesizers', methods=('GET', 'POST'))
 def synthesizers():
     return render_template("synthesizers.j2")
 
-@app.route('/manufacturers')
+@app.route('/manufacturers', methods=('GET', 'POST'))
 def manufacturers():
     return render_template("manufacturers.j2")
 
-@app.route('/customers')
+@app.route('/customers', methods=('GET', 'POST'))
 def customers():
     return render_template("customers.j2")
 
-@app.route('/orders')
+@app.route('/orders', methods=('GET', 'POST'))
 def orders():
     return render_template("orders.j2")
 
-@app.route('/purchases')
+@app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
     return render_template("purchases.j2")
 
