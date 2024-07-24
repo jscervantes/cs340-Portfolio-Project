@@ -79,4 +79,80 @@
     </tr>
     </table>
 </body>
+    <h1>{% block customer %} Add A Customer to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="customer">Customer First Name</label>
+        <br>
+        <input type="text" name="first-name"
+               placeholder="First Name"
+               value="{{ request.form['first-name'] }}"
+               maxlength="100"
+               required></input>
+        <br>
+        <label for="customer">Customer Last Name</label>
+        <br>
+        <input type="text" name="last-name"
+               placeholder="Last Name"
+               value="{{ request.form['last-name'] }}"
+               maxlength="100"
+               required></input>
+        <br>
+        <label for="customer">Customer Street Address</label>
+        <br>
+        <input type="text" name="street"
+               placeholder="Street Address"
+               value="{{ request.form['street'] }}"
+               maxlength="100"
+               required></input>
+        <br>
+        <label for="customer">Customer Street Address 2</label>
+        <br>
+        <input type="text" name="street2"
+               placeholder="Street Address 2"
+               maxlength="100"
+               value="{{ request.form['street2'] }}"></input>
+        <br>
+        <label for="customer">Customer City</label>
+        <br>
+        <input type="text" name="city"
+               placeholder="City"
+               value="{{ request.form['city'] }}"
+               maxlength="100"
+               required></input>
+        <br>
+        <label for="customer">Customer State</label>
+        <br>
+        <input type="text" name="state"
+               placeholder="State"
+               value="{{ request.form['state'] }}"
+               maxlength="100"
+               required></input>
+        <br>
+        <label for="customer">Customer Zip Code</label>
+        <br>
+        <input type="text" name="zip"
+               placeholder="Zip Code"
+               value="{{ request.form['zip'] }}"
+               maxlength="10"
+               required></input>
+        <br>
+        <label for="customer">Customer Email</label>
+        <br>
+        <input type="text" name="email"
+               placeholder="Email"
+               value="{{ request.form['email'] }}"
+               maxlength="100"
+               required></input>
+        <br>
+        <label for="customer">Customer Phone Number</label>
+        <br>
+        <input type="text" name="phone"
+               placeholder="Phone Number"
+               value="{{ request.form['phone'] }}"
+               maxlength="10"
+               required></input>
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
 </html>
