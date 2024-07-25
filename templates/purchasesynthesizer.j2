@@ -1,17 +1,17 @@
 <html>
 <head>
-    <title>Ciani Synths | Syntheizer Purchase Orders</title>
+    <title>Ciani Synths | Synthesizer Purchase Orders</title>
 </head>
 <body>
-    <h1>Syntheizer Purchase Orders</h1>
+    <h1>Synthesizer Purchase Orders</h1>
     <table>
     <tr>
-        <th>Purchase Syntheizer ID</th>
+        <th>Purchase Synthesizer ID</th>
         <th>Purchase ID</th>
-        <th>Syntheizer ID</th>
-        <th>Syntheizer Quantity</th>
-        <th>Syntheizer Unit Cost</th>
-        <th>Syntheizer Line Cost</th>
+        <th>Synthesizer ID</th>
+        <th>Synthesizer Quantity</th>
+        <th>Synthesizer Unit Cost</th>
+        <th>Synthesizer Line Cost</th>
     </tr>
     <tr>
         <td>1</td>
@@ -20,6 +20,10 @@
         <td>2</td>
         <td>2099.99</td>
         <td>4199.98</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>2</td>
@@ -28,6 +32,10 @@
         <td>1</td>
         <td>13335.99</td>
         <td>13335.99</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>3</td>
@@ -36,6 +44,10 @@
         <td>3</td>
         <td>799.99</td>
         <td>2399.97</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>4</td>
@@ -44,6 +56,10 @@
         <td>1</td>
         <td>2099.99</td>
         <td>2099.99</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>5</td>
@@ -52,6 +68,10 @@
         <td>1</td>
         <td>499.99</td>
         <td>499.99</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>6</td>
@@ -60,6 +80,10 @@
         <td>1</td>
         <td>3999.99</td>
         <td>3999.99</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>7</td>
@@ -68,7 +92,55 @@
         <td>1</td>
         <td>2099.99</td>
         <td>2099.99</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     </table>
+        
+    <h1>{% block purchases %} Add A Synthesizer Purchase Order to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="purchaseID">Purchase</label>
+        <br>
+        <select id="purchaseID" name="purchaseID">
+        </select>
+        <br>
+        <label for="synthesizerID">Synthesizer</label>
+        <br>
+        <select id="synthesizerID" name="synthesizerID">
+        </select>
+        <br>
+        <label for="quantity">Quantity</label>
+        <br>
+        <input type="number" 
+               id="quantity"
+               name="quantity"
+               required>
+        <br>
+        <label for="unit-cost">Unit Cost</label>
+        <br>
+        <input type="text" 
+               id="unit-cost"
+               name="unit-cost"
+               placeholder="unit-cost"
+               value="{{ request.form['unit-cost'] }}"
+               min="0"
+               max="10"
+               required>
+        <br>
+        <label for="line-price">Line Cost</label>
+        <br>
+        <input type="text" 
+               id="line-cost"
+               name="line-cost"
+               placeholder="line-cost"
+               value="{{ request.form['line-cost'] }}"
+               min="0"
+               max="10"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
