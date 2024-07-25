@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Ciani Synths | Syntheizer Customer Orders</title>
+    <title>Ciani Synths | Synthesizer Customer Orders</title>
 </head>
 <body>
     <h1>Synthesizer Customer Orders</h1>
@@ -91,6 +91,7 @@
         <td>1</td>
         <td>1</td>
         <td>2999.99</td>
+        <td>2999.99</td>
         <td>
             <a href="">Edit</a>
             <a href="">Delete</a>
@@ -125,6 +126,7 @@
                placeholder="unit-price"
                value="{{ request.form['unit-price'] }}"
                min="0"
+               max="10"
                required>
         <br>
         <label for="line-price">Line Price</label>
@@ -135,6 +137,7 @@
                placeholder="line-price"
                value="{{ request.form['line-price'] }}"
                min="0"
+               max="10"
                required>
         <br>
         <button type="submit">Submit</button>
