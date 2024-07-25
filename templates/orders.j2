@@ -43,6 +43,11 @@
     </table>
     <h1>{% block orders %} Add An Order to Database {% endblock %}</h1>
     <form method="post">
+        <label for="customerID">Customer</label>
+        <br>
+        <select id="customerID" name="customerID">
+        </select>
+        <br>
         <label for="order-date">Order Date</label>
         <br>
         <input type="date" 

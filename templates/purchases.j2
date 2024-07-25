@@ -5,5 +5,39 @@
 <body>
     <h1>Purchases</h1>
     <p>This is a demonstration project created to show students how to create a Flask app and connect it to a MySQL database.</p>
+
+    <h1>{% block purchases %} Add A Purchase to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="orderID">Order</label>
+        <br>
+        <select id="orderID" name="orderID">
+        </select>
+        <br>
+        <label for="manufacturerID">Manufacturer</label>
+        <br>
+        <select id="manufacturerID" name="manufacturerID">
+        </select>
+        <br>
+        <label for="order-date">Purchase Date</label>
+        <br>
+        <input type="date" 
+               id="purchase-date"
+               name="purchase-date"
+               placeholder="Purchase Date"
+               value="{{ request.form['purchase-date'] }}"
+               required>
+        <br>
+        <label for="cost">Purchase Cost</label>
+        <br>
+        <input type="text" 
+               id="cost"
+               name="cost"
+               placeholder="Cost"
+               value="{{ request.form['cost'] }}"
+               min="0"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
