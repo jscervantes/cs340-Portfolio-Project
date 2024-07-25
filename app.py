@@ -27,9 +27,17 @@ def customers():
 def orders():
     return render_template("orders.j2")
 
+@app.route('/ordersynthesizer', methods=('GET', 'POST'))
+def ordersynthesizer():
+    return render_template("ordersynthesizer.j2")
+
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
     return render_template("purchases.j2")
+
+@app.route('/purchasesynthesizer', methods=('GET', 'POST'))
+def purchasesynthesizer():
+    return render_template("purchasesynthesizer.j2")
 
 # Listener
 if __name__ == "__main__":
