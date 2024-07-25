@@ -3,15 +3,15 @@
     <title>Ciani Synths | Syntheizer Customer Orders</title>
 </head>
 <body>
-    <h1>Syntheizer Customer Orders</h1>
+    <h1>Synthesizer Customer Orders</h1>
     <table>
     <tr>
-        <th>Order Syntheizer ID</th>
+        <th>Order Synthesizer ID</th>
         <th>Order ID</th>
-        <th>Syntheizer ID</th>
-        <th>Syntheizer Quantity</th>
-        <th>Syntheizer Unit Price</th>
-        <th>Syntheizer Line Price</th>
+        <th>Synthesizer ID</th>
+        <th>Synthesizer Quantity</th>
+        <th>Synthesizer Unit Price</th>
+        <th>Synthesizer Line Price</th>
     </tr>
     <tr>
         <td>1</td>
@@ -69,5 +69,47 @@
         <td>2999.99</td>
     </tr>
     </table>
+        
+    <h1>{% block purchases %} Add A Synthesizer Customer Order to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="orderID">Order</label>
+        <br>
+        <select id="orderID" name="orderID">
+        </select>
+        <br>
+        <label for="synthesizerID">Synthesizer</label>
+        <br>
+        <select id="synthesizerID" name="synthesizerID">
+        </select>
+        <br>
+        <label for="quantity">Quantity</label>
+        <br>
+        <input type="number" 
+               id="quantity"
+               name="quantity"
+               required>
+        <br>
+        <label for="unit-price">Unit Price</label>
+        <br>
+        <input type="text" 
+               id="unit-price"
+               name="unit-price"
+               placeholder="unit-price"
+               value="{{ request.form['unit-price'] }}"
+               min="0"
+               required>
+        <br>
+        <label for="line-price">Line Price</label>
+        <br>
+        <input type="text" 
+               id="line-price"
+               name="line-price"
+               placeholder="line-price"
+               value="{{ request.form['line-price'] }}"
+               min="0"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
