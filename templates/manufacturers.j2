@@ -26,6 +26,10 @@
         <td>11214</td>
         <td>hi@roland.com</td>
         <td>7185553848</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>2</td>
@@ -37,6 +41,10 @@
         <td>34214</td>
         <td>hello@sequential.com</td>
         <td>8885553434</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>3</td>
@@ -48,6 +56,10 @@
         <td>18383</td>
         <td>welcome@korg.com</td>
         <td>9395559282</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>4</td>
@@ -59,6 +71,10 @@
         <td>38458</td>
         <td>lol@moog.com</td>
         <td>9345552221</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     <tr>
         <td>5</td>
@@ -70,7 +86,97 @@
         <td>38933</td>
         <td>hey@yamaha.com</td>
         <td>5555555555</td>
+        <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </td>
     </tr>
     </table>
+    <p>This is a demonstration project created to show students how to create a Flask app and connect it to a MySQL database.</p>
+
+
+    <h1>{% block manufacturer %} Add A Manufacturer to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="name">Manufacturer Name</label>
+        <br>
+        <input type="text" 
+               id="name"
+               name="name"
+               placeholder="Name"
+               value="{{ request.form['name'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="street">Manufacturer Street Address</label>
+        <br>
+        <input type="text" 
+               id="street"
+               name="street"
+               placeholder="Street Address"
+               value="{{ request.form['street'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="street2">Manufacturer Street Address 2</label>
+        <br>
+        <input type="text" 
+               id="street2"
+               name="street2"
+               placeholder="Street Address 2"
+               maxlength="100"
+               value="{{ request.form['street2'] }}">
+        <br>
+        <label for="city">Manufacturer City</label>
+        <br>
+        <input type="text" 
+               id="city"
+               name="city"
+               placeholder="City"
+               value="{{ request.form['city'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="state">Manufacturer State</label>
+        <br>
+        <input type="text" 
+               id="state"
+               name="state"
+               placeholder="State"
+               value="{{ request.form['state'] }}"
+               maxlength="2"
+               required>
+        <br>
+        <label for="zip">Manufacturer Zip Code</label>
+        <br>
+        <input type="text" 
+               id="zip"
+               name="zip"
+               placeholder="Zip Code"
+               value="{{ request.form['zip'] }}"
+               maxlength="10"
+               required>
+        <br>
+        <label for="email">Manufacturer Email</label>
+        <br>
+        <input type="email" 
+               id="email"
+               name="email"
+               placeholder="Email"
+               value="{{ request.form['email'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="phone">Manufacturer Phone Number</label>
+        <br>
+        <input type="tel" 
+               id="phone"
+               name="phone"
+               placeholder="Phone Number"
+               value="{{ request.form['phone'] }}"
+               maxlength="10"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
