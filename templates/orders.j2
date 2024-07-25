@@ -42,6 +42,34 @@
         <td>2999.99</td>
     </tr>
     </table>
+    <h1>{% block orders %} Add An Order to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="customerID">Customer</label>
+        <br>
+        <select id="customerID" name="customerID">
+        </select>
+        <br>
+        <label for="order-date">Order Date</label>
+        <br>
+        <input type="date" 
+               id="order-date"
+               name="order-date"
+               placeholder="Order Date"
+               value="{{ request.form['order-date'] }}"
+               required>
+        <br>
+        <label for="price">Order Price</label>
+        <br>
+        <input type="text" 
+               id="price"
+               name="price"
+               placeholder="Price"
+               value="{{ request.form['price'] }}"
+               min="0"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
 

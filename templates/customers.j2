@@ -1,82 +1,182 @@
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ciani Synths | Customers</title>
 </head>
 <body>
     <h1>Customers</h1>
     <table>
-    <tr>
-        <th>Customer ID</th>
-        <th>Customer First Name</th>
-        <th>Customer Last Name</th>
-        <th>Customer Street Address</th>
-        <th>Customer Street Address 2</th>
-        <th>Customer City</th>
-        <th>Customer State</th>
-        <th>Customer Zip</th>
-        <th>Customer Email</th>
-        <th>Customer Phone</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>Naomi</td>
-        <td>Shaw</td>
-        <td>596 Edgefield Drive</td>
-        <td>NULL</td>
-        <td>Clarksburg</td>
-        <td>WV</td>
-        <td>26301</td>
-        <td>likvidatorcelok@ezsmail.com</td>
-        <td>7188904009</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Brendan</td>
-        <td>Frye</td>
-        <td>3308 Godfrey Street</td>
-        <td>NULL</td>
-        <td>Portland</td>
-        <td>OR</td>
-        <td>97229</td>
-        <td>fromponmachineus@jojoo.online</td>
-        <td>6040917948</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>Calvin</td>
-        <td>Melton</td>
-        <td>103 Mutton Town Road</td>
-        <td>NULL</td>
-        <td>Vancouver</td>
-        <td>WA</td>
-        <td>98663</td>
-        <td>someong6n9v@bankinnepal.com</td>
-        <td>3051178216</td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>Lacey</td>
-        <td>Robbins</td>
-        <td>3823 Heron Way</td>
-        <td>NULL</td>
-        <td>Portland</td>
-        <td>OR</td>
-        <td>97205</td>
-        <td>64j0cy5q5@dunilakeling.com</td>
-        <td>3051178216</td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>Dana</td>
-        <td>Greer</td>
-        <td>1225 New Street</td>
-        <td>NULL</td>
-        <td>Eugene</td>
-        <td>OR</td>
-        <td>97401</td>
-        <td>parapamm@bmuss.com</td>
-        <td>7775332610</td>
-    </tr>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Customer First Name</th>
+                <th>Customer Last Name</th>
+                <th>Customer Street Address</th>
+                <th>Customer Street Address 2</th>
+                <th>Customer City</th>
+                <th>Customer State</th>
+                <th>Customer Zip</th>
+                <th>Customer Email</th>
+                <th>Customer Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Naomi</td>
+                <td>Shaw</td>
+                <td>596 Edgefield Drive</td>
+                <td>NULL</td>
+                <td>Clarksburg</td>
+                <td>WV</td>
+                <td>26301</td>
+                <td>likvidatorcelok@ezsmail.com</td>
+                <td>7188904009</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Brendan</td>
+                <td>Frye</td>
+                <td>3308 Godfrey Street</td>
+                <td>NULL</td>
+                <td>Portland</td>
+                <td>OR</td>
+                <td>97229</td>
+                <td>fromponmachineus@jojoo.online</td>
+                <td>6040917948</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Calvin</td>
+                <td>Melton</td>
+                <td>103 Mutton Town Road</td>
+                <td>NULL</td>
+                <td>Vancouver</td>
+                <td>WA</td>
+                <td>98663</td>
+                <td>someong6n9v@bankinnepal.com</td>
+                <td>3051178216</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Lacey</td>
+                <td>Robbins</td>
+                <td>3823 Heron Way</td>
+                <td>NULL</td>
+                <td>Portland</td>
+                <td>OR</td>
+                <td>97205</td>
+                <td>64j0cy5q5@dunilakeling.com</td>
+                <td>3051178216</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Dana</td>
+                <td>Greer</td>
+                <td>1225 New Street</td>
+                <td>NULL</td>
+                <td>Eugene</td>
+                <td>OR</td>
+                <td>97401</td>
+                <td>parapamm@bmuss.com</td>
+                <td>7775332610</td>
+            </tr>
+        </tbody>
     </table>
+
+    <h1>{% block customer %} Add A Customer to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="first-name">Customer First Name</label>
+        <br>
+        <input type="text" 
+               id="first-name"
+               name="first-name"
+               placeholder="First Name"
+               value="{{ request.form['first-name'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="last-name">Customer Last Name</label>
+        <br>
+        <input type="text"
+               id="last-name"
+               name="last-name"
+               placeholder="Last Name"
+               value="{{ request.form['last-name'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="street">Customer Street Address</label>
+        <br>
+        <input type="text" 
+               id="street"
+               name="street"
+               placeholder="Street Address"
+               value="{{ request.form['street'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="street2">Customer Street Address 2</label>
+        <br>
+        <input type="text" 
+               id="street2"
+               name="street2"
+               placeholder="Street Address 2"
+               maxlength="100"
+               value="{{ request.form['street2'] }}">
+        <br>
+        <label for="city">Customer City</label>
+        <br>
+        <input type="text" 
+               id="city"
+               name="city"
+               placeholder="City"
+               value="{{ request.form['city'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="state">Customer State</label>
+        <br>
+        <input type="text" 
+               id="state"
+               name="state"
+               placeholder="State"
+               value="{{ request.form['state'] }}"
+               maxlength="2"
+               required>
+        <br>
+        <label for="zip">Customer Zip Code</label>
+        <br>
+        <input type="text" 
+               id="zip"
+               name="zip"
+               placeholder="Zip Code"
+               value="{{ request.form['zip'] }}"
+               maxlength="10"
+               required>
+        <br>
+        <label for="email">Customer Email</label>
+        <br>
+        <input type="email" 
+               id="email"
+               name="email"
+               placeholder="Email"
+               value="{{ request.form['email'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="phone">Customer Phone Number</label>
+        <br>
+        <input type="tel" 
+               id="phone"
+               name="phone"
+               placeholder="Phone Number"
+               value="{{ request.form['phone'] }}"
+               maxlength="10"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>

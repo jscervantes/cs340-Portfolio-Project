@@ -55,5 +55,39 @@
         <td>2099.99</td>
     </tr>
     </table>
+    
+    <h1>{% block purchases %} Add A Purchase to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="orderID">Order</label>
+        <br>
+        <select id="orderID" name="orderID">
+        </select>
+        <br>
+        <label for="manufacturerID">Manufacturer</label>
+        <br>
+        <select id="manufacturerID" name="manufacturerID">
+        </select>
+        <br>
+        <label for="order-date">Purchase Date</label>
+        <br>
+        <input type="date" 
+               id="purchase-date"
+               name="purchase-date"
+               placeholder="Purchase Date"
+               value="{{ request.form['purchase-date'] }}"
+               required>
+        <br>
+        <label for="cost">Purchase Cost</label>
+        <br>
+        <input type="text" 
+               id="cost"
+               name="cost"
+               placeholder="Cost"
+               value="{{ request.form['cost'] }}"
+               min="0"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>

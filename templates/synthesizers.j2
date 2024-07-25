@@ -60,5 +60,63 @@
         <td>Analog</td>
         <td>Y</td>
     </tr>
-    </table></body>
+    </table>
+    <p>This is a demonstration project created to show students how to create a Flask app and connect it to a MySQL database.</p>
+    <h1>{% block synthesizer %} Add A Synthesizer to Database {% endblock %}</h1>
+    <form method="post">
+        <label for="manufacturerID">Manufacturer</label>
+        <br>
+        <select id="manufacturerID" name="manufacturerID">
+        </select>
+        <br>
+        <label for="name">Synthesizer Name</label>
+        <br>
+        <input type="text" 
+               id="name"
+               name="name"
+               placeholder="Name"
+               value="{{ request.form['name'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="cost">Synthesizer Cost</label>
+        <br>
+        <input type="text" 
+               id="cost"
+               name="cost"
+               placeholder="cost.00"
+               value="{{ request.form['cost'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="price">Synthesizer Price</label>
+        <br>
+        <input type="text" 
+               id="price"
+               name="price"
+               placeholder="price.00"
+               value="{{ request.form['price'] }}"
+               maxlength="100"
+               required>
+        <br>
+        <label for="signal">Signal Type</label>
+        <br>
+        <input type="text" 
+               id="signal"
+               name="signal"
+               placeholder="signal type"
+               maxlength="100"
+               value="{{ request.form['signal'] }}">
+        <br>
+        <label for="keyboard">Has a Keyboard?</label>
+        <br>
+        <input type="checkbox" 
+               id="keyboard"
+               name="keyboard"
+               value="{{ request.form['city'] }}">
+        <br>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
 </html>
