@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Synthesizer Customer Orders</h1>
-    <table>
+    <table id = "orderSynthesizerTable">
     <tr>
         <th>Order Synthesizer ID</th>
         <th>Order ID</th>
@@ -96,7 +96,19 @@
         </td>
     </tr>
     </table>
-        
+
+    <br>
+    <select id="orderSynthesizerTableInput" name="orderID" onchange="orderSynthesizerSearch()">
+        <option value="" disabled selected>Select the Order ID</option>
+        <option value="1">Order ID 1</option>
+        <option value="2">Order ID 2</option>
+        <option value="3">Order ID 3</option>
+        <option value="4">Order ID 4</option>
+        <option value="5">Order ID 5</option>
+    </select>
+    <label for="orderSynthesizerTableInput">Display all order items associated with a single order</label>
+    </section>
+   
     <h1>{% block purchases %} Add A Synthesizer Customer Order to Database {% endblock %}</h1>
     <form method="post">
         <label for="orderID">Order</label>

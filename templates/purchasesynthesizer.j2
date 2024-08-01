@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Synthesizer Purchase Orders</h1>
-    <table>
+    <table id = "purchaseSynthesizerTable">
     <tr>
         <th>Purchase Synthesizer ID</th>
         <th>Purchase ID</th>
@@ -96,13 +96,26 @@
         </td>
     </tr>
     </table>
+
+    <br>
+    <select id="purchaseSynthesizerTableInput" name="purchaseID" onchange="purchaseSynthesizerSearch()">
+        <option value="" disabled selected>Select Purchase ID</option>
+        <option value="1">Purchase ID 1</option>
+        <option value="2">Purchase ID 2</option>
+        <option value="3">Purchase ID 3</option>
+        <option value="4">Purchase ID 4</option>
+        <option value="5">Purchase ID 5</option>
+    </select>
+    <label for="purchaseSynthesizerTableInput">Display all purchase items associated with a single purchase order</label>
+
+    </section>
         
     <h1>{% block purchases %} Add A Synthesizer Purchase Order to Database {% endblock %}</h1>
     <form method="post">
         <label for="purchaseID">Purchase</label>
         <br>
             <select required id="purchaseID" name="purchaseID">
-            <option value="" disabled selected>Select the Purchase</option>
+            <option value="" disabled selected>Select Purchase</option>
             <option value="1">ID 1</option>
             <option value="2">ID 2</option>
             <option value="3">ID 3</option>
@@ -153,4 +166,30 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+</body>
+</html>
+
+
+ <script>
+function purchaseSynthesizerSearch() {
+  var purchaseSelectionID, filter, table, tr, td, i, dropDownValue;
+  purchaseSelectionID = document.getElementById("purchaseSynthesizerTableInput");
+  filter = purchaseSelectionID.value.toUpperCase();
+  table = document.getElementById("purchaseSynthesizerTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      dropDownValue = td.textContent || td.innerText;
+      if (dropDownValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 {% endblock content %}
