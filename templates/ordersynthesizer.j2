@@ -1,11 +1,6 @@
-<html>
-<head>
-    <title>Ciani Synths | Synthesizer Customer Orders</title>
-</head>
-<body>
-  <header>
-    {% include "_navigation.j2" %}
-  </header>
+{% extends "base.j2" %}
+
+{% block content %}
     <h1>Synthesizer Customer Orders</h1>
     <table id = "orderSynthesizerTable">
     <tr>
@@ -171,5 +166,4 @@
         <br>
         <button type="submit">Submit</button>
     </form>
-</body>
-</html>
+{% endblock content %}
