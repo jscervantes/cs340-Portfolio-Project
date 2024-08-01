@@ -70,7 +70,13 @@
     <form method="post">
         <label for="customerID">Customer</label>
         <br>
-        <select id="customerID" name="customerID">
+        <select required id="customerID" name="customerID">
+            <option value="" disabled selected>Select the Customer</option>
+            <option value="1">ID 1: Naomi Shaw </option>
+            <option value="2">ID 2: Brendan Frye</option>
+            <option value="3">ID 3: Calvin Melton</option>
+            <option value="4">ID 4: Lacey Robbins</option>
+            <option value="5">ID 5: Dana Greer</option>
         </select>
         <br>
         <label for="order-date">Order Date</label>

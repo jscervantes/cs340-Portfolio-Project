@@ -106,12 +106,25 @@
     <form method="post">
         <label for="purchaseID">Purchase</label>
         <br>
-        <select id="purchaseID" name="purchaseID">
+            <select required id="purchaseID" name="purchaseID">
+            <option value="" disabled selected>Select the Purchase</option>
+            <option value="1">ID 1</option>
+            <option value="2">ID 2</option>
+            <option value="3">ID 3</option>
+            <option value="4">ID 4</option>
+            <option value="5">ID 5</option>
+            <option value="6">ID 6</option>
         </select>
         <br>
         <label for="synthesizerID">Synthesizer</label>
         <br>
-        <select id="synthesizerID" name="synthesizerID">
+            <select required id="synthesizerID" name="synthesizerID">
+            <option value="" disabled selected>Select the Synthesizer</option>
+            <option value="1">ID 1: Juno60</option>
+            <option value="2">ID 2: Jupiter8</option>
+            <option value="3">ID 3: Prophet5</option>
+            <option value="4">ID 4: WavestateMK2</option>
+            <option value="5">ID 5: Grandmother</option>
         </select>
         <br>
         <label for="quantity">Quantity</label>

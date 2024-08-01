@@ -84,12 +84,17 @@
         </td>
     </tr>
     </table>
-    <p>This is a demonstration project created to show students how to create a Flask app and connect it to a MySQL database.</p>
     <h1>{% block synthesizer %} Add A Synthesizer to Database {% endblock %}</h1>
     <form method="post">
         <label for="manufacturerID">Manufacturer</label>
         <br>
-        <select id="manufacturerID" name="manufacturerID">
+        <select required id="manufacturerID" name="manufacturerID">
+            <option value="" disabled selected>Select the Manufacturer</option>
+            <option value="1">ID 1: Roland </option>
+            <option value="2">ID 2: Sequential</option>
+            <option value="3">ID 3: Korg</option>
+            <option value="4">ID 4: Moog</option>
+            <option value="5">ID 5: Yamaha</option>
         </select>
         <br>
         <label for="name">Synthesizer Name</label>
