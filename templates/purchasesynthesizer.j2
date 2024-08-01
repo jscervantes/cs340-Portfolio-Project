@@ -1,12 +1,6 @@
-<html>
-<head>
-    <title>Ciani Synths | Synthesizer Purchase Orders</title>
-</head>
-<body>
-  <section>
-  <header>
-    {% include "_navigation.j2" %}
-  </header>
+{% extends "base.j2" %}
+
+{% block content %}
     <h1>Synthesizer Purchase Orders</h1>
     <table id = "purchaseSynthesizerTable">
     <tr>
@@ -198,3 +192,4 @@ function purchaseSynthesizerSearch() {
   }
 }
 </script>
+{% endblock content %}
