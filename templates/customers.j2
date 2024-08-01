@@ -1,13 +1,6 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciani Synths | Customers</title>
-</head>
-<body>
-  <header>
-    {% include "_navigation.j2" %}
-  </header>
+{% extends "base.j2" %}
+
+{% block content %}
     <h1>Customers</h1>
     <table>
         <thead>
@@ -201,5 +194,4 @@
         <br>
         <button type="submit">Submit</button>
     </form>
-</body>
-</html>
+{% endblock content %}

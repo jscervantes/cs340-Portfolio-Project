@@ -9,7 +9,8 @@ app = Flask(__name__)
 # Routes
 @app.route('/')
 def root():
-    return render_template("main.j2")
+    title = "Ciani Synths"
+    return render_template("base.j2", title=title)
 
 @app.route('/synthesizers', methods=('GET', 'POST'))
 def synthesizers():
