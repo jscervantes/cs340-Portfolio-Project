@@ -1,11 +1,6 @@
-<html>
-<head>
-    <title>Ciani Synths | Synthesizers</title>
-</head>
-<body>
-  <header>
-    {% include "_navigation.j2" %}
-  </header>
+{% extends "base.j2" %}
+
+{% block content %}
     <h1>Synthesizers</h1>
     <table>
     <tr>
@@ -146,5 +141,4 @@
         
         <button type="submit">Submit</button>
     </form>
-</body>
-</html>
+{% endblock content %}
