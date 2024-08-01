@@ -166,4 +166,27 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+    
+ <script>
+function orderSynthesizerSearch() {
+  var orderSelectionID, filter, table, tr, td, i, dropDownValue;
+  orderSelectionID = document.getElementById("orderSynthesizerTableInput");
+  filter = orderSelectionID.value.toUpperCase();
+  table = document.getElementById("orderSynthesizerTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      dropDownValue = td.textContent || td.innerText;
+      if (dropDownValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 {% endblock content %}
