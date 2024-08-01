@@ -18,86 +18,24 @@
             </tr>
         </thead>
         <tbody>
+          {% for customer in customers %}
             <tr>
-                <td>1</td>
-                <td>Naomi</td>
-                <td>Shaw</td>
-                <td>596 Edgefield Drive</td>
-                <td>NULL</td>
-                <td>Clarksburg</td>
-                <td>WV</td>
-                <td>26301</td>
-                <td>likvidatorcelok@ezsmail.com</td>
-                <td>7188904009</td>
-                <td>
-                    <a href="">Edit</a>
-                    <a href="">Delete</a>
-                </td>
+              <td>{{ customer.id }}</td>
+              <td>{{ customer.firstname }}</td>
+              <td>{{ customer.lastname }}</td>
+              <td>{{ customer.street }}</td>
+              <td>{{ customer.street2 }}</td>
+              <td>{{ customer.city }}</td>
+              <td>{{ customer.state }}</td>
+              <td>{{ customer.zip }}</td>
+              <td>{{ customer.email }}</td>
+              <td>{{ customer.phone }}</td>
+              <td>
+                <a href="">Edit</a>
+                <a href="">Delete</a>
+              </td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Brendan</td>
-                <td>Frye</td>
-                <td>3308 Godfrey Street</td>
-                <td>NULL</td>
-                <td>Portland</td>
-                <td>OR</td>
-                <td>97229</td>
-                <td>fromponmachineus@jojoo.online</td>
-                <td>6040917948</td>
-                <td>
-                    <a href="">Edit</a>
-                    <a href="">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Calvin</td>
-                <td>Melton</td>
-                <td>103 Mutton Town Road</td>
-                <td>NULL</td>
-                <td>Vancouver</td>
-                <td>WA</td>
-                <td>98663</td>
-                <td>someong6n9v@bankinnepal.com</td>
-                <td>3051178216</td>
-                <td>
-                    <a href="">Edit</a>
-                    <a href="">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Lacey</td>
-                <td>Robbins</td>
-                <td>3823 Heron Way</td>
-                <td>NULL</td>
-                <td>Portland</td>
-                <td>OR</td>
-                <td>97205</td>
-                <td>64j0cy5q5@dunilakeling.com</td>
-                <td>3051178216</td>
-                <td>
-                    <a href="">Edit</a>
-                    <a href="">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Dana</td>
-                <td>Greer</td>
-                <td>1225 New Street</td>
-                <td>NULL</td>
-                <td>Eugene</td>
-                <td>OR</td>
-                <td>97401</td>
-                <td>parapamm@bmuss.com</td>
-                <td>7775332610</td>
-                <td>
-                    <a href="">Edit</a>
-                    <a href="">Delete</a>
-                </td>
-            </tr>
+          {% endfor %}
         </tbody>
     </table>
 
