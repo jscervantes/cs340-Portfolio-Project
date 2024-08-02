@@ -14,7 +14,7 @@
         <td>5</td>
         <td>2024-03-17</td>
         <td>28930.97</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -22,7 +22,7 @@
         <td>4</td>
         <td>2024-07-14</td>
         <td>2999.97</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -30,7 +30,7 @@
         <td>4</td>
         <td>2023-11-14</td>
         <td>2999.99</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -38,7 +38,7 @@
         <td>2</td>
         <td>2023-12-01</td>
         <td>8599.98</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -46,13 +46,16 @@
         <td>1</td>
         <td>2024-01-02</td>
         <td>2999.99</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+    </tr>
+    <tr>
+        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
     </tr>
     </table>
 
+    <form method="post" id="add-form" style="display: none;">
     <h1>{% block orders %} Add An Order to Database {% endblock %}</h1>
-    <form method="post">
         <label for="customerID">Customer</label>
         <br>
         <select required id="customerID" name="customerID">
@@ -85,11 +88,64 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+
+    <form method="post" id="update-form" style="display: none;">
+    <h1>{% block ordersUpdate %} Update An Order in Database {% endblock %}</h1>
+        <label for="orderID">Order ID</label>
+        <br>
+        <select required id="orderID" name="orderID">
+            <option value="" disabled selected>Select the OrderID</option>
+            <option value="1">ID 1</option>
+            <option value="2">ID 2</option>
+            <option value="3">ID 3</option>
+            <option value="4">ID 4</option>
+            <option value="5">ID 5</option>
+        </select>
+        <br>
+        <label for="customerID">Customer</label>
+        <br>
+        <select required id="customerID" name="customerID">
+            <option value="" disabled selected>Select the Customer</option>
+            <option value="1">ID 1: Naomi Shaw </option>
+            <option value="2">ID 2: Brendan Frye</option>
+            <option value="3">ID 3: Calvin Melton</option>
+            <option value="4">ID 4: Lacey Robbins</option>
+            <option value="5">ID 5: Dana Greer</option>
+        </select>
+        <br>
+        <label for="order-date">Order Date</label>
+        <br>
+        <input type="date" 
+               id="order-date"
+               name="order-date"
+               placeholder="Order Date"
+               value="{{ request.form['order-date'] }}"
+               required>
+        <br>
+        <label for="price">Order Price</label>
+        <br>
+        <input type="text" 
+               id="price"
+               name="price"
+               placeholder="Price"
+               value="{{ request.form['price'] }}"
+               min="0"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    
 <script>
  function deleteRow(r) {
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("OrdersTable").deleteRow(i);
 } 
+ function showUpdateForm() {
+  document.getElementById('update-form').style.display = 'block';
+ }
+ function showAddForm() {
+  document.getElementById('add-form').style.display = 'block';
+ }
 </script>
 {% endblock content %}
 
