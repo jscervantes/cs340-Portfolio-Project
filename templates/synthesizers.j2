@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Synthesizers</h1>
-    <table>
+    <table id = "SynthesizersTable">
     <tr>
         <th>Synthesizer ID</th>
         <th>Manufacturer ID</th>
@@ -20,10 +20,8 @@
         <td>2999.99</td>
         <td>Analog</td>
         <td>Y</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>2</td>
@@ -33,10 +31,8 @@
         <td>22930.99</td>
         <td>Analog</td>
         <td>Y</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
     
@@ -47,10 +43,8 @@
         <td>7899.99</td>
         <td>Analog</td>
         <td>Y</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>4</td>
@@ -60,10 +54,8 @@
         <td>699.99</td>
         <td>Digital</td>
         <td>N</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>5</td>
@@ -73,10 +65,8 @@
         <td>999.99</td>
         <td>Analog</td>
         <td>Y</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     </table>
     <h1>{% block synthesizer %} Add A Synthesizer to Database {% endblock %}</h1>
@@ -141,4 +131,10 @@
         
         <button type="submit">Submit</button>
     </form>
+<script>
+ function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("SynthesizersTable").deleteRow(i);
+} 
+</script>
 {% endblock content %}
