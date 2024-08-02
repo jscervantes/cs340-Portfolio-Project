@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Purchases</h1>
-    <table>
+    <table id = "PurchasesTable">
     <tr>
         <th>Purchase ID</th>
         <th>Order ID</th>
@@ -16,10 +16,8 @@
         <td>1</td>
         <td>2024-03-18</td>
         <td>17535.97</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>2</td>
@@ -27,10 +25,8 @@
         <td>4</td>
         <td>2024-07-14</td>
         <td>2399.97</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>3</td>
@@ -38,10 +34,8 @@
         <td>1</td>
         <td>2024-11-15</td>
         <td>2099.99</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>4</td>
@@ -49,10 +43,8 @@
         <td>3</td>
         <td>2024-12-02</td>
         <td>499.99</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>5</td>
@@ -60,10 +52,8 @@
         <td>2</td>
         <td>2024-12-02</td>
         <td>3999.99</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>6</td>
@@ -71,10 +61,8 @@
         <td>1</td>
         <td>2024-01-05</td>
         <td>2099.99</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     </table>
     
@@ -123,4 +111,10 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+<script>
+ function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("PurchasesTable").deleteRow(i);
+} 
+</script>
 {% endblock content %}

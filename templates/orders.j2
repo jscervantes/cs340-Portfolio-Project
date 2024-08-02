@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Orders</h1>
-    <table>
+    <table id="OrdersTable">
     <tr>
         <th>Order ID</th>
         <th>Customer ID</th>
@@ -14,50 +14,40 @@
         <td>5</td>
         <td>2024-03-17</td>
         <td>28930.97</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>2</td>
         <td>4</td>
         <td>2024-07-14</td>
         <td>2999.97</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>3</td>
         <td>4</td>
         <td>2023-11-14</td>
         <td>2999.99</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>4</td>
         <td>2</td>
         <td>2023-12-01</td>
         <td>8599.98</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
         <td>5</td>
         <td>1</td>
         <td>2024-01-02</td>
         <td>2999.99</td>
-        <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-        </td>
+        <td><a href="">Edit</a></td>
+        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     </table>
 
@@ -95,5 +85,11 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+<script>
+ function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("OrdersTable").deleteRow(i);
+} 
+</script>
 {% endblock content %}
 

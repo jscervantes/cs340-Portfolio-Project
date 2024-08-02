@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Manufacturers</h1>
-    <table>
+    <table id = "ManufacturersTable">
         <thead>
         <tr>
             <th>Manufacturer ID</th>
@@ -28,10 +28,8 @@
               <td>{{ manufacturer.manufacturerZip }}</td>
               <td>{{ manufacturer.manufacturerEmail }}</td>
               <td>{{ manufacturer.manufacturerPhone }}</td>
-              <td>
-                <a href="">Edit</a>
-                <a href="">Delete</a>
-              </td>
+              <td><a href="">Edit</a></td>
+              <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
             </tr>
           {% endfor %}
     </tbody>
@@ -216,4 +214,10 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+<script>
+ function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("ManufacturersTable").deleteRow(i);
+} 
+</script>
 {% endblock content %}
