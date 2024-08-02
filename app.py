@@ -14,11 +14,124 @@ def root():
 
 @app.route('/synthesizers', methods=('GET', 'POST'))
 def synthesizers():
+    synthesizers = [
+        {
+            "synthesizerID": "1",
+            "manufacturerID": "1",
+            "synthesizerName": "Juno60",
+            "synthesizerCost": "2099.99",
+            "synthesizerPrice": "2999.99",
+            "signalType": "Analog",
+            "keyboard": "TRUE"
+        },
+
+        {
+            "synthesizerID": "2",
+            "manufacturerID": "2",
+            "synthesizerName": "Jupiter8",
+            "synthesizerCost": "13335.99",
+            "synthesizerPrice": "22930.99",
+            "signalType": "Analog",
+            "keyboard": "TRUE"
+        },
+
+        {
+            "synthesizerID": "3",
+            "manufacturerID": "3",
+            "synthesizerName": "Prophet5",
+            "synthesizerCost": "3999.99",
+            "synthesizerPrice": "7899.99",
+            "signalType": "Analog",
+            "keyboard": "TRUE"
+        },
+
+        {
+            "synthesizerID": "4",
+            "manufacturerID": "4",
+            "synthesizerName": "WavestateMK2",
+            "synthesizerCost": "499.99",
+            "synthesizerPrice": "699.99",
+            "signalType": "Digital",
+            "keyboard": "FALSE"
+        },
+        
+        {
+            "synthesizerID": "5",
+            "manufacturerID": "5",
+            "synthesizerName": "Grandmother",
+            "synthesizerCost": "799.99",
+            "synthesizerPrice": "999.99",
+            "signalType": "Analog",
+            "keyboard": "TRUE"
+        }
+              
+    ]
+
     return render_template("synthesizers.j2")
 
 @app.route('/manufacturers', methods=('GET', 'POST'))
 def manufacturers():
-    return render_template("manufacturers.j2")
+    manufacturers = [
+        {
+            "manufacturerID": "1",
+            "manufacturerName": "Roland",
+            "manufacturerStreet": "123 Sesame St",
+            "manufacturerStreet2": "NULL",
+            "manufacturerCity": "Brooklyn",
+            "manufacturerState": "New York",
+            "manufacturerZip": "11214",
+            "manufacturerEmail": "hi@roland.com",
+            "manufacturerPhone": "7185553848"
+        },
+
+         {
+            "manufacturerID": "2",
+            "manufacturerName": "Sequential",
+            "manufacturerStreet": "343 Nostrand Ave",
+            "manufacturerStreet2": "NULL",
+            "manufacturerCity": "Denver",
+            "manufacturerState": "Colorado",
+            "manufacturerZip": "34214",
+            "manufacturerEmail": "hello@sequential.com",
+            "manufacturerPhone": "8885553434"
+        },        
+
+        {
+            "manufacturerID": "3",
+            "manufacturerName": "Korg",
+            "manufacturerStreet": "195 Vernon Rd",
+            "manufacturerStreet2": "NULL",
+            "manufacturerCity": "Portland",
+            "manufacturerState": "Oregon",
+            "manufacturerZip": "18383",
+            "manufacturerEmail": "welcome@korg.com",
+            "manufacturerPhone": "9395559282"
+        },        
+        {
+            "manufacturerID": "4",
+            "manufacturerName": "Moog",
+            "manufacturerStreet": "17 Mississipi St",
+            "manufacturerStreet2": "NULL",
+            "manufacturerCity": "Bend",
+            "manufacturerState": "Oregon",
+            "manufacturerZip": "38458",
+            "manufacturerEmail": "lol@moog.com",
+            "manufacturerPhone": "9345552221"
+        },        
+        {
+            "manufacturerID": "5",
+            "manufacturerName": "Yamaha",
+            "manufacturerStreet": "9039 Wow St",
+            "manufacturerStreet2": "NULL",
+            "manufacturerCity": "Providence",
+            "manufacturerState": "Rhode Island",
+            "manufacturerZip": "38933",
+            "manufacturerEmail": "hey@yamaha.com",
+            "manufacturerPhone": "5555555555"
+        }              
+    ]
+
+    return render_template("manufacturers.j2", manufacturers = manufacturers)
 
 @app.route('/customers', methods=('GET', 'POST'))
 def customers():
