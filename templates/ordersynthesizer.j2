@@ -3,87 +3,33 @@
 {% block content %}
     <h1>Synthesizer Customer Orders</h1>
     <table id = "orderSynthesizerTable">
-    <tr>
-        <th>Order Synthesizer ID</th>
-        <th>Order ID</th>
-        <th>Synthesizer ID</th>
-        <th>Synthesizer Quantity</th>
-        <th>Synthesizer Unit Price</th>
-        <th>Synthesizer Line Price</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2</td>
-        <td>2999.99</td>
-        <td>5999.98</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>1</td>
-        <td>2</td>
-        <td>1</td>
-        <td>22930.99</td>
-        <td>22930.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>2</td>
-        <td>5</td>
-        <td>3</td>
-        <td>999.99</td>
-        <td>2999.97</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>3</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2999.99</td>
-        <td>2999.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>4</td>
-        <td>4</td>
-        <td>1</td>
-        <td>699.99</td>
-        <td>699.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>6</td>
-        <td>4</td>
-        <td>3</td>
-        <td>1</td>
-        <td>7899.99</td>
-        <td>7899.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>5</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2999.99</td>
-        <td>2999.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
-    </tr>
+      <thead>
+        <tr>
+            <th>Order Synthesizer ID</th>
+            <th>Order ID</th>
+            <th>Synthesizer ID</th>
+            <th>Synthesizer Quantity</th>
+            <th>Synthesizer Unit Price</th>
+            <th>Synthesizer Line Price</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for orderSynthesizer in orderSynthesizers %}
+        <tr>
+            <td> {{ orderSynthesizer.id }}</td>
+            <td> {{ orderSynthesizer.orderId }}</td>
+            <td> {{ orderSynthesizer.synthesizerId }}</td>
+            <td> {{ orderSynthesizer.synthesizerQuantity }}</td>
+            <td> {{ orderSynthesizer.synthesizerUnitPrice }}</td>
+            <td> {{ orderSynthesizer.synthesizerLinePrice }}</td>
+            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
+            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+        </tr>
+      {% endfor %}
+        <tr>
+            <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+        </tr>
+      </tbody>
     </table>
 
     <br>

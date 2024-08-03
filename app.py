@@ -205,7 +205,65 @@ def orders():
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
 def ordersynthesizer():
-    return render_template("ordersynthesizer.j2")
+    orderSynthesizers = [
+          {
+            "id": "1",
+            "orderId": "1",
+            "synthesizerId": "1",
+            "synthesizerQuantity": "2",
+            "synthesizerUnitPrice": "2999.99",
+            "synthesizerLinePrice": "5999.98"
+        },
+          {
+            "id": "2",
+            "orderId": "1",
+            "synthesizerId": "2",
+            "synthesizerQuantity": "1",
+            "synthesizerUnitPrice": "22930.99",
+            "synthesizerLinePrice": "22930.99"
+        },
+          {
+            "id": "3",
+            "orderId": "2",
+            "synthesizerId": "5",
+            "synthesizerQuantity": "3",
+            "synthesizerUnitPrice": "999.99",
+            "synthesizerLinePrice": "2999.97"
+        },
+          {
+            "id": "4",
+            "orderId": "3",
+            "synthesizerId": "1",
+            "synthesizerQuantity": "1",
+            "synthesizerUnitPrice": "2999.99",
+            "synthesizerLinePrice": "2999.99"
+        },
+          {
+            "id": "5",
+            "orderId": "4",
+            "synthesizerId": "4",
+            "synthesizerQuantity": "1",
+            "synthesizerUnitPrice": "699.99",
+            "synthesizerLinePrice": "699.99"
+        },
+          {
+            "id": "6",
+            "orderId": "4",
+            "synthesizerId": "3",
+            "synthesizerQuantity": "1",
+            "synthesizerUnitPrice": "7899.99",
+            "synthesizerLinePrice": "7899.99"
+        },
+          {
+            "id": "7",
+            "orderId": "5",
+            "synthesizerId": "1",
+            "synthesizerQuantity": "1",
+            "synthesizerUnitPrice": "2999.99",
+            "synthesizerLinePrice": "2999.99"
+        },
+        ]
+    return render_template("ordersynthesizer.j2", orderSynthesizers=orderSynthesizers)
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
