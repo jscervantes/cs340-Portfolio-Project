@@ -2,80 +2,39 @@
 
 {% block content %}
     <h1>Synthesizers</h1>
-    <table id = "SynthesizersTable">
-      <thead>
-        <tr>
-            <th>Synthesizer ID</th>
-            <th>Manufacturer ID</th>
-            <th>Name</th>
-            <th>Cost</th>
-            <th>Price</th>
-            <th>Signal Type</th>
-            <th>Keyboard</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>Juno60</td>
-            <td>2099.99</td>
-            <td>2999.99</td>
-            <td>Analog</td>
-            <td>Y</td>
-            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>2</td>
-            <td>Jupiter8</td>
-            <td>13335.99</td>
-            <td>22930.99</td>
-            <td>Analog</td>
-            <td>Y</td>
-            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-        </tr>
-        <tr>
-        
-            <td>3</td>
-            <td>3</td>
-            <td>Prophet5</td>
-            <td>3999.99</td>
-            <td>7899.99</td>
-            <td>Analog</td>
-            <td>Y</td>
-            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>4</td>
-            <td>WavestateMK2</td>
-            <td>499.99</td>
-            <td>699.99</td>
-            <td>Digital</td>
-            <td>N</td>
-            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>5</td>
-            <td>Grandmother</td>
-            <td>799.99</td>
-            <td>999.99</td>
-            <td>Analog</td>
-            <td>Y</td>
-            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-        </tr>
-        <tr>
-          <td><button id="add-button" onclick="showAddForm()">Add</button></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="browse">
+      <table border="1" cellpadding="5">
+      <!-- Accessing data variable passed from app.py -->
+      {% if data %}
+        <thead>
+          <tr>
+          <!-- Get column names -->
+          {% for key in data[0].keys()%}
+              <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Iterate through every item in data -->
+          {% for item in data %}
+          <tr>
+            <!-- Then, iterate through every key in the current item dict -->
+            {% for key in item.keys() %}
+              <!-- Create <td> element with the value of that key in it -->
+              <td> {{item[key]}} </td>
+            {% endfor %}
+              <!-- Create our edit/delete buttons -->
+              <td><a href="">Edit</a></td>
+              <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>          </tr>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+          </tr>
+        </tbody>
+        {% endif %}
+      </table>
+    </div>
     
     <form method="post" id="add-form" style="display: none;">
     <h1>{% block addForm %} Add A Synthesizer to Database {% endblock %}</h1>

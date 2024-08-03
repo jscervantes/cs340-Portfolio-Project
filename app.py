@@ -1,10 +1,26 @@
-from flask import Flask, render_template, json, redirect
+from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
-from flask import request
-from flask import Flask, render_template
 import os
 
 app = Flask(__name__)
+
+
+# database connection
+# Template:
+# app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+# app.config["MYSQL_USER"] = "cs340_OSUusername"
+# app.config["MYSQL_PASSWORD"] = "XXXX" | last 4 digits of OSU id
+# app.config["MYSQL_DB"] = "cs340_OSUusername"
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+
+# database connection info
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_cervanj2"
+app.config["MYSQL_PASSWORD"] = "4397"
+app.config["MYSQL_DB"] = "cs340_cervanj2"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+
+mysql = MySQL(app)
 
 # Routes
 @app.route('/')
@@ -12,60 +28,18 @@ def root():
     title = "Ciani Synths"
     return render_template("base.j2", title=title)
 
-@app.route('/synthesizers', methods=('GET', 'POST'))
+@app.route('/synthesizers', methods=['GET', 'POST'])
 def synthesizers():
-    synthesizers = [
-        {
-            "synthesizerID": "1",
-            "manufacturerID": "1",
-            "synthesizerName": "Juno60",
-            "synthesizerCost": "2099.99",
-            "synthesizerPrice": "2999.99",
-            "signalType": "Analog",
-            "keyboard": "TRUE"
-        },
+    # Grab Synthesizers data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the synthesizers in Synthesizer table
+        query = "SELECT synthesizerID, manufacturerID, synthesizerName, synthesizerCost, synthesizerPrice, signalType, keyboard FROM Synthesizers"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
 
-        {
-            "synthesizerID": "2",
-            "manufacturerID": "2",
-            "synthesizerName": "Jupiter8",
-            "synthesizerCost": "13335.99",
-            "synthesizerPrice": "22930.99",
-            "signalType": "Analog",
-            "keyboard": "TRUE"
-        },
-
-        {
-            "synthesizerID": "3",
-            "manufacturerID": "3",
-            "synthesizerName": "Prophet5",
-            "synthesizerCost": "3999.99",
-            "synthesizerPrice": "7899.99",
-            "signalType": "Analog",
-            "keyboard": "TRUE"
-        },
-
-        {
-            "synthesizerID": "4",
-            "manufacturerID": "4",
-            "synthesizerName": "WavestateMK2",
-            "synthesizerCost": "499.99",
-            "synthesizerPrice": "699.99",
-            "signalType": "Digital",
-            "keyboard": "FALSE"
-        },
-        
-        {
-            "synthesizerID": "5",
-            "manufacturerID": "5",
-            "synthesizerName": "Grandmother",
-            "synthesizerCost": "799.99",
-            "synthesizerPrice": "999.99",
-            "signalType": "Analog",
-            "keyboard": "TRUE"
-        }
-              
-    ]
+        # render edit_people page passing our query data and homeworld data to the edit_people template
+        return render_template("synthesizers.j2", data=data)
 
     return render_template("synthesizers.j2")
 
