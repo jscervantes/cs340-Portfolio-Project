@@ -6,6 +6,9 @@ import os
 
 app = Flask(__name__)
 
+
+mysql = MySQL(app)
+
 # Routes
 @app.route('/')
 def root():
@@ -201,7 +204,12 @@ def customers():
 
 @app.route('/orders', methods=('GET', 'POST'))
 def orders():
-    return render_template("orders.j2")
+    if request.method == "GET":
+        query = "SELECT orderID, customerID, orderDate, orderPrice FROM Orders"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    return render_template("orders.j2", data=data)
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
 def ordersynthesizer():
