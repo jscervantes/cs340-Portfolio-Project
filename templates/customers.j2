@@ -30,15 +30,18 @@
               <td>{{ customer.zip }}</td>
               <td>{{ customer.email }}</td>
               <td>{{ customer.phone }}</td>
-              <td><a href="">Edit</a></td>
+              <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
               <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
             </tr>
           {% endfor %}
+            <tr>
+              <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+            </tr>
         </tbody>
     </table>
 
+    <form method="post" id="add-form" style="display: none;">
     <h1>{% block customerAdd %} Add A Customer to Database {% endblock %}</h1>
-    <form method="post">
         <label for="first-name">Customer First Name</label>
         <br>
         <input type="text" 
@@ -131,18 +134,20 @@
         <button type="submit">Submit</button>
     </form>
 
+    <form method="post" id="update-form" style="display: none;">
     <h1>{% block customerUpdate %} Update A Customer in Database {% endblock %}</h1>
-    <form method="post">
-        <label for="first-name">Customer First Name</label>
+
         <br>
           <select required id="customerID" name="customerID">
-            <option value="" disabled selected>Select the Customer</option>
+            <option value="" disabled selected>Select the Customer ID</option>
             <option value="1">ID 1</option>
             <option value="2">ID 2</option>
             <option value="3">ID 3</option>
             <option value="4">ID 4</option>
             <option value="5">ID 5</option>
           </select>
+        <br>
+        <label for="first-name">Customer First Name</label>
         <br>
         <input type="text" 
                id="first-name"
@@ -238,5 +243,11 @@
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("CustomersTable").deleteRow(i);
 } 
+ function showUpdateForm() {
+  document.getElementById('update-form').style.display = 'block';
+ }
+ function showAddForm() {
+  document.getElementById('add-form').style.display = 'block';
+ }
 </script>
 {% endblock content %}

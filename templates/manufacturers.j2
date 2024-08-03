@@ -28,16 +28,18 @@
               <td>{{ manufacturer.manufacturerZip }}</td>
               <td>{{ manufacturer.manufacturerEmail }}</td>
               <td>{{ manufacturer.manufacturerPhone }}</td>
-              <td><a href="">Edit</a></td>
+              <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
               <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
             </tr>
           {% endfor %}
+            <tr>
+              <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+            </tr>
     </tbody>
     </table>
 
-
+    <form method="post" id="add-form" style="display: none;">
     <h1>{% block manufacturer %} Add A Manufacturer to Database {% endblock %}</h1>
-    <form method="post">
         <label for="name">Manufacturer Name</label>
         <br>
         <input type="text" 
@@ -120,8 +122,8 @@
         <button type="submit">Submit</button>
     </form>
 
+    <form method="post" id="update-form" style="display: none;">
     <h1>{% block customerUpdate %} Update A Manufacturer in Database {% endblock %}</h1>
-    <form method="post">
         <label for="manufacturerID">Manufacturer ID</label>
         <br>
           <select required id="manufacturerID" name="manufacturerID">
@@ -219,5 +221,11 @@
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("ManufacturersTable").deleteRow(i);
 } 
+ function showUpdateForm() {
+  document.getElementById('update-form').style.display = 'block';
+ }
+ function showAddForm() {
+  document.getElementById('add-form').style.display = 'block';
+ }
 </script>
 {% endblock content %}

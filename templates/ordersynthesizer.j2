@@ -3,84 +3,33 @@
 {% block content %}
     <h1>Synthesizer Customer Orders</h1>
     <table id = "orderSynthesizerTable">
-    <tr>
-        <th>Order Synthesizer ID</th>
-        <th>Order ID</th>
-        <th>Synthesizer ID</th>
-        <th>Synthesizer Quantity</th>
-        <th>Synthesizer Unit Price</th>
-        <th>Synthesizer Line Price</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2</td>
-        <td>2999.99</td>
-        <td>5999.98</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>1</td>
-        <td>2</td>
-        <td>1</td>
-        <td>22930.99</td>
-        <td>22930.99</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>2</td>
-        <td>5</td>
-        <td>3</td>
-        <td>999.99</td>
-        <td>2999.97</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>3</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2999.99</td>
-        <td>2999.99</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>4</td>
-        <td>4</td>
-        <td>1</td>
-        <td>699.99</td>
-        <td>699.99</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>6</td>
-        <td>4</td>
-        <td>3</td>
-        <td>1</td>
-        <td>7899.99</td>
-        <td>7899.99</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>5</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2999.99</td>
-        <td>2999.99</td>
-        <td><a href="">Edit</a></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
+      <thead>
+        <tr>
+            <th>Order Synthesizer ID</th>
+            <th>Order ID</th>
+            <th>Synthesizer ID</th>
+            <th>Synthesizer Quantity</th>
+            <th>Synthesizer Unit Price</th>
+            <th>Synthesizer Line Price</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for orderSynthesizer in orderSynthesizers %}
+        <tr>
+            <td> {{ orderSynthesizer.id }}</td>
+            <td> {{ orderSynthesizer.orderId }}</td>
+            <td> {{ orderSynthesizer.synthesizerId }}</td>
+            <td> {{ orderSynthesizer.synthesizerQuantity }}</td>
+            <td> {{ orderSynthesizer.synthesizerUnitPrice }}</td>
+            <td> {{ orderSynthesizer.synthesizerLinePrice }}</td>
+            <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
+            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+        </tr>
+      {% endfor %}
+        <tr>
+            <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+        </tr>
+      </tbody>
     </table>
 
     <br>
@@ -95,8 +44,79 @@
     <label for="orderSynthesizerTableInput">Display all order items associated with a single order</label>
     </section>
    
-    <h1>{% block purchases %} Add A Synthesizer Customer Order to Database {% endblock %}</h1>
-    <form method="post">
+    <form method="post" id="add-form" style="display: none;">
+    <h1>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h1>
+        <label for="orderID">Order</label>
+        <br>
+        <select required id="orderID" name="orderID">
+            <option value="" disabled selected>Select the Order ID</option>
+            <option value="1">ID 1</option>
+            <option value="2">ID 2</option>
+            <option value="3">ID 3</option>
+            <option value="4">ID 4</option>
+            <option value="5">ID 5</option>
+        </select>
+        <br>
+        <label for="synthesizerID">Synthesizer</label>
+        <br>
+        <select required id="synthesizerID" name="synthesizerID">
+            <option value="" disabled selected>Select the Synthesizer</option>
+            <option value="1">ID 1: Juno60</option>
+            <option value="2">ID 2: Jupiter8</option>
+            <option value="3">ID 3: Prophet5</option>
+            <option value="4">ID 4: WavestateMK2</option>
+            <option value="5">ID 5: Grandmother</option>
+        </select>
+
+        <br>
+        <label for="quantity">Quantity</label>
+        <br>
+        <input type="number" 
+               id="quantity"
+               name="quantity"
+               min = "1"
+               required>
+        <br>
+        <label for="unit-price">Unit Price</label>
+        <br>
+        <input type="text" 
+               id="unit-price"
+               name="unit-price"
+               placeholder="unit-price"
+               value="{{ request.form['unit-price'] }}"
+               min="0"
+               max="10"
+               required>
+        <br>
+        <label for="line-price">Line Price</label>
+        <br>
+        <input type="text" 
+               id="line-price"
+               name="line-price"
+               placeholder="line-price"
+               value="{{ request.form['line-price'] }}"
+               min="0"
+               max="10"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+   
+    <form method="post" id="update-form" style="display: none;">
+    <h1>{% block updateForm %} Update A Synthesizer Customer Order in Database {% endblock %}</h1>
+        <label for="orderSynthesizerID">Order Synthesizer ID</label>
+        <br>
+        <select required id="orderSynthesizerID" name="orderSynthesizerID">
+            <option value="" disabled selected>Select the Order Synthesizer ID</option>
+            <option value="1">ID 1</option>
+            <option value="2">ID 2</option>
+            <option value="3">ID 3</option>
+            <option value="4">ID 4</option>
+            <option value="5">ID 5</option>
+            <option value="6">ID 6</option>
+            <option value="7">ID 7</option>
+        </select>
+        <br>
         <label for="orderID">Order</label>
         <br>
         <select required id="orderID" name="orderID">
@@ -181,5 +201,11 @@ function orderSynthesizerSearch() {
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("orderSynthesizerTable").deleteRow(i);
 } 
+ function showUpdateForm() {
+  document.getElementById('update-form').style.display = 'block';
+ }
+ function showAddForm() {
+  document.getElementById('add-form').style.display = 'block';
+ }
 </script>
 {% endblock content %}

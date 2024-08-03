@@ -16,7 +16,7 @@
         <td>1</td>
         <td>2024-03-18</td>
         <td>17535.97</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -25,7 +25,7 @@
         <td>4</td>
         <td>2024-07-14</td>
         <td>2399.97</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -34,7 +34,7 @@
         <td>1</td>
         <td>2024-11-15</td>
         <td>2099.99</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@
         <td>3</td>
         <td>2024-12-02</td>
         <td>499.99</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -52,7 +52,7 @@
         <td>2</td>
         <td>2024-12-02</td>
         <td>3999.99</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
     </tr>
     <tr>
@@ -61,13 +61,74 @@
         <td>1</td>
         <td>2024-01-05</td>
         <td>2099.99</td>
-        <td><a href="">Edit</a></td>
+        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
         <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+    </tr>
+    <tr>
+        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
     </tr>
     </table>
     
-    <h1>{% block purchases %} Add A Purchase to Database {% endblock %}</h1>
-    <form method="post">
+    <form method="post" id="add-form" style="display: none;">
+    <h1>{% block addForm %} Add A Purchase to Database {% endblock %}</h1>
+        <label for="orderID">Order</label>
+        <br>
+        <select required id="orderID" name="orderID">
+            <option value="" disabled selected>Select the Order ID</option>
+            <option value="1">ID 1</option>
+            <option value="2">ID 2</option>
+            <option value="3">ID 3</option>
+            <option value="4">ID 4</option>
+            <option value="5">ID 5</option>
+        </select>
+        <br>
+        <label for="manufacturerID">Manufacturer</label>
+        <br>
+            <select required id="manufacturerID" name="manufacturerID">
+            <option value="" disabled selected>Select the Manufacturer</option>
+            <option value="1">ID 1: Roland </option>
+            <option value="2">ID 2: Sequential</option>
+            <option value="3">ID 3: Korg</option>
+            <option value="4">ID 4: Moog</option>
+            <option value="5">ID 5: Yamaha</option>
+        </select>
+        <br>
+        <label for="order-date">Purchase Date</label>
+        <br>
+        <input type="date" 
+               id="purchase-date"
+               name="purchase-date"
+               placeholder="Purchase Date"
+               value="{{ request.form['purchase-date'] }}"
+               required>
+        <br>
+        <label for="cost">Purchase Cost</label>
+        <br>
+        <input type="text" 
+               id="cost"
+               name="cost"
+               placeholder="Cost"
+               value="{{ request.form['cost'] }}"
+               min="0"
+               required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <form method="post" id="update-form" style="display: none;">
+    <h1>{% block updateForm %} Update A Purchase in Database {% endblock %}</h1>
+        <label for="purchaseID">Purchase ID</label>
+        <br>
+        <select required id="purchaseID" name="purchaseID">
+            <option value="" disabled selected>Select the Purchase ID</option>
+            <option value="1">ID 1</option>
+            <option value="2">ID 2</option>
+            <option value="3">ID 3</option>
+            <option value="4">ID 4</option>
+            <option value="5">ID 5</option>
+            <option value="6">ID 6</option>
+        </select>
+        <br>
         <label for="orderID">Order</label>
         <br>
         <select required id="orderID" name="orderID">
@@ -116,5 +177,11 @@
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("PurchasesTable").deleteRow(i);
 } 
+ function showUpdateForm() {
+  document.getElementById('update-form').style.display = 'block';
+ }
+ function showAddForm() {
+  document.getElementById('add-form').style.display = 'block';
+ }
 </script>
 {% endblock content %}
