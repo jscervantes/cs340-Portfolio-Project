@@ -268,11 +268,18 @@ def ordersynthesizer():
 
     return render_template("ordersynthesizer.j2", data=data)
 
-@app.route('/delete_orderSynthesizer/<int:orderSynthesizerID>')
-def delete_orderSynthesizer(orderSynthesizerID):
+@app.route('/delete_orderSynthesizer/<int:orderSynthesizerID>/<float:orderItemLinePrice>/<int:orderID>')
+def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
     query = "DELETE FROM OrderSynthesizer WHERE orderSynthesizerID = %s;"
     cur = mysql.connection.cursor()
     cur.execute(query, (orderSynthesizerID,))
+    mysql.connection.commit()
+
+    query2 = "UPDATE Orders \
+              SET orderPrice = orderPrice - %s \
+              WHERE orderID = %s;"
+    cur = mysql.connection.cursor()
+    cur.execute(query2, (orderItemLinePrice, orderID))
     mysql.connection.commit()
     
     return redirect("/ordersynthesizer")

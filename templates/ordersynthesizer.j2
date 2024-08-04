@@ -19,7 +19,7 @@
               <td> {{ item[key] }}</td>
               {% endfor %}
               <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-              <td><a type="button" href="delete_orderSynthesizer/{{ item.orderSynthesizerID }}" class="btn btn-default">Delete</a></td>
+              <td><a type="button" href="delete_orderSynthesizer/{{ item.orderSynthesizerID }}/{{ item.orderItemLinePrice }}/{{ item.orderID }}" class="btn btn-default">Delete</a></td>
           </tr>
           {% endfor %}
           <tr>
