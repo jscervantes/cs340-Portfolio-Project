@@ -6,6 +6,13 @@ import os
 
 app = Flask(__name__)
 
+# database connection
+# Template:
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_ogleznee"
+app.config["MYSQL_PASSWORD"] = "5978" #| last 4 digits of OSU id
+app.config["MYSQL_DB"] = "cs340_ogleznee"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -204,11 +211,29 @@ def customers():
 
 @app.route('/orders', methods=('GET', 'POST'))
 def orders():
+    
+    if request.method == "POST":
+        if request.form.get("Add_Order"):
+            customerID = request.form["customerID"]
+            orderDate = request.form["orderDate"]
+            orderPrice = request.form["orderPrice"]
+            
+            query = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
+
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customerID, orderDate, orderPrice))
+
+            mysql.connection.commit()
+    
+            return redirect("/orders")
+
+    
     if request.method == "GET":
         query = "SELECT orderID, customerID, orderDate, orderPrice FROM Orders"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
+
     return render_template("orders.j2", data=data)
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
