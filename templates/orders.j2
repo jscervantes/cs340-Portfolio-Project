@@ -24,4 +24,52 @@
                         {% endfor %} 
             {% endif %}
         </table>
+
+    <div id="insert">
+    <form id="insertOrder" action="/orders" method="POST">
+    <h1>Add Order</h1>
+    <fieldset>
+        <label for="customerID">Customer</label>
+        <br>
+        <select required id="customerID" name="customerID">
+            <option value="" disabled selected>Select the Customer</option>
+            <option value="1">ID 1: Naomi Shaw </option>
+            <option value="2">ID 2: Brendan Frye</option>
+            <option value="3">ID 3: Calvin Melton</option>
+            <option value="4">ID 4: Lacey Robbins</option>
+            <option value="5">ID 5: Dana Greer</option>
+        </select>
+        <br>
+        <label for="orderDate">Order Date</label>
+        <br>
+        <input type="date" 
+               id="orderDate"
+               name="orderDate"
+               placeholder="Order Date"
+               value="{{ request.form['orderDate'] }}"
+               required>
+        <br>
+        <br>
+			<input type="button" value="Add Order Line Item" name="Add_Order_Item" onclick="Add_Order_item(this)">        
+        <br>
+
+        <label for="orderPrice">Order Price</label>
+        <br>
+        <input type="number" 
+               id="orderPrice"
+               name="orderPrice"
+               placeholder="Price"
+               value="{{ request.form['orderPrice'] }}"
+               min="0"
+               required>
+        <br>
+    </fieldset>
+			<input type="submit" value="Submit Order" name="Add_Order">        
+    </form>
+    <script>
+        function Add_Order_item(r){
+        }
+    </script>
+
 {% endblock content %}
+

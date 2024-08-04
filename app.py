@@ -4,6 +4,8 @@ import os
 
 app = Flask(__name__)
 
+# database connection
+# Template:
 
 # database connection
 # Template:
@@ -230,11 +232,29 @@ def customers():
 
 @app.route('/orders', methods=('GET', 'POST'))
 def orders():
+    
+    if request.method == "POST":
+        if request.form.get("Add_Order"):
+            customerID = request.form["customerID"]
+            orderDate = request.form["orderDate"]
+            orderPrice = request.form["orderPrice"]
+            
+            query = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
+
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customerID, orderDate, orderPrice))
+
+            mysql.connection.commit()
+    
+            return redirect("/orders")
+
+    
     if request.method == "GET":
         query = "SELECT orderID, customerID, orderDate, orderPrice FROM Orders"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
+
     return render_template("orders.j2", data=data)
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
