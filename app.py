@@ -8,11 +8,6 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_ogleznee"
-app.config["MYSQL_PASSWORD"] = "5978" #| last 4 digits of OSU id
-app.config["MYSQL_DB"] = "cs340_ogleznee"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
