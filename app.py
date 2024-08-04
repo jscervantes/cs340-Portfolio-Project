@@ -30,6 +30,54 @@ def root():
 
 @app.route('/synthesizers', methods=['GET', 'POST'])
 def synthesizers():
+    # POST 
+    #insert a synthesizer into Synthesizers entity
+    if request.method == "POST":
+        # Execute if user presses Add Synthesizer button
+        if request.form.get("Add_Synthesizer"):
+            # grab user form inputs
+            manufacturer = request.form["manufacturerID"]
+            name = request.form["name"]
+            cost = request.form["cost"]
+            price = request.form["price"]
+            signal = request.form["signal"]
+            keyboard = request.form["keyboard"]
+
+            # account for null cost AND price
+            if cost == "" and price == "":
+                query = "INSERT INTO Synthesizers (manufacturerID, synthesizerName, signalType, keyboard) \
+                         VALUES (%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (manufacturer, name, signal, keyboard))
+                mysql.connection.commit()
+
+            # account for null cost
+            elif cost == "":
+                query = "INSERT INTO Synthesizers (manufacturerID, synthesizerName, synthesizerPrice, signalType, keyboard) \
+                         VALUES (%s, %s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (manufacturer, name, price, signal, keyboard))
+                mysql.connection.commit()
+
+            # account for null price
+            elif price == "":
+                query = "INSERT INTO Synthesizers (manufacturerID, synthesizerName, synthesizerCost, signalType, keyboard) \
+                         VALUES (%s, %s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (manufacturer, name, cost, signal, keyboard))
+                mysql.connection.commit()
+
+            # no null inputs
+            else:
+                query = "INSERT INTO Synthesizers (manufacturerID, synthesizerName, synthesizerCost, synthesizerPrice, signalType, keyboard) \
+                         VALUES (%s, %s, %s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (manufacturer, name, cost, price, signal, keyboard))
+                mysql.connection.commit()
+
+            return redirect("/synthesizers")
+            
+
     # Grab Synthesizers data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the synthesizers in Synthesizer table
@@ -37,9 +85,16 @@ def synthesizers():
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
+        
+        # Get info from db for manufacturer drop down
+        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        manufacturerData = cur.fetchall()
+            
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
-        return render_template("synthesizers.j2", data=data)
+        return render_template("synthesizers.j2", data=data, manufacturerData = manufacturerData)
 
     return render_template("synthesizers.j2")
 
@@ -246,6 +301,7 @@ def purchases():
 @app.route('/purchasesynthesizer', methods=('GET', 'POST'))
 def purchasesynthesizer():
     return render_template("purchasesynthesizer.j2")
+
 
 # Listener
 if __name__ == "__main__":

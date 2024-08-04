@@ -2,6 +2,8 @@
 
 {% block content %}
     <h1>Synthesizers</h1>
+    
+    <!-- browse -->
     <div id="browse">
       <table border="1" cellpadding="5">
       <!-- Accessing data variable passed from app.py -->
@@ -36,68 +38,74 @@
       </table>
     </div>
     
-    <form method="post" id="add-form" style="display: none;">
-    <h1>{% block addForm %} Add A Synthesizer to Database {% endblock %}</h1>
-        <label for="manufacturerID">Manufacturer</label>
-        <br>
-        <select required id="manufacturerID" name="manufacturerID">
-            <option value="" disabled selected>Select the Manufacturer</option>
-            <option value="1">ID 1: Roland </option>
-            <option value="2">ID 2: Sequential</option>
-            <option value="3">ID 3: Korg</option>
-            <option value="4">ID 4: Moog</option>
-            <option value="5">ID 5: Yamaha</option>
-        </select>
-        <br>
-        <label for="name">Synthesizer Name</label>
-        <br>
-        <input type="text" 
-               id="name"
-               name="name"
-               placeholder="Name"
-               value="{{ request.form['name'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="cost">Synthesizer Cost</label>
-        <br>
-        <input type="text" 
-               id="cost"
-               name="cost"
-               placeholder="cost.00"
-               value="{{ request.form['cost'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="price">Synthesizer Price</label>
-        <br>
-        <input type="text" 
-               id="price"
-               name="price"
-               placeholder="price.00"
-               value="{{ request.form['price'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="signal">Signal Type</label>
-        <br>
-        <input type="text" 
-               id="signal"
-               name="signal"
-               placeholder="signal type"
-               maxlength="100"
-               value="{{ request.form['signal'] }}">
-        <br>
-        <label for="keyboard">Has a Keyboard?</label>
-        <br>
-        <input type="checkbox" 
-               id="keyboard"
-               name="keyboard"
-               value="{{ request.form['city'] }}">
-        <br>
-        
-        <button type="submit">Submit</button>
-    </form>
+    <!-- insert -->
+    <div id="insert"></div>
+      <form method="post" id="insertSynthesizer" action="/synthesizers">
+        <legend><strong>Add a Synthesizer to Database</strong></legend>
+        <fieldset>
+          <label for="manufacturerID">Manufacturer</label>
+          <br>
+          <select required id="manufacturerID" name="manufacturerID">
+              <option value="" disabled selected>Select the Manufacturer</option>
+              <option value=1>ID 1: Roland </option>
+              <option value=2>ID 2: Sequential</option>
+              <option value=3>ID 3: Korg</option>
+              <option value=4>ID 4: Moog</option>
+              <option value=5>ID 5: Yamaha</option>
+          </select>
+          <br>
+          <label for="name">Synthesizer Name</label>
+          <br>
+          <input type="text" 
+                 id="name"
+                 name="name"
+                 pattern="[A-Za-z0-9]{1,}"
+                 placeholder="Name"
+                 maxlength="100"
+                 required>
+          <br>
+          <label for="cost">Synthesizer Cost</label>
+          <br>
+          <input type="number" 
+                 id="cost"
+                 name="cost"
+                 placeholder="xxx.xx"
+                 step="0.01"
+                 value="{{ request.form['cost'] }}"
+                 maxlength="100">
+          <br>
+          <label for="price">Synthesizer Price</label>
+          <br>
+          <input type="number" 
+                 id="price"
+                 name="price"
+                 placeholder="xxx.xx"
+                 step="0.01"
+                 value="{{ request.form['price'] }}"
+                 maxlength="100">
+          <br>
+          <label for="signal">Signal Type</label>
+          <br>
+          <input type="text" 
+                 id="signal"
+                 name="signal"
+                 placeholder="signal type"
+                 maxlength="100"
+                 value="{{ request.form['signal'] }}"
+                 required>
+          <br>
+          <label for="keyboard">Has a Keyboard?</label>
+          <br>
+          <input type="hidden" value=0 name="keyboard">
+          <input type="checkbox"
+                 value=1
+                 id="keyboard"
+                 name="keyboard">
+          <br>
+        </fieldset>
+        <button type="submit" value="Add Synthesizer" name="Add_Synthesizer" class="btn btn-primary" style="margin:.5rem;">Submit</button>      
+      </form>
+    </div>
     
     <form method="post" id="update-form" style="display: none;">
     <h1>{% block updateForm %} Update A Synthesizer in Database {% endblock %}</h1>
@@ -105,11 +113,11 @@
         <br>
         <select required id="synthesizerID" name="synthesizerID">
             <option value="" disabled selected>Select the Synthesizer ID</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
+            <option value=1>ID 1</option>
+            <option value=2>ID 2</option>
+            <option value=3>ID 3</option>
+            <option value=4>ID 4</option>
+            <option value=5>ID 5</option>
         </select>
         <br>
         <label for="manufacturerID">Manufacturer</label>
@@ -135,20 +143,20 @@
         <br>
         <label for="cost">Synthesizer Cost</label>
         <br>
-        <input type="text" 
+        <input type="number" 
                id="cost"
                name="cost"
-               placeholder="cost.00"
+               placeholder="xxx.xx"
                value="{{ request.form['cost'] }}"
                maxlength="100"
                required>
         <br>
         <label for="price">Synthesizer Price</label>
         <br>
-        <input type="text" 
+        <input type="number" 
                id="price"
                name="price"
-               placeholder="price.00"
+               placeholder="xxx.xx"
                value="{{ request.form['price'] }}"
                maxlength="100"
                required>
@@ -167,10 +175,10 @@
         <input type="checkbox" 
                id="keyboard"
                name="keyboard"
-               value="{{ request.form['city'] }}">
+               value="{{ request.form['keyboard'] }}">
         <br>
         
-        <button type="submit">Submit</button>
+        <input type="submit" value="Add Synthesizer" name="Add_Synthesizer" class="btn btn-primary" style="margin:.5rem;"">
     </form>
 <script>
  function deleteRow(r) {
