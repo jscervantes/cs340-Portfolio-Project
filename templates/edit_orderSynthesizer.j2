@@ -1,0 +1,98 @@
+{% extends "base.j2" %}
+
+{% block content %}
+    <h1>Editing Order Synthesizer</h1>
+    <div id="browse">
+      <table border="1" cellpadding="5">
+        {% if data %}
+        <thead>
+          <tr>
+            {% for key in data[0].keys() %}
+              <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+            {% endfor %}  
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+          <tr>
+              {% for key in item.keys() %}
+              <td> {{ item[key] }}</td>
+              {% endfor %}
+          </tr>
+          {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+   
+    <!--insert-->
+    <div id="edit">
+      <form method="post" id="editOrderSynthesizer" action="/edit_orderSynthesizer/{{ data[0].orderSynthesizerID }}">
+      <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
+        <fieldset>
+          <input type="hidden" 
+            value="{{ data[0].orderSynthesizerID }}" 
+            class="form-control" 
+            id="orderSynthesizerID" 
+            name="orderSynthesizerID" 
+            required>
+          <br>
+          <label for="orderID">Order</label>
+          <br>
+          <select required id="orderID" class="form-control" name="orderID">
+              <!-- Access our ordersynthesizer_data tuple passed from app.py -->
+              <option value="" disabled selected>Select the Order ID</option>
+              {% for item in data %}
+              <option value="{{ item[0].orderID }}">{{ item[0].orderID }}</option>
+              {% endfor %}
+          </select>
+          <br>
+          <label for="synthesizerID">Synthesizer</label>
+          <br>
+          <select required id="synthesizerID" name="synthesizerID" class="form-control">
+              <option value="" disabled selected>Select the SynthesizerID</option>
+              {% for item in data %}
+              <option value="{{ item[0].synthesizerID }}">{{ item[0].synthesizerID }}</option>
+              {% endfor %}
+          </select>
+
+          <br>
+          <label for="quantity">Quantity</label>
+          <br>
+          <input type="number" 
+                 id="quantity"
+                 name="quantity"
+                 min = "1"
+                 value="{{ data[0].orderItemQuantity }}"
+                 class="form-control"
+                 required>
+          <br>
+          <label for="unit-price">Unit Price</label>
+          <br>
+          <input type="text" 
+                 id="unit-price"
+                 name="unit-price"
+                 placeholder="unit-price"
+                 value="{{ data[0].orderItemUnitPrice }}"
+                 min="0"
+                 max="10"
+                 required>
+          <br>
+          <label for="line-price">Line Price</label>
+          <br>
+          <input type="text" 
+                 id="line-price"
+                 name="line-price"
+                 placeholder="line-price"
+                 value="{{ data[0].orderItemLinePrice }}"
+                 min="0"
+                 max="10"
+                 required>
+          <br>
+        </fieldset>
+        
+        <input type="submit" value="Edit OrderSynthesizer" name="Edit_OrderSynthesizer" class="btn btn-primary" style="margin:.5rem;">      
+        <a href="/ordersynthesizer"><input class="btn" type="button" value="cancel"></a>      
+      </form>
+    </div>
+
+{% endblock content %}

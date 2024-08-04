@@ -284,6 +284,23 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
     
     return redirect("/ordersynthesizer")
 
+@app.route("/edit_orderSynthesizer/<int:orderSynthesizerID>", methods=["GET", "POST"])
+def edit_orderSynthesizer(orderSynthesizerID):
+  if request.method == "GET":
+    # grab info for orderSynthesizer with passed ID
+    query = "Select * FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (orderSynthesizerID,))
+    data = cur.fetchall()
+
+    # fetch data for orderID and synthesizerID dropdowns
+    query2 = "SELECT orderID, synthesizerID FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
+    cur = mysql.connection.cursor()
+    cur.execute(query2, (orderSynthesizerID,))
+    ordersynthesizer_data = cur.fetchall()
+
+    return render_template("edit_orderSynthesizer.j2", data=data, ordersynthesizer_data=ordersynthesizer_data)
+
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
     return render_template("purchases.j2")
