@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
 import os
+import traceback
 
 app = Flask(__name__)
 
@@ -16,11 +17,6 @@ app = Flask(__name__)
 # app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_cervanj2"
-app.config["MYSQL_PASSWORD"] = "4397"
-app.config["MYSQL_DB"] = "cs340_cervanj2"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -89,11 +85,10 @@ def synthesizers():
         data = cur.fetchall()
         
         # Get info from db for manufacturer drop down
-        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers;"
+        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
         cur = mysql.connection.cursor()
         cur.execute(query)
         manufacturerData = cur.fetchall()
-            
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("synthesizers.j2", data=data, manufacturerData = manufacturerData)
@@ -235,17 +230,42 @@ def orders():
     
     if request.method == "POST":
         if request.form.get("Add_Order"):
+            synthesizerID = request.form["synthesizerID"]
+            quantity = request.form["quantity"]
             customerID = request.form["customerID"]
             orderDate = request.form["orderDate"]
-            orderPrice = request.form["orderPrice"]
-            
-            query = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
+
+            # try:
+            querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
+            curPrice = mysql.connection.cursor()
+            curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
+            synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+            #     log("synthesizerPrice:" + str(synthesizerUnitPrice))
+            # except Exception:
+            #     tb = traceback.format_exc()
+            #     log(tb)
+
+            synthesizerLinePrice = int(synthesizerUnitPrice) * int(quantity)
+               
+            queryOrders = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
 
             cur = mysql.connection.cursor()
-            cur.execute(query, (customerID, orderDate, orderPrice))
+            cur.execute(queryOrders, (customerID, orderDate, synthesizerLinePrice))
 
             mysql.connection.commit()
-    
+            
+            queryAddedOrder = "SELECT LAST_INSERT_ID()"
+            curOrderID = mysql.connection.cursor()
+            curOrderID.execute(queryAddedOrder)
+            orderID = curOrderID.fetchall()
+            orderIDValue = orderID[0]
+            orderIDValue = orderIDValue.get("LAST_INSERT_ID()")
+            
+            queryOrderSynthesizer = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) VALUES (%s, %s, %s, %s, %s)"
+            curOrderSynthesizer = mysql.connection.cursor()
+            curOrderSynthesizer.execute(queryOrderSynthesizer, (orderIDValue, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
+            mysql.connection.commit()
+
             return redirect("/orders")
 
     
@@ -256,6 +276,11 @@ def orders():
         data = cur.fetchall()
 
     return render_template("orders.j2", data=data)
+
+def log(tb: str):
+    f = open("log.txt", "a")
+    f.write(tb)
+    f.close()
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
 def ordersynthesizer():    
