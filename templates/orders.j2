@@ -49,27 +49,39 @@
                value="{{ request.form['orderDate'] }}"
                required>
         <br>
+        <fieldset id="items-list">
         <br>
-			<input type="button" value="Add Order Line Item" name="Add_Order_Item" onclick="Add_Order_item(this)">        
+        <label for="synthesizerID">Synthesizer</label>
         <br>
-
-        <label for="orderPrice">Order Price</label>
+        <select required id="synthesizerID" name="synthesizerID">
+            <option value="" disabled selected>Select the Synthesizer</option>
+            <option value="1">ID 1: Juno60</option>
+            <option value="2">ID 2: Jupiter8</option>
+            <option value="3">ID 3: Prophet5</option>
+            <option value="4">ID 4: WavestateMK2</option>
+            <option value="5">ID 5: Grandmother</option>
+        </select>
+        <br>
+        <label for="quantity">Quantity</label>
         <br>
         <input type="number" 
-               id="orderPrice"
-               name="orderPrice"
-               placeholder="Price"
-               value="{{ request.form['orderPrice'] }}"
-               min="0"
-               required>
+            id="quantity"
+            name="quantity"
+            min = "1"
+            required>
         <br>
+        <input type="button" value="Add Order Item" onclick="addOrderItem(this)">   
+        <br>     
+        </fieldset>
     </fieldset>
 			<input type="submit" value="Submit Order" name="Add_Order">        
     </form>
-    <script>
-        function Add_Order_item(r){
-        }
-    </script>
+<script>
+    var orderItems = {};
+    var key = 0;
+    function addOrderItem(r) {
+    } 
+</script>
 
 {% endblock content %}
 
