@@ -107,39 +107,32 @@
       <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
         <fieldset>
           <br>
-          <label for="orderSynthesizerID">Order Synthesizer ID</label>
-          <br>
+          {% if synthOrderIds %}
+            <label for="orderSynthesizerID">Synthesizer Order</label>
             <select required id="orderSynthesizerID" name="orderSynthesizerID">
-              <option value="1">ID 1</option>
-              <option value="2">ID 2</option>
-              <option value="3">ID 3</option>
-              <option value="4">ID 4</option>
-              <option value="5">ID 5</option>
-              <option value="6">ID 6</option>
-              <option value="7">ID 7</option>
+                {% for id in synthOrderIds %}
+                  <option value="{{id.orderSynthesizerID}}">ID: {{id.orderSynthesizerID}}</option>
+                {% endfor %}
             </select>
+          {% endif %}
           <br>
-          <label for="orderID">Order ID</label>
+          {% if orderIds %}
+            <label for="orderID">Order</label>
+            <select required id="orderID" name="orderID">
+                {% for id in orderIds %}
+                  <option value="{{id.orderID}}">ID: {{id.orderID}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
           <br>
-          <select required id="orderID" name="orderID">
-              <option value="" disabled selected>Select the Order ID</option>
-              <option value="1">ID 1</option>
-              <option value="2">ID 2</option>
-              <option value="3">ID 3</option>
-              <option value="4">ID 4</option>
-              <option value="5">ID 5</option>
-          </select>
-          <br>
-          <label for="synthesizerID">Synthesizer</label>
-          <br>
-          <select required id="synthesizerID" name="synthesizerID">
-              <option value="" disabled selected>Select the Synthesizer</option>
-              <option value="1">ID 1: Juno60</option>
-              <option value="2">ID 2: Jupiter8</option>
-              <option value="3">ID 3: Prophet5</option>
-              <option value="4">ID 4: WavestateMK2</option>
-              <option value="5">ID 5: Grandmother</option>
-          </select>
+          {% if synthesizersNames %}
+            <label for="synthesizerID">Synthesizers</label>
+            <select required id="synthesizerID" name="synthesizerID">
+                {% for synthesizer in synthesizersNames %}
+                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
 
           <br>
           <label for="quantity">Quantity</label>
