@@ -1,3 +1,6 @@
+#References: 
+# https://canvas.oregonstate.edu/courses/1967354/pages/exploration-developing-in-flask?module_item_id=24460849
+
 from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
 import os
@@ -15,8 +18,6 @@ app = Flask(__name__)
 # app.config["MYSQL_PASSWORD"] = "XXXX" | last 4 digits of OSU id
 # app.config["MYSQL_DB"] = "cs340_OSUusername"
 # app.config["MYSQL_CURSORCLASS"] = "DictCursor"
-
-# database connection info
 
 mysql = MySQL(app)
 
@@ -283,15 +284,66 @@ def log(tb: str):
     f.close()
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
-def ordersynthesizer():    
+def ordersynthesizer():
+    if request.method == "POST":
+        if request.form.get("Update_OrderSynthesizer"):
+            orderSynthesizerID = request.form["orderSynthesizerID"]
+            orderID = request.form["orderID"]
+            synthesizerID = request.form["synthesizerID"]
+            quantity = request.form["quantity"]
+            unit_price = request.form["unit-price"]
+            line_price = int(unit_price) * int(quantity)
+            
+            getPreviousOrderSynthesizerPrice = "SELECT orderItemLinePrice, 1 FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
+            curGetPrice = mysql.connection.cursor()
+            curGetPrice.execute(getPreviousOrderSynthesizerPrice, (int(orderSynthesizerID),))
+            previousOrderSynthesizerPrice = curGetPrice.fetchall()[0]["orderItemLinePrice"]
+             
+            updateOrderSynthesizer = "UPDATE OrderSynthesizer SET orderID = %s, synthesizerID = %s, orderItemQuantity = %s, orderItemUnitPrice = %s, orderItemLinePrice = %s WHERE orderSynthesizerID = %s"
+            curUpdate = mysql.connection.cursor()
+            curUpdate.execute(updateOrderSynthesizer, (orderID, synthesizerID, quantity, unit_price, line_price, orderSynthesizerID))
+            mysql.connection.commit()
+
+            getPreviousOrderPrice = "SELECT orderPrice, 1 FROM Orders WHERE orderID = %s"
+            curGetOrderPrice = mysql.connection.cursor()
+            curGetOrderPrice.execute(getPreviousOrderPrice, (int(orderID),))
+            previousOrderPrice = curGetOrderPrice.fetchall()[0]["orderPrice"]
+            
+            newOrderPrice = (previousOrderPrice - previousOrderSynthesizerPrice) + line_price
+            
+            updateOrderPrice = "UPDATE Orders SET orderPrice = %s WHERE orderID = %s"
+            curUpdatePrice = mysql.connection.cursor()
+            curUpdatePrice.execute(updateOrderPrice, (newOrderPrice, orderID))
+            mysql.connection.commit()
+
+            return redirect("/ordersynthesizer")
+
     if request.method == "GET":
         query = "SELECT orderSynthesizerID, orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice \
                   FROM OrderSynthesizer;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
+        
+        queryGetorderSynthesizerID = "SELECT orderSynthesizerID FROM OrderSynthesizer"
+        curGetorderSynthesizerID = mysql.connection.cursor()
+        curGetorderSynthesizerID.execute(queryGetorderSynthesizerID)
+        synthOrderIds = curGetorderSynthesizerID.fetchall()
+        
+        queryGetorderID = "SELECT orderID FROM Orders"
+        curGetorderID = mysql.connection.cursor()
+        curGetorderID.execute(queryGetorderID)
+        orderIds = curGetorderID.fetchall()
+        
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers"
+        curGetSynthesizers = mysql.connection.cursor()
+        curGetSynthesizers.execute(queryGetSynthesizer)
+        synthesizersNames = curGetSynthesizers.fetchall()
 
-    return render_template("ordersynthesizer.j2", data=data)
+
+        
+
+    return render_template("ordersynthesizer.j2", data=data, synthOrderIds=synthOrderIds, orderIds=orderIds, synthesizersNames=synthesizersNames)
 
 @app.route('/delete_orderSynthesizer/<int:orderSynthesizerID>/<float:orderItemLinePrice>/<int:orderID>')
 def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
@@ -309,22 +361,22 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
     
     return redirect("/ordersynthesizer")
 
-@app.route("/edit_orderSynthesizer/<int:orderSynthesizerID>", methods=["GET", "POST"])
-def edit_orderSynthesizer(orderSynthesizerID):
-  if request.method == "GET":
-    # grab info for orderSynthesizer with passed ID
-    query = "Select * FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (orderSynthesizerID,))
-    data = cur.fetchall()
+# @app.route("/edit_orderSynthesizer/<int:orderSynthesizerID>", methods=["GET", "POST"])
+# def edit_orderSynthesizer(orderSynthesizerID):
+# #   if request.method == "GET":
+# #     # grab info for orderSynthesizer with passed ID
+# #     query = "Select * FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
+# #     cur = mysql.connection.cursor()
+# #     cur.execute(query, (orderSynthesizerID,))
+# #     data = cur.fetchall()
 
-    # fetch data for orderID and synthesizerID dropdowns
-    query2 = "SELECT orderID, synthesizerID FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
-    cur = mysql.connection.cursor()
-    cur.execute(query2, (orderSynthesizerID,))
-    ordersynthesizer_data = cur.fetchall()
+# #     # fetch data for orderID and synthesizerID dropdowns
+# #     query2 = "SELECT orderID, synthesizerID FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
+# #     cur = mysql.connection.cursor()
+# #     cur.execute(query2, (orderSynthesizerID,))
+# #     ordersynthesizer_data = cur.fetchall()
 
-    return render_template("edit_orderSynthesizer.j2", data=data, ordersynthesizer_data=ordersynthesizer_data)
+#     return render_template("edit_orderSynthesizer.j2", data=data, ordersynthesizer_data=ordersynthesizer_data)
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
