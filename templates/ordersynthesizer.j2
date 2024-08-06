@@ -99,20 +99,27 @@
         <br>
         <button type="submit">Submit</button>
     </form>
+
    
     <!--insert-->
     <div id="edit">
-      <form method="post" id="editOrderSynthesizer" action="/edit_orderSynthesizer/{{ data[0].orderSynthesizerID }}">
+      <form method="post" id="updateOrderSynthesizer">
       <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
         <fieldset>
-          <input type="hidden" 
-            value="{{ data[0].orderSynthesizerID }}" 
-            class="form-control" 
-            id="orderSynthesizerID" 
-            name="orderSynthesizerID" 
-            required>
           <br>
-          <label for="orderID">Order</label>
+          <label for="orderSynthesizerID">Order Synthesizer ID</label>
+          <br>
+            <select required id="orderSynthesizerID" name="orderSynthesizerID">
+              <option value="1">ID 1</option>
+              <option value="2">ID 2</option>
+              <option value="3">ID 3</option>
+              <option value="4">ID 4</option>
+              <option value="5">ID 5</option>
+              <option value="6">ID 6</option>
+              <option value="7">ID 7</option>
+            </select>
+          <br>
+          <label for="orderID">Order ID</label>
           <br>
           <select required id="orderID" name="orderID">
               <option value="" disabled selected>Select the Order ID</option>
@@ -154,19 +161,9 @@
                  max="10"
                  required>
           <br>
-          <label for="line-price">Line Price</label>
-          <br>
-          <input type="text" 
-                 id="line-price"
-                 name="line-price"
-                 placeholder="line-price"
-                 value="{{ request.form['line-price'] }}"
-                 min="0"
-                 max="10"
-                 required>
-          <br>
-          <button type="submit">Submit</button>
-        </fieldset>      
+          
+        </fieldset>   
+        			<input type="submit" value="Update" name="Update_OrderSynthesizer">           
       </form>
     </div>
     
