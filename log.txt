@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 293, in ordersynthesizer
+    line_price = int(unit_price) * int(quantity)
+ValueError: invalid literal for int() with base 10: '22.22'
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 293, in ordersynthesizer
+    line_price = int(unit_price) * int(quantity)
+ValueError: invalid literal for int() with base 10: '33.33'
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 310, in ordersynthesizer
+    newOrderPrice = (previousOrderPrice - previousOrderSynthesizerPrice) + line_price
+TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'float'
