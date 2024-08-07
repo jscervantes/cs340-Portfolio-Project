@@ -10,14 +10,11 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-
-# database connection
-# Template:
-# app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-# app.config["MYSQL_USER"] = "cs340_OSUusername"
-# app.config["MYSQL_PASSWORD"] = "XXXX" | last 4 digits of OSU id
-# app.config["MYSQL_DB"] = "cs340_OSUusername"
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_cervanj2"
+app.config["MYSQL_PASSWORD"] = "4397"
+app.config["MYSQL_DB"] = "cs340_cervanj2"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -287,34 +284,40 @@ def log(tb: str):
 def ordersynthesizer():
     if request.method == "POST":
         if request.form.get("Update_OrderSynthesizer"):
-            orderSynthesizerID = request.form["orderSynthesizerID"]
-            orderID = request.form["orderID"]
-            synthesizerID = request.form["synthesizerID"]
-            quantity = request.form["quantity"]
-            unit_price = request.form["unit-price"]
-            line_price = int(unit_price) * int(quantity)
-            
-            getPreviousOrderSynthesizerPrice = "SELECT orderItemLinePrice, 1 FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
-            curGetPrice = mysql.connection.cursor()
-            curGetPrice.execute(getPreviousOrderSynthesizerPrice, (int(orderSynthesizerID),))
-            previousOrderSynthesizerPrice = curGetPrice.fetchall()[0]["orderItemLinePrice"]
-             
-            updateOrderSynthesizer = "UPDATE OrderSynthesizer SET orderID = %s, synthesizerID = %s, orderItemQuantity = %s, orderItemUnitPrice = %s, orderItemLinePrice = %s WHERE orderSynthesizerID = %s"
-            curUpdate = mysql.connection.cursor()
-            curUpdate.execute(updateOrderSynthesizer, (orderID, synthesizerID, quantity, unit_price, line_price, orderSynthesizerID))
-            mysql.connection.commit()
+            try:
+                orderSynthesizerID = request.form["orderSynthesizerID"]
+                orderID = request.form["orderID"]
+                synthesizerID = request.form["synthesizerID"]
+                quantity = request.form["quantity"]
+                unit_price = request.form["unit-price"]
+                line_price = float(unit_price) * int(quantity)
 
-            getPreviousOrderPrice = "SELECT orderPrice, 1 FROM Orders WHERE orderID = %s"
-            curGetOrderPrice = mysql.connection.cursor()
-            curGetOrderPrice.execute(getPreviousOrderPrice, (int(orderID),))
-            previousOrderPrice = curGetOrderPrice.fetchall()[0]["orderPrice"]
-            
-            newOrderPrice = (previousOrderPrice - previousOrderSynthesizerPrice) + line_price
-            
-            updateOrderPrice = "UPDATE Orders SET orderPrice = %s WHERE orderID = %s"
-            curUpdatePrice = mysql.connection.cursor()
-            curUpdatePrice.execute(updateOrderPrice, (newOrderPrice, orderID))
-            mysql.connection.commit()
+                getPreviousOrderSynthesizerPrice = "SELECT orderItemLinePrice, 1 FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
+                curGetPrice = mysql.connection.cursor()
+                curGetPrice.execute(getPreviousOrderSynthesizerPrice, (int(orderSynthesizerID),))
+                previousOrderSynthesizerPrice = float(curGetPrice.fetchall()[0]["orderItemLinePrice"])
+
+                updateOrderSynthesizer = "UPDATE OrderSynthesizer SET orderID = %s, synthesizerID = %s, orderItemQuantity = %s, orderItemUnitPrice = %s, orderItemLinePrice = %s WHERE orderSynthesizerID = %s"
+                curUpdate = mysql.connection.cursor()
+                curUpdate.execute(updateOrderSynthesizer, (orderID, synthesizerID, quantity, unit_price, line_price, orderSynthesizerID))
+                mysql.connection.commit()
+
+                getPreviousOrderPrice = "SELECT orderPrice, 1 FROM Orders WHERE orderID = %s"
+                curGetOrderPrice = mysql.connection.cursor()
+                curGetOrderPrice.execute(getPreviousOrderPrice, (int(orderID),))
+                previousOrderPrice = float(curGetOrderPrice.fetchall()[0]["orderPrice"])
+
+                newOrderPrice = (previousOrderPrice - previousOrderSynthesizerPrice) + line_price
+
+                updateOrderPrice = "UPDATE Orders SET orderPrice = %s WHERE orderID = %s"
+                curUpdatePrice = mysql.connection.cursor()
+                curUpdatePrice.execute(updateOrderPrice, (newOrderPrice, orderID))
+                mysql.connection.commit()
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb)  # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
 
             return redirect("/ordersynthesizer")
 
