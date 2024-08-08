@@ -108,18 +108,9 @@
           <br>
           {% if synthOrderIds %}
             <label for="orderSynthesizerID">Synthesizer Order</label>
-            <select required id="orderSynthesizerID" name="orderSynthesizerID">
+            <select required id="synthOrderID" name="synthOrderID">
                 {% for id in synthOrderIds %}
-                  <option value="{{id.orderSynthesizerID}}">ID: {{id.orderSynthesizerID}}</option>
-                {% endfor %}
-            </select>
-          {% endif %}
-          <br>
-          {% if orderIds %}
-            <label for="orderID">Order</label>
-            <select required id="orderID" name="orderID">
-                {% for id in orderIds %}
-                  <option value="{{id.orderID}}">ID: {{id.orderID}}</option>
+                  <option value="{{id.orderSynthesizerID}}, {{id.orderID}}">ID: {{id.orderSynthesizerID}} OrderID: {{id.orderID}}</option>
                 {% endfor %}
             </select>
           {% endif %}

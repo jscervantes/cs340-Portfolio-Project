@@ -85,7 +85,7 @@ VALUES (1, 5, '2024-03-17', 28930.97),
 (2, 4, '2024-07-14', 2999.97),
 (3, 4, '2023-11-14', 2999.99),
 (4, 2, '2023-12-01', 8599.98),
-(5, 1, '2024-01-02', 2999.00);
+(5, 1, '2024-01-02', 2999.99);
 
 -- Create or replace OrderSynthesizer (intersection) table
 CREATE OR REPLACE TABLE OrderSynthesizer (
