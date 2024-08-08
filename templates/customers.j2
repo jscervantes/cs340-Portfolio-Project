@@ -2,43 +2,28 @@
 
 {% block content %}
     <h1>Customers</h1>
-    <table id = "CustomersTable">
-        <thead>
-            <tr>
-                <th>Customer ID</th>
-                <th>Customer First Name</th>
-                <th>Customer Last Name</th>
-                <th>Customer Street Address</th>
-                <th>Customer Street Address 2</th>
-                <th>Customer City</th>
-                <th>Customer State</th>
-                <th>Customer Zip</th>
-                <th>Customer Email</th>
-                <th>Customer Phone</th>
-            </tr>
-        </thead>
-        <tbody>
-          {% for customer in customers %}
-            <tr>
-              <td>{{ customer.id }}</td>
-              <td>{{ customer.firstname }}</td>
-              <td>{{ customer.lastname }}</td>
-              <td>{{ customer.street }}</td>
-              <td>{{ customer.street2 }}</td>
-              <td>{{ customer.city }}</td>
-              <td>{{ customer.state }}</td>
-              <td>{{ customer.zip }}</td>
-              <td>{{ customer.email }}</td>
-              <td>{{ customer.phone }}</td>
-              <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-              <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-            </tr>
-          {% endfor %}
-            <tr>
-              <td><button id="add-button" onclick="showAddForm()">Add</button></td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="browse">
+        <table>
+            {% if data %}
+                <thead>
+                    <tr>
+                        {% for key in data[0].keys() %}
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        {% endfor %} 
+                    </tr>
+
+                    <tbody>
+                        {% for item in data %}
+                        <tr>
+                            {% for key in item.keys() %}
+                                <td> {{item[key]}} </td>
+                            {%endfor %}
+                            <td><a href="">Edit</a></td>
+                            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+                        </tr>
+                        {% endfor %} 
+            {% endif %}
+        </table>
 
     <form method="post" id="add-form" style="display: none;">
     <h1>{% block customerAdd %} Add A Customer to Database {% endblock %}</h1>

@@ -11,6 +11,7 @@ app = Flask(__name__)
 # database connection
 # Template:
 
+
 mysql = MySQL(app)
 
 # Routes
@@ -91,7 +92,9 @@ def synthesizers():
 @app.route('/manufacturers', methods=('GET', 'POST'))
 def manufacturers():
     
+    # Grab Manufacturers data so we send it to our template to display
     if request.method == "GET":
+        # mySQL query to grab all the manufacturers in Manufacturers table
         query = "SELECT manufacturerID, manufacturerName, manufacturerStreet, manufacturerStreet2, manufacturerCity, manufacturerState, manufacturerZip, manufacturerEmail, manufacturerPhone FROM Manufacturers"
         cur = mysql.connection.cursor()
         cur.execute(query)
@@ -101,69 +104,16 @@ def manufacturers():
 
 @app.route('/customers', methods=('GET', 'POST'))
 def customers():
-    customers = [
-          {
-            "id": "1",
-            "firstname": "Naomi",
-            "lastname": "Shaw",
-            "street": "596 Edgefield Drive",
-            "street2": "NULL",
-            "city": "Clarksburg",
-            "state": "WV",
-            "zip": "26301",
-            "email": "likvidatorcelok@ezsmail.com",
-            "phone": "7188904009"
-        },
-          {
-            "id": "2",
-            "firstname": "Brendan",
-            "lastname": "Frye",
-            "street": "3308 Godfrey Street",
-            "street2": "NULL",
-            "city": "Portland",
-            "state": "OR",
-            "zip": "97229",
-            "email": "fromponmachineus@jojoo.online",
-            "phone": "7188904009"
-        },
-          {
-            "id": "3",
-            "firstname": "Calvin",
-            "lastname": "Melton",
-            "street": "103 Mutton Town Road",
-            "street2": "NULL",
-            "city": "Vancouver",
-            "state": "WA",
-            "zip": "98663",
-            "email": "someong6n9v@bankinnepal.com",
-            "phone": "3051178216"
-        },
-          {
-            "id": "4",
-            "firstname": "Lacey",
-            "lastname": "Robbins",
-            "street": "3823 Heron Way",
-            "street2": "NULL",
-            "city": "Portland",
-            "state": "OR",
-            "zip": "97205",
-            "email": "64j0cy5q5@dunilakeling.com",
-            "phone": "3051178216"
-        },
-          {
-            "id": "5",
-            "firstname": "Dana",
-            "lastname": "Greer",
-            "street": "1225 New Street",
-            "street2": "NULL",
-            "city": "Eugene",
-            "state": "OR",
-            "zip": "97401",
-            "email": "parapamm@bmuss.com",
-            "phone": "7775332610"
-        },
-        ]
-    return render_template("customers.j2", customers = customers)
+    
+    # Grab Customers data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the customers in Customers table
+        query = "SELECT customerID, customerFirstName, customerLastName, customerStreet, customerCity, customerState, customerZip, customerEmail, customerPhone FROM Customers"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        
+    return render_template("customers.j2", data = data)
 
 @app.route('/orders', methods=('GET', 'POST'))
 def orders():
@@ -208,8 +158,9 @@ def orders():
 
             return redirect("/orders")
 
-    
+    # Grab Orders data so we send it to our template to display  
     if request.method == "GET":
+        # mySQL query to grab all the orders in Orders table
         query = "SELECT orderID, customerID, orderDate, orderPrice FROM Orders"
         cur = mysql.connection.cursor()
         cur.execute(query)
@@ -262,8 +213,10 @@ def ordersynthesizer():
                 return str(e), 500  # Return error message and HTTP 500 status code
 
             return redirect("/ordersynthesizer")
-
+        
+    # Grab OrderSynthesizer data so we send it to our template to display  
     if request.method == "GET":
+        # mySQL query to grab all the OrderSynthesizer in OrderSynthesizer table
         query = "SELECT orderSynthesizerID, orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice \
                   FROM OrderSynthesizer;"
         cur = mysql.connection.cursor()
@@ -325,11 +278,29 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
-    return render_template("purchases.j2")
+    
+    # Grab Purchases data so we send it to our template to display  
+    if request.method == "GET":
+        # mySQL query to grab all the purchases in Purchases table
+        query = "SELECT purchaseID, orderID, manufacturerID, purchaseDate, purchaseCost FROM Purchases"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+    return render_template("purchases.j2", data = data)
 
 @app.route('/purchasesynthesizer', methods=('GET', 'POST'))
 def purchasesynthesizer():
-    return render_template("purchasesynthesizer.j2")
+    
+    # Grab PurchaseSynthesizer data so we send it to our template to display  
+    if request.method == "GET":
+        # mySQL query to grab all the PurchaseSynthesizers in PurchaseSynthesizer table
+        query = "SELECT purchaseSynthesizerID, purchaseID, synthesizerID, purchaseItemQuantity, purchaseItemUnitCost, purchaseItemLineCost FROM PurchaseSynthesizer"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+    return render_template("purchasesynthesizer.j2", data=data)
 
 
 # Listener
