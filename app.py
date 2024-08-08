@@ -10,11 +10,6 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_cervanj2"
-app.config["MYSQL_PASSWORD"] = "4397"
-app.config["MYSQL_DB"] = "cs340_cervanj2"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -95,67 +90,14 @@ def synthesizers():
 
 @app.route('/manufacturers', methods=('GET', 'POST'))
 def manufacturers():
-    manufacturers = [
-        {
-            "manufacturerID": "1",
-            "manufacturerName": "Roland",
-            "manufacturerStreet": "123 Sesame St",
-            "manufacturerStreet2": "NULL",
-            "manufacturerCity": "Brooklyn",
-            "manufacturerState": "New York",
-            "manufacturerZip": "11214",
-            "manufacturerEmail": "hi@roland.com",
-            "manufacturerPhone": "7185553848"
-        },
+    
+    if request.method == "GET":
+        query = "SELECT manufacturerID, manufacturerName, manufacturerStreet, manufacturerStreet2, manufacturerCity, manufacturerState, manufacturerZip, manufacturerEmail, manufacturerPhone FROM Manufacturers"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
 
-         {
-            "manufacturerID": "2",
-            "manufacturerName": "Sequential",
-            "manufacturerStreet": "343 Nostrand Ave",
-            "manufacturerStreet2": "NULL",
-            "manufacturerCity": "Denver",
-            "manufacturerState": "Colorado",
-            "manufacturerZip": "34214",
-            "manufacturerEmail": "hello@sequential.com",
-            "manufacturerPhone": "8885553434"
-        },        
-
-        {
-            "manufacturerID": "3",
-            "manufacturerName": "Korg",
-            "manufacturerStreet": "195 Vernon Rd",
-            "manufacturerStreet2": "NULL",
-            "manufacturerCity": "Portland",
-            "manufacturerState": "Oregon",
-            "manufacturerZip": "18383",
-            "manufacturerEmail": "welcome@korg.com",
-            "manufacturerPhone": "9395559282"
-        },        
-        {
-            "manufacturerID": "4",
-            "manufacturerName": "Moog",
-            "manufacturerStreet": "17 Mississipi St",
-            "manufacturerStreet2": "NULL",
-            "manufacturerCity": "Bend",
-            "manufacturerState": "Oregon",
-            "manufacturerZip": "38458",
-            "manufacturerEmail": "lol@moog.com",
-            "manufacturerPhone": "9345552221"
-        },        
-        {
-            "manufacturerID": "5",
-            "manufacturerName": "Yamaha",
-            "manufacturerStreet": "9039 Wow St",
-            "manufacturerStreet2": "NULL",
-            "manufacturerCity": "Providence",
-            "manufacturerState": "Rhode Island",
-            "manufacturerZip": "38933",
-            "manufacturerEmail": "hey@yamaha.com",
-            "manufacturerPhone": "5555555555"
-        }              
-    ]
-
-    return render_template("manufacturers.j2", manufacturers = manufacturers)
+    return render_template("manufacturers.j2", data = data)
 
 @app.route('/customers', methods=('GET', 'POST'))
 def customers():
