@@ -91,7 +91,48 @@ def synthesizers():
 
 @app.route('/manufacturers', methods=('GET', 'POST'))
 def manufacturers():
+    # POST 
+    #insert a manufacturer into Manufacturers entity
+    if request.method == "POST":
+        # Execute if user presses Add_Manufacturer button
+        if request.form.get("Add_Manufacturer"):
+            try:
+                # grab user form inputs
+                name = request.form["name"]
+                street = request.form["street"]
+                street2 = request.form["street2"]
+                city = request.form["city"]
+                state = request.form["state"]
+                zip = request.form["zip"]
+                email = request.form["email"]
+                phone = request.form["phone"]
+                   
+                #account for null street2 input
+                try:
+                    if street2 == "":
+                        query = "INSERT INTO Manufacturers (manufacturerName, manufacturerStreet, manufacturerCity, manufacturerState, manufacturerZip, manufacturerEmail, manufacturerPhone) \
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                        cur = mysql.connection.cursor()
+                        cur.execute(query, (name, street, city, state, zip, email, phone))
+                    #no null inputs
+                    else:                                
+                        query = "INSERT INTO Manufacturers (manufacturerName, manufacturerStreet, manufacturerStreet2, manufacturerCity, manufacturerState, manufacturerZip, manufacturerEmail, manufacturerPhone) \
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                        cur = mysql.connection.cursor()
+                        cur.execute(query, (name, street, street2, city, state, zip, email, phone))
     
+                    mysql.connection.commit()
+                except Exception as e:
+                    tb = traceback.format_exc()
+                    log(tb)  # Log the detailed traceback
+                    return str(e), 500     
+                return redirect("/manufacturers")
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb)  # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
+
+
     # Grab Manufacturers data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the manufacturers in Manufacturers table
@@ -100,6 +141,7 @@ def manufacturers():
         cur.execute(query)
         data = cur.fetchall()
 
+    # render manufacturers page passing our query data and manufacturers template
     return render_template("manufacturers.j2", data = data)
 
 @app.route('/customers', methods=('GET', 'POST'))

@@ -22,10 +22,14 @@
                             <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
                         </tr>
                         {% endfor %} 
+                        <tr>
+                            <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+                        </tr>
+                     </tbody>
             {% endif %}
         </table>
 
-    <form method="post" id="add-form" style="display: none;">
+    <form method="post" id="Add_Manufacturer" style="display: none;">
     <h1>{% block manufacturer %} Add A Manufacturer to Database {% endblock %}</h1>
         <label for="name">Manufacturer Name</label>
         <br>
@@ -106,7 +110,7 @@
                maxlength="10"
                required>
         <br>
-        <button type="submit">Submit</button>
+              <input type="submit" value="Submit Manufacturer" name="Add_Manufacturer">        
     </form>
 
     <form method="post" id="update-form" style="display: none;">
@@ -212,7 +216,7 @@
   document.getElementById('update-form').style.display = 'block';
  }
  function showAddForm() {
-  document.getElementById('add-form').style.display = 'block';
+  document.getElementById('Add_Manufacturer').style.display = 'block';
  }
 </script>
 {% endblock content %}
