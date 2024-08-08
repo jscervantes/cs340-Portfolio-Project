@@ -1,90 +1,29 @@
 {% extends "base.j2" %}
 
 {% block content %}
-    <h1>Synthesizer Purchase Orders</h1>
-    <table id = "purchaseSynthesizerTable">
-    <tr>
-        <th>Purchase Synthesizer ID</th>
-        <th>Purchase ID</th>
-        <th>Synthesizer ID</th>
-        <th>Synthesizer Quantity</th>
-        <th>Synthesizer Unit Cost</th>
-        <th>Synthesizer Line Cost</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2</td>
-        <td>2099.99</td>
-        <td>4199.98</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>1</td>
-        <td>2</td>
-        <td>1</td>
-        <td>13335.99</td>
-        <td>13335.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>2</td>
-        <td>5</td>
-        <td>3</td>
-        <td>799.99</td>
-        <td>2399.97</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>3</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2099.99</td>
-        <td>2099.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>4</td>
-        <td>4</td>
-        <td>1</td>
-        <td>499.99</td>
-        <td>499.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>6</td>
-        <td>4</td>
-        <td>3</td>
-        <td>1</td>
-        <td>3999.99</td>
-        <td>3999.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>5</td>
-        <td>1</td>
-        <td>1</td>
-        <td>2099.99</td>
-        <td>2099.99</td>
-        <td><button id="edit-button" onclick="showUpdateForm()">Edit</button></td>
-        <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-    </tr>
-    <tr>
-        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
-    </tr>
-    </table>
+    <h1>Purchase Synthesizer</h1>
+    <div id="browse">
+        <table>
+            {% if data %}
+                <thead>
+                    <tr>
+                        {% for key in data[0].keys() %}
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        {% endfor %} 
+                    </tr>
+
+                    <tbody>
+                        {% for item in data %}
+                        <tr>
+                            {% for key in item.keys() %}
+                                <td> {{item[key]}} </td>
+                            {%endfor %}
+                            <td><a href="">Edit</a></td>
+                            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+                        </tr>
+                        {% endfor %} 
+            {% endif %}
+        </table>
 
     <br>
     <select id="purchaseSynthesizerTableInput" name="purchaseID" onchange="purchaseSynthesizerSearch()">
