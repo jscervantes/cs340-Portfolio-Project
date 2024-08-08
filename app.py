@@ -11,7 +11,6 @@ app = Flask(__name__)
 # database connection
 # Template:
 
-
 mysql = MySQL(app)
 
 # Routes
@@ -146,11 +145,53 @@ def manufacturers():
 
 @app.route('/customers', methods=('GET', 'POST'))
 def customers():
-    
+    # POST 
+    #insert a customer into Customers entity
+    if request.method == "POST":
+        # Execute if user presses Add_Customer button
+        if request.form.get("Add_Customer"):
+            try:
+                #grab user form inputs
+                fname = request.form["first-name"]
+                lname = request.form["last-name"]
+                street = request.form["street"]
+                street2 = request.form["street2"]
+                city = request.form["city"]
+                state = request.form["state"]
+                zip = request.form["zip"]
+                email = request.form["email"]
+                phone = request.form["phone"]
+                
+                try:
+                    if street2 == "":
+                        query = "INSERT INTO Customers (customerFirstName, customerLastName, customerStreet, customerCity, customerState, customerZip, customerEmail, customerPhone) \
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                        cur = mysql.connection.cursor()
+                        cur.execute(query, (fname, lname, street, city, state, zip, email, phone))
+                        
+                    #no null inputs
+                    else:
+                        query = "INSERT INTO Customers (customerFirstName, customerLastName, customerStreet, customerStreet2, customerCity, customerState, customerZip, customerEmail, customerPhone) \
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                        cur = mysql.connection.cursor()
+                        cur.execute(query, (fname, lname, street, city, street2, state, zip, email, phone))
+                    mysql.connection.commit()
+                except Exception as e:
+                    tb = traceback.format_exc()
+                    log(tb)  # Log the detailed traceback
+                    return str(e), 500
+
+                return redirect("/customers")
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb)  # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
+
     # Grab Customers data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the customers in Customers table
-        query = "SELECT customerID, customerFirstName, customerLastName, customerStreet, customerCity, customerState, customerZip, customerEmail, customerPhone FROM Customers"
+        query = "SELECT customerID, customerFirstName, customerLastName, customerStreet, customerStreet2, customerCity, customerState, customerZip, customerEmail, customerPhone FROM Customers"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -278,10 +319,7 @@ def ordersynthesizer():
         queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
-        synthesizersNames = curGetSynthesizers.fetchall()
-
-
-        
+        synthesizersNames = curGetSynthesizers.fetchall()   
 
     return render_template("ordersynthesizer.j2", data=data, synthOrderIds=synthOrderIds, orderIds=orderIds, synthesizersNames=synthesizersNames)
 
@@ -300,23 +338,6 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
     mysql.connection.commit()
     
     return redirect("/ordersynthesizer")
-
-# @app.route("/edit_orderSynthesizer/<int:orderSynthesizerID>", methods=["GET", "POST"])
-# def edit_orderSynthesizer(orderSynthesizerID):
-# #   if request.method == "GET":
-# #     # grab info for orderSynthesizer with passed ID
-# #     query = "Select * FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
-# #     cur = mysql.connection.cursor()
-# #     cur.execute(query, (orderSynthesizerID,))
-# #     data = cur.fetchall()
-
-# #     # fetch data for orderID and synthesizerID dropdowns
-# #     query2 = "SELECT orderID, synthesizerID FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
-# #     cur = mysql.connection.cursor()
-# #     cur.execute(query2, (orderSynthesizerID,))
-# #     ordersynthesizer_data = cur.fetchall()
-
-#     return render_template("edit_orderSynthesizer.j2", data=data, ordersynthesizer_data=ordersynthesizer_data)
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
