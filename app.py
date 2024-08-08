@@ -227,8 +227,8 @@ def ordersynthesizer():
     if request.method == "POST":
         if request.form.get("Update_OrderSynthesizer"):
             try:
-                orderSynthesizerID = request.form["orderSynthesizerID"]
-                orderID = request.form["orderID"]
+                synthOrderID = request.form["synthOrderID"]
+                orderSynthesizerID, orderID = synthOrderID.split(',')
                 synthesizerID = request.form["synthesizerID"]
                 quantity = request.form["quantity"]
                 unit_price = request.form["unit-price"]
@@ -239,9 +239,9 @@ def ordersynthesizer():
                 curGetPrice.execute(getPreviousOrderSynthesizerPrice, (int(orderSynthesizerID),))
                 previousOrderSynthesizerPrice = float(curGetPrice.fetchall()[0]["orderItemLinePrice"])
 
-                updateOrderSynthesizer = "UPDATE OrderSynthesizer SET orderID = %s, synthesizerID = %s, orderItemQuantity = %s, orderItemUnitPrice = %s, orderItemLinePrice = %s WHERE orderSynthesizerID = %s"
+                updateOrderSynthesizer = "UPDATE OrderSynthesizer SET synthesizerID = %s, orderItemQuantity = %s, orderItemUnitPrice = %s, orderItemLinePrice = %s WHERE orderSynthesizerID = %s"
                 curUpdate = mysql.connection.cursor()
-                curUpdate.execute(updateOrderSynthesizer, (orderID, synthesizerID, quantity, unit_price, line_price, orderSynthesizerID))
+                curUpdate.execute(updateOrderSynthesizer, (synthesizerID, quantity, unit_price, line_price, orderSynthesizerID))
                 mysql.connection.commit()
 
                 getPreviousOrderPrice = "SELECT orderPrice, 1 FROM Orders WHERE orderID = %s"
@@ -270,7 +270,7 @@ def ordersynthesizer():
         cur.execute(query)
         data = cur.fetchall()
         
-        queryGetorderSynthesizerID = "SELECT orderSynthesizerID FROM OrderSynthesizer"
+        queryGetorderSynthesizerID = "SELECT orderSynthesizerID, orderID FROM OrderSynthesizer"
         curGetorderSynthesizerID = mysql.connection.cursor()
         curGetorderSynthesizerID.execute(queryGetorderSynthesizerID)
         synthOrderIds = curGetorderSynthesizerID.fetchall()
