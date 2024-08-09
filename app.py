@@ -10,6 +10,11 @@ app = Flask(__name__)
 
 # database connection
 # Template:
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_cervanj2"
+app.config["MYSQL_PASSWORD"] = "4397"
+app.config["MYSQL_DB"] = "cs340_cervanj2"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -351,16 +356,31 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
-    
     # Grab Purchases data so we send it to our template to display  
     if request.method == "GET":
-        # mySQL query to grab all the purchases in Purchases table
-        query = "SELECT purchaseID, orderID, manufacturerID, purchaseDate, purchaseCost FROM Purchases"
-        cur = mysql.connection.cursor()
-        cur.execute(query)
-        data = cur.fetchall()
+        try:
+            # mySQL query to grab all the purchases in Purchases table
+            query = "SELECT purchaseID, orderID, manufacturerID, purchaseDate, purchaseCost FROM Purchases"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            data = cur.fetchall()
 
-    return render_template("purchases.j2", data = data)
+            queryGetorderID = "SELECT orderID FROM Orders"
+            curGetorderID = mysql.connection.cursor()
+            curGetorderID.execute(queryGetorderID)
+            orderIds = curGetorderID.fetchall()  
+
+            queryGetManufacturers = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
+            curGetManufacturers = mysql.connection.cursor()
+            curGetManufacturers.execute(queryGetManufacturers)
+            manufacturerIds = curGetManufacturers.fetchall()
+
+        except Exception as e:
+            tb = traceback.format_exc()
+            log(tb)  # Log the detailed traceback
+            return str(e), 500  # Return error message and HTTP 500 status code
+
+    return render_template("purchases.j2", data=data, orderIds=orderIds, manufacturerIds=manufacturerIds)
 
 @app.route('/purchasesynthesizer', methods=('GET', 'POST'))
 def purchasesynthesizer():
