@@ -43,16 +43,15 @@
       <form method="post" id="insertSynthesizer" action="/synthesizers">
         <legend><strong>Add a Synthesizer to Database</strong></legend>
         <fieldset>
-          <label for="manufacturerID">Manufacturer</label>
-          <br>
-          <select required id="manufacturerID" name="manufacturerID">
-              <option value="" disabled selected>Select the Manufacturer</option>
-              <option value=1>ID 1: Roland </option>
-              <option value=2>ID 2: Sequential</option>
-              <option value=3>ID 3: Korg</option>
-              <option value=4>ID 4: Moog</option>
-              <option value=5>ID 5: Yamaha</option>
-          </select>
+          {% if manufacturerData %}
+            <label for="manufacturerID">Manufacturer</label>
+            <select required id="manufacturerID" name="manufacturerID">
+                <option value="" disabled selected>Select the Synthesizer</option>
+                {% for manufacturer in manufacturerData %}
+                  <option value="{{manufacturer.manufacturerID}}">ID: {{manufacturer.manufacturerID}} {{manufacturer.manufacturerName}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
           <br>
           <label for="name">Synthesizer Name</label>
           <br>

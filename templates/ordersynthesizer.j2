@@ -109,6 +109,7 @@
           {% if synthOrderIds %}
             <label for="orderSynthesizerID">Synthesizer Order</label>
             <select required id="synthOrderID" name="synthOrderID">
+                <option value="" disabled selected>Select the Associated Order</option>
                 {% for id in synthOrderIds %}
                   <option value="{{id.orderSynthesizerID}}, {{id.orderID}}">ID: {{id.orderSynthesizerID}} OrderID: {{id.orderID}}</option>
                 {% endfor %}
@@ -118,6 +119,7 @@
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
+                <option value="" disabled selected>Select the Synthesizer</option>
                 {% for synthesizer in synthesizersNames %}
                   <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
                 {% endfor %}
