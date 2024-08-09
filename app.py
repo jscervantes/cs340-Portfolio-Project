@@ -78,9 +78,9 @@ def synthesizers():
         data = cur.fetchall()
         
         # Get info from db for manufacturer drop down
-        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
+        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers ORDER BY manufacturerID"
         cur = mysql.connection.cursor()
-        cur.execute(query)
+        cur.execute(query2)
         manufacturerData = cur.fetchall()
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
@@ -248,8 +248,18 @@ def orders():
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
+        
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        curGetSynthesizers = mysql.connection.cursor()
+        curGetSynthesizers.execute(queryGetSynthesizer)
+        synthesizersNames = curGetSynthesizers.fetchall()   
+        
+        queryGetCustomers = "SELECT customerFirstName, customerLastName, customerID FROM Customers ORDER BY customerFirstName, customerLastName"
+        curGetCustomers = mysql.connection.cursor()
+        curGetCustomers.execute(queryGetCustomers)
+        customerNames = curGetCustomers.fetchall()   
 
-    return render_template("orders.j2", data=data)
+    return render_template("orders.j2", data=data, synthesizersNames=synthesizersNames, customerNames=customerNames)
 
 def log(tb: str):
     f = open("log.txt", "a")
@@ -306,7 +316,7 @@ def ordersynthesizer():
         cur.execute(query)
         data = cur.fetchall()
         
-        queryGetorderSynthesizerID = "SELECT orderSynthesizerID, orderID FROM OrderSynthesizer"
+        queryGetorderSynthesizerID = "SELECT orderSynthesizerID, orderID FROM OrderSynthesizer ORDER BY orderSynthesizerID"
         curGetorderSynthesizerID = mysql.connection.cursor()
         curGetorderSynthesizerID.execute(queryGetorderSynthesizerID)
         synthOrderIds = curGetorderSynthesizerID.fetchall()
@@ -316,7 +326,7 @@ def ordersynthesizer():
         curGetorderID.execute(queryGetorderID)
         orderIds = curGetorderID.fetchall()
         
-        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers"
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()   
