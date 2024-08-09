@@ -33,7 +33,7 @@
         {% if orderIds %}
           <label for="orderID">Order</label>
           <select required id="orderID" name="orderID">
-              <option value="NULL" selected>NULL</option>
+              <option value=None selected>NULL</option>
               {% for order in orderIds %}
                 <option value="{{order.orderID}}">{{ order.orderID }}</option>
               {% endfor %}
@@ -45,7 +45,7 @@
           <br>
           <select required id="manufacturerID" name="manufacturerID">
               <option value="" disabled selected>Select the Manufacturer</option>
-                {% for manufacturer in manufactuerIds %}
+                {% for manufacturer in manufacturerIds %}
                   <option value="{{manufacturer.manufacturerID}}">{{ manufacturer.manufacturerID }} : {{ manufacturer.manufacturerName }}</option>
                 {% endfor %}
           </select>
@@ -54,24 +54,25 @@
         <label for="order-date">Purchase Date</label>
         <br>
         <input type="date" 
-               id="purchase-date"
-               name="purchase-date"
+               id="purchaseDate"
+               name="purchaseDate"
                placeholder="Purchase Date"
                value="{{ request.form['purchase-date'] }}"
                required>
         <br>
         <label for="cost">Purchase Cost</label>
         <br>
-        <input type="text" 
-               id="cost"
-               name="cost"
+        <input type="number" 
+               id="purchaseCost"
+               name="purchaseCost"
                placeholder="Cost"
+               step="0.01"
                value="{{ request.form['cost'] }}"
                min="0"
                required>
         <br>
       </fieldset>
-      <button type="submit">Submit</button>
+      <button type="submit" name="Add_Purchase">Submit</button>
     </form>
     </div>
 

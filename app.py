@@ -213,15 +213,10 @@ def orders():
             customerID = request.form["customerID"]
             orderDate = request.form["orderDate"]
 
-            # try:
             querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
             curPrice = mysql.connection.cursor()
             curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
             synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
-            #     log("synthesizerPrice:" + str(synthesizerUnitPrice))
-            # except Exception:
-            #     tb = traceback.format_exc()
-            #     log(tb)
 
             synthesizerLinePrice = int(synthesizerUnitPrice) * int(quantity)
                
@@ -356,6 +351,28 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
+    if request.method == "POST":
+        if request.form.get("Add_Purchase"):
+            try:
+                orderID = request.form["orderID"]
+                if orderID == "None":
+                    orderID = None
+                manufacturerID = request.form["manufacturerID"]
+                purchaseDate = request.form["purchaseDate"]
+                purchaseCost = float(request.form["purchaseCost"])
+
+                queryPurchases = "INSERT INTO Purchases (orderID, manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(queryPurchases, (orderID, manufacturerID, purchaseDate, purchaseCost))
+                mysql.connection.commit()
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb)  # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
+
+            return redirect("/purchases")
+
     # Grab Purchases data so we send it to our template to display  
     if request.method == "GET":
         try:

@@ -113,7 +113,7 @@ VALUES (1, 1, 1, 2, 2999.99, 5999.98),
 -- Create or replace Purchases (entity) table
 CREATE OR REPLACE TABLE Purchases (
     purchaseID int NOT NULL AUTO_INCREMENT unique,
-    orderID int NOT NULL,
+    orderID int,
     manufacturerID int NOT NULL,
     purchaseDate date NOT NULL,
     purchaseCost numeric (10,2),
