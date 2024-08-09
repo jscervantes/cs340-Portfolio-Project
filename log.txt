@@ -62,3 +62,31 @@ Traceback (most recent call last):
   File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 289, in ordersynthesizer
     orderSynthesizerID, orderID = synthOrderID.split(',')
 NameError: name 'synthOrderID' is not defined
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 359, in purchases
+    cur = mysql.connection.cursor()
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/flask_mysqldb/__init__.py", line 109, in connection
+    ctx.mysql_db = self.connect
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/flask_mysqldb/__init__.py", line 97, in connect
+    return MySQLdb.connect(**kwargs)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (2002, "Can't connect to local server through socket '/var/lib/mysql/mysql.sock' (2)")
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 361, in purchases
+    cur = mysql.connection.cursor()
+NameError: name 'mysql' is not defined
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 364, in purchases
+    cur = mysql.connection.cursor()
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/flask_mysqldb/__init__.py", line 109, in connection
+    ctx.mysql_db = self.connect
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/flask_mysqldb/__init__.py", line 97, in connect
+    return MySQLdb.connect(**kwargs)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (2002, "Can't connect to server on 'classwork.engr.oregonstate.edu' (115)")
