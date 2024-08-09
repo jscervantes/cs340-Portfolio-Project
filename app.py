@@ -373,29 +373,27 @@ def purchases():
 
             return redirect("/purchases")
 
+    data = []
+    orderIds = []
+    manufacturerIds = []
+    
     # Grab Purchases data so we send it to our template to display  
     if request.method == "GET":
-        try:
-            # mySQL query to grab all the purchases in Purchases table
-            query = "SELECT purchaseID, orderID, manufacturerID, purchaseDate, purchaseCost FROM Purchases"
-            cur = mysql.connection.cursor()
-            cur.execute(query)
-            data = cur.fetchall()
+        # mySQL query to grab all the purchases in Purchases table
+        query = "SELECT purchaseID, orderID, manufacturerID, purchaseDate, purchaseCost FROM Purchases"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
 
-            queryGetorderID = "SELECT orderID FROM Orders"
-            curGetorderID = mysql.connection.cursor()
-            curGetorderID.execute(queryGetorderID)
-            orderIds = curGetorderID.fetchall()  
+        queryGetorderID = "SELECT orderID FROM Orders"
+        curGetorderID = mysql.connection.cursor()
+        curGetorderID.execute(queryGetorderID)
+        orderIds = curGetorderID.fetchall()  
 
-            queryGetManufacturers = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
-            curGetManufacturers = mysql.connection.cursor()
-            curGetManufacturers.execute(queryGetManufacturers)
-            manufacturerIds = curGetManufacturers.fetchall()
-
-        except Exception as e:
-            tb = traceback.format_exc()
-            log(tb)  # Log the detailed traceback
-            return str(e), 500  # Return error message and HTTP 500 status code
+        queryGetManufacturers = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
+        curGetManufacturers = mysql.connection.cursor()
+        curGetManufacturers.execute(queryGetManufacturers)
+        manufacturerIds = curGetManufacturers.fetchall()
 
     return render_template("purchases.j2", data=data, orderIds=orderIds, manufacturerIds=manufacturerIds)
 
