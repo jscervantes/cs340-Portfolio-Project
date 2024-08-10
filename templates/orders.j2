@@ -29,7 +29,6 @@
             {% endif %}
         </table>
 
-    <!-- insert -->
     <form method="post" id="Add_Order" style="display: none;">
     <h1>{% block orderAdd %} Add an Order to Database {% endblock %}</h1>
         <br>
@@ -52,30 +51,17 @@
                value="{{ request.form['orderDate'] }}"
                required>
         <br>
-        <br>
-          {% if synthesizersNames %}
-            <label for="synthesizerID">Synthesizers</label>
-            <select required id="synthesizerID" name="synthesizerID">
-                <option value="" disabled selected>Select the Synthesizer</option>
-                {% for synthesizer in synthesizersNames %}
-                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
-                {% endfor %}
-            </select>
-          {% endif %}
-        <br>
-        <label for="quantity">Quantity</label>
-        <br>
-        <input type="number" 
-            id="quantity"
-            name="quantity"
-            min = "1"
-            required>
-        <br>
-        <input type="button" value="Add Order Item" onclick="addOrderItem(this)">   
-        <br>     
+        <div id="order-line-items">
+            <!-- Line items will be added here -->
+        </div>
+        <button type="button" onclick="addOrderItem()">Add Line Item</button>
+        <br><br>
        <input type="submit" value="Submit Order" name="Add_Order">        
     </form>
+
 <script>
+countOrderItems = 0;
+
  function deleteRow(r) {
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("SynthesizersTable").deleteRow(i);
@@ -86,7 +72,38 @@
  function showAddForm() {
   document.getElementById('Add_Order').style.display = 'block';
  }
+
+function addOrderItem() {
+    countOrderItems++;
+    const container = document.getElementById('order-line-items');
+    const newOrderItem = document.createElement('div');
+    newOrderItem.innerHTML = `
+        <h3>Item ${countOrderItems}</h3>
+          {% if synthesizersNames %}
+            <label for="synthesizerID${countOrderItems}">Synthesizers</label>
+            <select required id="synthesizerID${countOrderItems}" name="synthesizerID${countOrderItems}">
+                <option value="" disabled selected>Select the Synthesizer</option>
+                {% for synthesizer in synthesizersNames %}
+                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
+        <br>
+        <label for="quantity${countOrderItems}">Quantity</label>
+        <br>
+        <input type="number" 
+            id="quantity${countOrderItems}"
+            name="quantity${countOrderItems}"
+            min = "1"
+            required>
+        <br>
+    `;
+    container.appendChild(newOrderItem);
+}
+
 </script>
 
 {% endblock content %}
+
+
 
