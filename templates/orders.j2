@@ -22,13 +22,15 @@
                             <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
                         </tr>
                         {% endfor %} 
+                        <tr>
+                        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+                        </tr>
+                    </tbody>
             {% endif %}
         </table>
 
-    <div id="insert">
-    <form id="insertOrder" action="/orders" method="POST">
-    <h1>Add Order</h1>
-    <fieldset>
+    <form method="post" id="Add_Order" style="display: none;">
+    <h1>{% block orderAdd %} Add an Order to Database {% endblock %}</h1>
         <br>
           {% if customerNames %}
             <label for="customerID">Customer</label>
@@ -49,11 +51,37 @@
                value="{{ request.form['orderDate'] }}"
                required>
         <br>
-        <fieldset id="items-list">
-        <br>
+        <div id="order-line-items">
+            <!-- Line items will be added here -->
+        </div>
+        <button type="button" onclick="addOrderItem()">Add Line Item</button>
+        <br><br>
+       <input type="submit" value="Submit Order" name="Add_Order">        
+    </form>
+
+<script>
+countOrderItems = 0;
+
+ function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("SynthesizersTable").deleteRow(i);
+} 
+ function showUpdateForm() {
+  document.getElementById('update-form').style.display = 'block';
+ }
+ function showAddForm() {
+  document.getElementById('Add_Order').style.display = 'block';
+ }
+
+function addOrderItem() {
+    countOrderItems++;
+    const container = document.getElementById('order-line-items');
+    const newOrderItem = document.createElement('div');
+    newOrderItem.innerHTML = `
+        <h3>Item ${countOrderItems}</h3>
           {% if synthesizersNames %}
-            <label for="synthesizerID">Synthesizers</label>
-            <select required id="synthesizerID" name="synthesizerID">
+            <label for="synthesizerID${countOrderItems}">Synthesizers</label>
+            <select required id="synthesizerID${countOrderItems}" name="synthesizerID${countOrderItems}">
                 <option value="" disabled selected>Select the Synthesizer</option>
                 {% for synthesizer in synthesizersNames %}
                   <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
@@ -61,26 +89,21 @@
             </select>
           {% endif %}
         <br>
-        <label for="quantity">Quantity</label>
+        <label for="quantity${countOrderItems}">Quantity</label>
         <br>
         <input type="number" 
-            id="quantity"
-            name="quantity"
+            id="quantity${countOrderItems}"
+            name="quantity${countOrderItems}"
             min = "1"
             required>
         <br>
-        <input type="button" value="Add Order Item" onclick="addOrderItem(this)">   
-        <br>     
-        </fieldset>
-    </fieldset>
-			<input type="submit" value="Submit Order" name="Add_Order">        
-    </form>
-<script>
-    var orderItems = {};
-    var key = 0;
-    function addOrderItem(r) {
-    } 
+    `;
+    container.appendChild(newOrderItem);
+}
+
 </script>
 
 {% endblock content %}
+
+
 
