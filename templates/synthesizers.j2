@@ -1,11 +1,11 @@
 {% extends "base.j2" %}
 
 {% block content %}
-    <h1>Synthesizers</h1>
+    <h2>Synthesizers</h2>
     
     <!-- browse -->
     <div id="browse">
-      <table border="1" cellpadding="5">
+      <table>
       <!-- Accessing data variable passed from app.py -->
       {% if data %}
         <thead>
@@ -40,7 +40,7 @@
     
     <!-- insert -->
       <form method="post" id="Add_Synthesizer" style="display: none;">
-        <h1>{% block customerAdd %} Add a Synthesizer to Database {% endblock %}</h1>
+        <h3>{% block customerAdd %} Add a Synthesizer to Database {% endblock %}</h3>
           {% if manufacturerData %}
             <label for="manufacturerID">Manufacturer</label>
             <br>
@@ -100,7 +100,7 @@
                  id="keyboard"
                  name="keyboard">
           <br>
-       <input type="submit" value="Submit Synthesizer" name="Add_Synthesizer">        
+       <button type="submit" value="Submit Synthesizer" name="Add_Synthesizer">Submit</button>      
       </form>
     </div>
 
