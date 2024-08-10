@@ -1,9 +1,9 @@
 {% extends "base.j2" %}
 
 {% block content %}
-    <h1>Synthesizer Customer Orders</h1>
+    <h2>Synthesizer Customer Orders</h2>
     <div id="browse">
-      <table border="1" cellpadding="5">
+      <table>
         {% if data %}
         <thead>
           <tr>
@@ -42,7 +42,7 @@
     </section>
    
     <form method="post" id="add-form" style="display: none;">
-    <h1>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h1>
+    <h3>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h3>
         <label for="orderID">Order</label>
         <br>
         <select required id="orderID" name="orderID">

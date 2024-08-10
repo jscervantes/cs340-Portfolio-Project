@@ -1,7 +1,7 @@
 {% extends "base.j2" %}
 
 {% block content %}
-    <h1>Customers</h1>
+    <h2>Customers</h2>
     <div id="browse">
         <table>
             {% if data %}
@@ -30,7 +30,7 @@
         </table>
 
     <form method="post" id="Add_Customer" style="display: none;">
-    <h1>{% block customerAdd %} Add A Customer to Database {% endblock %}</h1>
+    <h3>{% block customerAdd %} Add A Customer to Database {% endblock %}</h3>
         <label for="first-name">Customer First Name</label>
         <br>
         <input type="text" 
@@ -124,7 +124,7 @@
     </form>
 
     <form method="post" id="update-form" style="display: none;">
-    <h1>{% block customerUpdate %} Update A Customer in Database {% endblock %}</h1>
+    <h3>{% block customerUpdate %} Update A Customer in Database {% endblock %}</h3>
 
         <br>
           <select required id="customerID" name="customerID">

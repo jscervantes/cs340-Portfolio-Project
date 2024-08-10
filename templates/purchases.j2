@@ -1,7 +1,7 @@
 {% extends "base.j2" %}
 
 {% block content %}
-    <h1>Purchases</h1>
+    <h2>Purchases</h2>
     <div id="browse">
         <table>
             {% if data %}
@@ -26,14 +26,14 @@
         </table>
     
     <div id="insert">
-    <form method="post" id="insertPurchase">
-    <h1>Add A Purchase to Database</h1>
+    <form method="post" id="Add_Purchase">
+    <h3>Add A Purchase to Database</h3>
     <fieldset>
         <br>
         {% if orderIds %}
           <label for="orderID">Order</label>
           <select required id="orderID" name="orderID">
-              <option value=None selected>NULL</option>
+              <option value="" selected>NULL</option>
               {% for order in orderIds %}
                 <option value="{{order.orderID}}">{{ order.orderID }}</option>
               {% endfor %}
@@ -72,7 +72,7 @@
                required>
         <br>
       </fieldset>
-      <button type="submit" name="Add_Purchase">Submit</button>
+      <button type="submit" value="Submit Purchase" name="Add_Purchase">Submit</button>
     </form>
     </div>
 

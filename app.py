@@ -10,6 +10,11 @@ app = Flask(__name__)
 
 # database connection
 # Template:
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_cervanj2"
+app.config["MYSQL_PASSWORD"] = "4397"
+app.config["MYSQL_DB"] = "cs340_cervanj2"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -374,16 +379,22 @@ def purchases():
         if request.form.get("Add_Purchase"):
             try:
                 orderID = request.form["orderID"]
-                if orderID == "None":
-                    orderID = None
                 manufacturerID = request.form["manufacturerID"]
                 purchaseDate = request.form["purchaseDate"]
-                purchaseCost = float(request.form["purchaseCost"])
+                purchaseCost = request.form["purchaseCost"]
 
-                queryPurchases = "INSERT INTO Purchases (orderID, manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s, %s)"
-                cur = mysql.connection.cursor()
-                cur.execute(queryPurchases, (orderID, manufacturerID, purchaseDate, purchaseCost))
-                mysql.connection.commit()
+                # account for null orderID
+                if orderID == "":
+                    queryPurchases = "INSERT INTO Purchases (manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s)"
+                    cur = mysql.connection.cursor()
+                    cur.execute(query, (manufacturer, name, price, signal, keyboard))
+                    mysql.connection.commit()
+
+                else:
+                    queryPurchases = "INSERT INTO Purchases (orderID, manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s, %s)"
+                    cur = mysql.connection.cursor()
+                    cur.execute(queryPurchases, (orderID, manufacturerID, purchaseDate, purchaseCost))
+                    mysql.connection.commit()
 
             except Exception as e:
                 tb = traceback.format_exc()
@@ -392,10 +403,6 @@ def purchases():
 
             return redirect("/purchases")
 
-    data = []
-    orderIds = []
-    manufacturerIds = []
-    
     # Grab Purchases data so we send it to our template to display  
     if request.method == "GET":
         # mySQL query to grab all the purchases in Purchases table

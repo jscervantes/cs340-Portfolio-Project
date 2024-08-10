@@ -1,7 +1,7 @@
 {% extends "base.j2" %}
 
 {% block content %}
-    <h1>Manufacturers</h1>
+    <h2>Manufacturers</h2>
     <div id="browse">
         <table>
             {% if data %}
@@ -30,7 +30,7 @@
         </table>
 
     <form method="post" id="Add_Manufacturer" style="display: none;">
-    <h1>{% block manufacturer %} Add A Manufacturer to Database {% endblock %}</h1>
+    <h3>{% block manufacturer %} Add A Manufacturer to Database {% endblock %}</h3>
         <label for="name">Manufacturer Name</label>
         <br>
         <input type="text" 
