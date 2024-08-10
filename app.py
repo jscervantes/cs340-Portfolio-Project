@@ -329,7 +329,26 @@ def ordersynthesizer():
                 log(tb)  # Log the detailed traceback
                 return str(e), 500  # Return error message and HTTP 500 status code
 
-            return redirect("/ordersynthesizer")
+        elif request.form.get("Add_OrderSynthesizer"):
+            try:
+                orderID = request.form["orderID"]
+                synthesizerID = request.form["synthesizerID"]
+                quantity = request.form["quantity"]
+                unit_price = request.form["unit-price"]
+                line_price = float(unit_price) * int(quantity)
+
+                query = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) \
+                          VALUES (%s. %s, %s, %s, %s)"
+                curAddOrderSynthesizer = mysql.connection.cursor()
+                curAddOrderSynthesizer.execute(query, (orderID, synthesizerID, quantity, unit_price, line_price))
+                mysql.connection.commit()
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb)  # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
+
+        return redirect("/ordersynthesizer")
         
     # Grab OrderSynthesizer data so we send it to our template to display  
     if request.method == "GET":

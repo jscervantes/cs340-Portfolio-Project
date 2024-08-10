@@ -30,6 +30,7 @@
     </div>
 
     <br>
+    <label for="orderSynthesizerTableInput">Display all order items associated with a single order</label>
     <select id="orderSynthesizerTableInput" name="orderID" onchange="orderSynthesizerSearch()">
         <option value="" disabled selected>Select the Order ID</option>
         <option value="1">Order ID 1</option>
@@ -38,32 +39,31 @@
         <option value="4">Order ID 4</option>
         <option value="5">Order ID 5</option>
     </select>
-    <label for="orderSynthesizerTableInput">Display all order items associated with a single order</label>
     </section>
    
+    <!--insert-->
     <form method="post" id="add-form" style="display: none;">
     <h3>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h3>
-        <label for="orderID">Order</label>
         <br>
-        <select required id="orderID" name="orderID">
-            <option value="" disabled selected>Select the Order ID</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-        </select>
+          {% if synthOrderIds %}
+            <label for="orderID">Order ID</label>
+            <select required id="orderID" name="orderID">
+                <option value="" disabled selected>Select the Associated Order</option>
+                {% for id in orderIds %}
+                  <option value="{{id.orderID}}">OrderID: {{id.orderID}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
         <br>
-        <label for="synthesizerID">Synthesizer</label>
-        <br>
-        <select required id="synthesizerID" name="synthesizerID">
-            <option value="" disabled selected>Select the Synthesizer</option>
-            <option value="1">ID 1: Juno60</option>
-            <option value="2">ID 2: Jupiter8</option>
-            <option value="3">ID 3: Prophet5</option>
-            <option value="4">ID 4: WavestateMK2</option>
-            <option value="5">ID 5: Grandmother</option>
-        </select>
+          {% if synthesizersNames %}
+            <label for="synthesizerID">Synthesizers</label>
+            <select required id="synthesizerID" name="synthesizerID">
+                <option value="" disabled selected>Select the Synthesizer</option>
+                {% for synthesizer in synthesizersNames %}
+                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
 
         <br>
         <label for="quantity">Quantity</label>
@@ -85,22 +85,11 @@
                max="10"
                required>
         <br>
-        <label for="line-price">Line Price</label>
-        <br>
-        <input type="text" 
-               id="line-price"
-               name="line-price"
-               placeholder="line-price"
-               value="{{ request.form['line-price'] }}"
-               min="0"
-               max="10"
-               required>
-        <br>
-        <button type="submit">Submit</button>
+        <button type="submit" name="Add_OrderSynthesizer">Submit</button>
     </form>
 
    
-    <!--insert-->
+    <!--update-->
     <div id="edit">
       <form method="post" id="updateOrderSynthesizer">
       <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
