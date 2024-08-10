@@ -32,7 +32,7 @@
         <br>
         {% if orderIds %}
           <label for="orderID">Order</label>
-          <select required id="orderID" name="orderID">
+          <select id="orderID" name="orderID">
               <option value="" selected>NULL</option>
               {% for order in orderIds %}
                 <option value="{{order.orderID}}">{{ order.orderID }}</option>

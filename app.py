@@ -387,7 +387,7 @@ def purchases():
                 if orderID == "":
                     queryPurchases = "INSERT INTO Purchases (manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s)"
                     cur = mysql.connection.cursor()
-                    cur.execute(query, (manufacturer, name, price, signal, keyboard))
+                    cur.execute(queryPurchases, (manufacturerID, purchaseDate, purchaseCost))
                     mysql.connection.commit()
 
                 else:

@@ -90,3 +90,11 @@ Traceback (most recent call last):
   File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/connections.py", line 195, in __init__
     super().__init__(*args, **kwargs2)
 MySQLdb.OperationalError: (2002, "Can't connect to server on 'classwork.engr.oregonstate.edu' (115)")
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 390, in purchases
+    cur.execute(query, (manufacturer, name, price, signal, keyboard))
+UnboundLocalError: local variable 'query' referenced before assignment
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 390, in purchases
+    cur.execute(queryPurchases, (manufacturer, name, price, signal, keyboard))
+NameError: name 'manufacturer' is not defined
