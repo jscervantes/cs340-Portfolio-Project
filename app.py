@@ -293,6 +293,8 @@ def log(tb: str):
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
 def ordersynthesizer():
     if request.method == "POST":
+        print("Form data:", request.form)
+        
         if request.form.get("Update_OrderSynthesizer"):
             try:
                 synthOrderID = request.form["synthOrderID"]
@@ -329,7 +331,7 @@ def ordersynthesizer():
                 log(tb)  # Log the detailed traceback
                 return str(e), 500  # Return error message and HTTP 500 status code
 
-        elif request.form.get("Add_OrderSynthesizer"):
+        if request.form.get("Add_OrderSynthesizer"):
             try:
                 orderID = request.form["orderID"]
                 synthesizerID = request.form["synthesizerID"]
@@ -338,10 +340,11 @@ def ordersynthesizer():
                 line_price = float(unit_price) * int(quantity)
 
                 query = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) \
-                          VALUES (%s. %s, %s, %s, %s)"
+                          VALUES (%s, %s, %s, %s, %s)"
                 curAddOrderSynthesizer = mysql.connection.cursor()
                 curAddOrderSynthesizer.execute(query, (orderID, synthesizerID, quantity, unit_price, line_price))
                 mysql.connection.commit()
+                print("Commit successful")
 
             except Exception as e:
                 tb = traceback.format_exc()
@@ -453,7 +456,17 @@ def purchasesynthesizer():
         cur.execute(query)
         data = cur.fetchall()
 
-    return render_template("purchasesynthesizer.j2", data=data)
+        queryGetpurchaseID = "SELECT purchaseID FROM Purchases"
+        curGetpurchaseID = mysql.connection.cursor()
+        curGetpurchaseID.execute(queryGetpurchaseID)
+        purchaseIds = curGetpurchaseID.fetchall()
+        
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        curGetSynthesizers = mysql.connection.cursor()
+        curGetSynthesizers.execute(queryGetSynthesizer)
+        synthesizersNames = curGetSynthesizers.fetchall()   
+
+    return render_template("purchasesynthesizer.j2", data=data, purchaseIds=purchaseIds, synthesizersNames=synthesizersNames)
 
 
 # Listener
