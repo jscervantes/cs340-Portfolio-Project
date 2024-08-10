@@ -10,11 +10,6 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_cervanj2"
-app.config["MYSQL_PASSWORD"] = "4397"
-app.config["MYSQL_DB"] = "cs340_cervanj2"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -205,28 +200,42 @@ def customers():
 
 @app.route('/orders', methods=('GET', 'POST'))
 def orders():
-    
+    # POST 
+    #insert an order into Orders entity
     if request.method == "POST":
+        # Execute if user presses Add_Order button
         if request.form.get("Add_Order"):
-            synthesizerID = request.form["synthesizerID"]
-            quantity = request.form["quantity"]
+            #grab user form inputs
             customerID = request.form["customerID"]
             orderDate = request.form["orderDate"]
-
-            querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
-            curPrice = mysql.connection.cursor()
-            curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
-            synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
-
-            synthesizerLinePrice = int(synthesizerUnitPrice) * int(quantity)
-               
-            queryOrders = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
-
-            cur = mysql.connection.cursor()
-            cur.execute(queryOrders, (customerID, orderDate, synthesizerLinePrice))
-
-            mysql.connection.commit()
             
+            #grab dynamic data from form inputs
+            countOrderItems = len([key for key in request.form.keys() if key.startswith('synthesizerID')])
+            synthesizerLinePrice = 0
+            try: 
+                for i in range(1, countOrderItems + 1):
+                    synthesizerID = request.form[f"synthesizerID{i}"]
+                    quantity = request.form[f"quantity{i}"]
+                    querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
+                    curPrice = mysql.connection.cursor()
+                    curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
+                    synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                    synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
+                    
+                queryOrders = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
+
+                cur = mysql.connection.cursor()
+                cur.execute(queryOrders, (customerID, orderDate, synthesizerLinePrice))
+                mysql.connection.commit()
+                
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb) # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
+
+
+            #find the recently added order and grab its auto-incremented/generated id                
             queryAddedOrder = "SELECT LAST_INSERT_ID()"
             curOrderID = mysql.connection.cursor()
             curOrderID.execute(queryAddedOrder)
@@ -234,10 +243,20 @@ def orders():
             orderIDValue = orderID[0]
             orderIDValue = orderIDValue.get("LAST_INSERT_ID()")
             
-            queryOrderSynthesizer = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) VALUES (%s, %s, %s, %s, %s)"
-            curOrderSynthesizer = mysql.connection.cursor()
-            curOrderSynthesizer.execute(queryOrderSynthesizer, (orderIDValue, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
-            mysql.connection.commit()
+            #iterate through dynamic data, adding an Ordersynthesizer for each order line item
+            for i in range(1, countOrderItems + 1):
+                synthesizerID = request.form[f"synthesizerID{i}"]
+                quantity = request.form[f"quantity{i}"]
+                querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
+                curPrice = mysql.connection.cursor()
+                curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
+                synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
+
+                queryOrderSynthesizer = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) VALUES (%s, %s, %s, %s, %s)"
+                curOrderSynthesizer = mysql.connection.cursor()
+                curOrderSynthesizer.execute(queryOrderSynthesizer, (orderIDValue, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
+                mysql.connection.commit()
 
             return redirect("/orders")
 
