@@ -1,5 +1,5 @@
 <nav class="navbar">
-  <a class="navbar-item" href="/">Homepage</a>
+  <a class="navbar-item" href="/">homepage</a>
   {% for menu_item in ["synthesizers", "manufacturers", "customers", "orders", "ordersynthesizer", "purchases", "purchasesynthesizer"] %}
     <a class="navbar-item" href="{{ url_for(menu_item) }}">{{ menu_item }}</a>
   {% endfor %}

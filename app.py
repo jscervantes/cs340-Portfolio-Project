@@ -436,20 +436,64 @@ def purchases():
                 orderID = request.form["orderID"]
                 manufacturerID = request.form["manufacturerID"]
                 purchaseDate = request.form["purchaseDate"]
-                purchaseCost = request.form["purchaseCost"]
 
-                # account for null orderID
-                if orderID == "":
-                    queryPurchases = "INSERT INTO Purchases (manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s)"
-                    cur = mysql.connection.cursor()
-                    cur.execute(queryPurchases, (manufacturerID, purchaseDate, purchaseCost))
-                    mysql.connection.commit()
-                    
-                #no null inputs
-                else:
-                    queryPurchases = "INSERT INTO Purchases (orderID, manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s, %s)"
-                    cur = mysql.connection.cursor()
-                    cur.execute(queryPurchases, (orderID, manufacturerID, purchaseDate, purchaseCost))
+                #grab dynamic data from form inputs
+                countPurchaseItems = len([key for key in request.form.keys() if key.startswith('synthesizerID')])
+                synthesizerLinePrice = 0
+                try: 
+                    for i in range(1, countPurchaseItems + 1):
+                        synthesizerID = request.form[f"synthesizerID{i}"]
+                        quantity = request.form[f"quantity{i}"]
+                        querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
+                        curPrice = mysql.connection.cursor()
+                        curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
+                        synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                        if synthesizerUnitPrice == None:
+                            synthesizerUnitPrice = 0
+                        synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
+
+                        # account for null orderID
+                        if orderID == "":
+                            queryPurchases = "INSERT INTO Purchases (manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s)"
+                            cur = mysql.connection.cursor()
+                            cur.execute(queryPurchases, (manufacturerID, purchaseDate, synthesizerLinePrice))
+                            mysql.connection.commit()
+
+                        else:
+                            queryPurchases = "INSERT INTO Purchases (orderID, manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s, %s)"
+                            cur = mysql.connection.cursor()
+                            cur.execute(queryPurchases, (orderID, manufacturerID, purchaseDate, synthesizerLinePrice))
+                            mysql.connection.commit()
+
+
+                except Exception as e:
+                    tb = traceback.format_exc()
+                    log(tb) # Log the detailed traceback
+                    return str(e), 500  # Return error message and HTTP 500 status code
+
+                #find the recently added purchase and grab its auto-incremented/generated id                
+                queryAddedPurchase = "SELECT LAST_INSERT_ID()"
+                curPurchaseID = mysql.connection.cursor()
+                curPurchaseID.execute(queryAddedPurchase)
+                purchaseID = curPurchaseID.fetchall()
+                purchaseIDValue = purchaseID[0]
+                purchaseIDValue = purchaseIDValue.get("LAST_INSERT_ID()")
+
+                #iterate through dynamic data, adding an Purchasesynthesizer for each purchase line item
+                for i in range(1, countPurchaseItems + 1):
+                    synthesizerID = request.form[f"synthesizerID{i}"]
+                    quantity = request.form[f"quantity{i}"]
+                    querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
+                    curPrice = mysql.connection.cursor()
+                    curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
+                    synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                    if synthesizerUnitPrice is None:
+                        synthesizerUnitPrice = 0
+                    synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
+
+                    queryPurchaseSynthesizer = "INSERT INTO PurchaseSynthesizer (PurchaseID, synthesizerID, PurchaseItemQuantity, PurchaseItemUnitCost, PurchaseItemLineCost) VALUES (%s, %s, %s, %s, %s)"
+                    curPurchaseSynthesizer = mysql.connection.cursor()
+                    curPurchaseSynthesizer.execute(queryPurchaseSynthesizer, (purchaseIDValue, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
                     mysql.connection.commit()
 
             except Exception as e:
@@ -477,9 +521,14 @@ def purchases():
         queryGetManufacturers = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
         curGetManufacturers = mysql.connection.cursor()
         curGetManufacturers.execute(queryGetManufacturers)
-        manufacturerIds = curGetManufacturers.fetchall()
+        manufacturerIds = curGetManufacturers.fetchall()    
 
-    return render_template("purchases.j2", data=data, orderIds=orderIds, manufacturerIds=manufacturerIds)
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        curGetSynthesizers = mysql.connection.cursor()
+        curGetSynthesizers.execute(queryGetSynthesizer)
+        synthesizersNames = curGetSynthesizers.fetchall()  
+
+    return render_template("purchases.j2", data=data, orderIds=orderIds, manufacturerIds=manufacturerIds, synthesizersNames=synthesizersNames)
 
 @app.route('/purchasesynthesizer', methods=('GET', 'POST'))
 def purchasesynthesizer():
