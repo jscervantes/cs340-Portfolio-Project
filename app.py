@@ -10,11 +10,6 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_cervanj2"
-app.config["MYSQL_PASSWORD"] = "4397"
-app.config["MYSQL_DB"] = "cs340_cervanj2"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -336,16 +331,27 @@ def ordersynthesizer():
                 orderID = request.form["orderID"]
                 synthesizerID = request.form["synthesizerID"]
                 quantity = request.form["quantity"]
-                unit_price = request.form["unit-price"]
-                line_price = float(unit_price) * int(quantity)
+                
+                querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
+                curPrice = mysql.connection.cursor()
+                curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
+                synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
 
                 query = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) \
                           VALUES (%s, %s, %s, %s, %s)"
                 curAddOrderSynthesizer = mysql.connection.cursor()
-                curAddOrderSynthesizer.execute(query, (orderID, synthesizerID, quantity, unit_price, line_price))
+                curAddOrderSynthesizer.execute(query, (orderID, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
                 mysql.connection.commit()
-                print("Commit successful")
 
+                query2 = "UPDATE Orders \
+                        SET orderPrice = orderPrice + %s \
+                        WHERE orderID = %s;"
+                        
+                curUpdateOrders = mysql.connection.cursor()
+                curUpdateOrders.execute(query2, (synthesizerLinePrice, orderID))
+                mysql.connection.commit()
+                                
             except Exception as e:
                 tb = traceback.format_exc()
                 log(tb)  # Log the detailed traceback
