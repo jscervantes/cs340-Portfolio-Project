@@ -25,8 +25,6 @@
               <!-- Create <td> element with the value of that key in it -->
               <td> {{item[key]}} </td>
             {% endfor %}
-              <!-- Create our edit/delete buttons -->
-              <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>          </tr>
           </tr>
           {% endfor %}
           <tr>
@@ -104,13 +102,6 @@
     </div>
 
 <script>
- function deleteRow(r) {
-  var i = r.parentNode.parentNode.rowIndex;
-  document.getElementById("SynthesizersTable").deleteRow(i);
-} 
- function showUpdateForm() {
-  document.getElementById('update-form').style.display = 'block';
- }
  function showAddForm() {
   document.getElementById('Add_Synthesizer').style.display = 'block';
  }

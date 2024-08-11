@@ -18,7 +18,6 @@
                             {% for key in item.keys() %}
                                 <td> {{item[key]}} </td>
                             {%endfor %}
-                            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
                         </tr>
                         {% endfor %} 
                      <tr>
@@ -122,118 +121,7 @@
        <input type="submit" value="Submit Customer" name="Add_Customer">        
     </form>
 
-    <form method="post" id="update-form" style="display: none;">
-    <h3>{% block customerUpdate %} Update A Customer in Database {% endblock %}</h3>
-
-        <br>
-          <select required id="customerID" name="customerID">
-            <option value="" disabled selected>Select the Customer ID</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-          </select>
-        <br>
-        <label for="first-name">Customer First Name</label>
-        <br>
-        <input type="text" 
-               id="first-name"
-               name="first-name"
-               placeholder="First Name"
-               value="{{ request.form['first-name'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="last-name">Customer Last Name</label>
-        <br>
-        <input type="text"
-               id="last-name"
-               name="last-name"
-               placeholder="Last Name"
-               value="{{ request.form['last-name'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="street">Customer Street Address</label>
-        <br>
-        <input type="text" 
-               id="street"
-               name="street"
-               placeholder="Street Address"
-               value="{{ request.form['street'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="street2">Customer Street Address 2</label>
-        <br>
-        <input type="text" 
-               id="street2"
-               name="street2"
-               placeholder="Street Address 2"
-               maxlength="100"
-               value="{{ request.form['street2'] }}">
-        <br>
-        <label for="city">Customer City</label>
-        <br>
-        <input type="text" 
-               id="city"
-               name="city"
-               placeholder="City"
-               value="{{ request.form['city'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="state">Customer State</label>
-        <br>
-        <input type="text" 
-               id="state"
-               name="state"
-               placeholder="State"
-               value="{{ request.form['state'] }}"
-               maxlength="2"
-               required>
-        <br>
-        <label for="zip">Customer Zip Code</label>
-        <br>
-        <input type="text" 
-               id="zip"
-               name="zip"
-               placeholder="Zip Code"
-               value="{{ request.form['zip'] }}"
-               maxlength="10"
-               required>
-        <br>
-        <label for="email">Customer Email</label>
-        <br>
-        <input type="email" 
-               id="email"
-               name="email"
-               placeholder="Email"
-               value="{{ request.form['email'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="phone">Customer Phone Number</label>
-        <br>
-        <input type="tel" 
-               id="phone"
-               name="phone"
-               placeholder="Phone Number"
-               value="{{ request.form['phone'] }}"
-               maxlength="10"
-               required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
 <script>
- function deleteRow(r) {
-  var i = r.parentNode.parentNode.rowIndex;
-  document.getElementById("CustomersTable").deleteRow(i);
-} 
- function showUpdateForm() {
-  document.getElementById('update-form').style.display = 'block';
- }
  function showAddForm() {
   document.getElementById('Add_Customer').style.display = 'block';
  }
