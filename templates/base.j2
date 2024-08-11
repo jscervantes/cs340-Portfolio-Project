@@ -9,56 +9,56 @@
 </head>
 
 <body>
-  <header>
-    <h1>Ciani Synths</h1>
+  <header id="nav-wrapper">
+    <h1 id="title">Ciani Synths</h1>
     {% include "_navigation.j2" %}
   </header>
   <div class="container">
-  {% block content %}
-    <h1>Welcome to {{ title }}!</h1>
-  
-    <p>
-      Ciani Synths is a boutique synthesizer showroom in Portland, Oregon, selling 400 synthesizers
-      annually. The store maintains a small inventory of playable synthesizers, allowing customers
-      and community members to try out and experiment with some of the owner&apos;s favorite keys.
-      <br>
-      <br>
-      In an effort to increase cash flow and compete with e-commerce giants, Ciani Synths is
-      launching a website. As a licensed retailer for several major synthesizer manufacturers&#x2014;Roland,
-      Moog, Korg, Arturia, Elektron, and Sequential&#x2014;customers can purchase synthesizers directly
-      from the Ciani Synths website. A database-driven website will record sales which are
-      represented by Orders placed by Customers and allow Ciani Synths to make Purchases from
-      Manufacturers, which will result in a dropship delivery to Customers.
-    </p>
+    {% block content %}
+      <h1>Welcome to {{ title }}!</h1>
 
-    <p>
-      <h2>Entities and Composite Entities</h2>
+      <p>
+        Ciani Synths is a boutique synthesizer showroom in Portland, Oregon, selling 400 synthesizers
+        annually. The store maintains a small inventory of playable synthesizers, allowing customers
+        and community members to try out and experiment with some of the owner&apos;s favorite keys.
+        <br>
+        <br>
+        In an effort to increase cash flow and compete with e-commerce giants, Ciani Synths is
+        launching a website. As a licensed retailer for several major synthesizer manufacturers&#x2014;Roland,
+        Moog, Korg, Arturia, Elektron, and Sequential&#x2014;customers can purchase synthesizers directly
+        from the Ciani Synths website. A database-driven website will record sales which are
+        represented by Orders placed by Customers and allow Ciani Synths to make Purchases from
+        Manufacturers, which will result in a dropship delivery to Customers.
+      </p>
 
-      <dl>
-        <dt><b>Synthesizers</b></dt>
-        <dd>Represents the synthesizers within the ecommerce site.</dd>
+      <p>
+        <h2>Entities and Composite Entities</h2>
 
-        <dt><b>Manufacturers</b></dt>
-        <dd>Represents the synthesizer manufacturer that the ecommerce site purchases from.</dd>
+        <dl>
+          <dt><b>Synthesizers</b></dt>
+          <dd>Represents the synthesizers within the ecommerce site.</dd>
 
-        <dt><b>Customers</b></dt>
-        <dd>Represents users who are purchasing synthesizers through the ecommerce website.</dd>
+          <dt><b>Manufacturers</b></dt>
+          <dd>Represents the synthesizer manufacturer that the ecommerce site purchases from.</dd>
 
-        <dt><b>Orders</b></dt>
-        <dd>Represents the synthesizer orders customers make from the ecommerce site.</dd>
+          <dt><b>Customers</b></dt>
+          <dd>Represents users who are purchasing synthesizers through the ecommerce website.</dd>
 
-        <dt><b>OrderSynthesizer</b></dt>
-        <dd>Represents intersection table that links Purchases with Synthesizers.</dd>
+          <dt><b>Orders</b></dt>
+          <dd>Represents the synthesizer orders customers make from the ecommerce site.</dd>
 
-        <dt><b>Purchases</b></dt>
-        <dd>Represents the synthesizer purchases the ecommerce site makes from the manufacturer.</dd>
+          <dt><b>OrderSynthesizer</b></dt>
+          <dd>Represents intersection table that links Purchases with Synthesizers.</dd>
 
-        <dt><b>PurchaseSynthesizer</b></dt>
-        <dd>Represents intersection table that links Purchases with Synthesizers.</dd>
-      </dl>
-    </p>
+          <dt><b>Purchases</b></dt>
+          <dd>Represents the synthesizer purchases the ecommerce site makes from the manufacturer.</dd>
 
-  {% endblock content %}
+          <dt><b>PurchaseSynthesizer</b></dt>
+          <dd>Represents intersection table that links Purchases with Synthesizers.</dd>
+        </dl>
+      </p>
+
+    {% endblock content %}
   </div>
 </body>
 <footer>
