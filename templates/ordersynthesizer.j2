@@ -28,24 +28,12 @@
         {% endif %}
       </table>
     </div>
-
-    <br>
-    <label for="orderSynthesizerTableInput">Display all order items associated with a single order</label>
-    <select id="orderSynthesizerTableInput" name="orderID" onchange="orderSynthesizerSearch()">
-        <option value="" disabled selected>Select the Order ID</option>
-        <option value="1">Order ID 1</option>
-        <option value="2">Order ID 2</option>
-        <option value="3">Order ID 3</option>
-        <option value="4">Order ID 4</option>
-        <option value="5">Order ID 5</option>
-    </select>
-    </section>
    
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
     <h3>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h3>
         <br>
-          {% if synthOrderIds %}
+          {% if orderIds %}
             <label for="orderID">Order ID</label>
             <select required id="orderID" name="orderID">
                 <option value="" disabled selected>Select the Associated Order</option>
@@ -74,18 +62,7 @@
                min = "1"
                required>
         <br>
-        <label for="unit-price">Unit Price</label>
-        <br>
-        <input type="text" 
-               id="unit-price"
-               name="unit-price"
-               placeholder="unit-price"
-               value="{{ request.form['unit-price'] }}"
-               min="0"
-               max="10"
-               required>
-        <br>
-        <button type="submit" name="Add_OrderSynthesizer">Submit</button>
+        <input type="submit" value="Add to Order" name="Add_OrderSynthesizer">           
     </form>
 
    
