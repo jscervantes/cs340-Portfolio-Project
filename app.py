@@ -447,6 +447,36 @@ def purchases():
 
 @app.route('/purchasesynthesizer', methods=('GET', 'POST'))
 def purchasesynthesizer():
+    if request.method == "POST":
+        print("Form data:", request.form)
+        if request.form.get("Add_PurchaseSynthesizer"):
+            try:
+                purchaseID = request.form["purchaseID"]
+                synthesizerID = request.form["synthesizerID"]
+                quantity = request.form["quantity"]
+                print(quantity)
+                
+                # Get synthesizer price from Synthesizer table
+                querySynth = "SELECT synthesizerCost FROM Synthesizers WHERE synthesizerID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(querySynth, (synthesizerID,))
+                
+                unit_price = float(cur.fetchall()[0]["synthesizerCost"])
+                line_price = float(unit_price) * int(quantity)
+
+                query = "INSERT INTO PurchaseSynthesizer (purchaseID, synthesizerID, purchaseItemQuantity, purchaseItemUnitCost, purchaseItemLineCost) \
+                          VALUES (%s, %s, %s, %s, %s)"
+                curAddPurchaseSynthesizer = mysql.connection.cursor()
+                curAddPurchaseSynthesizer.execute(query, (purchaseID, synthesizerID, quantity, unit_price, line_price))
+                mysql.connection.commit()
+                print("Commit successful")
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                log(tb)  # Log the detailed traceback
+                return str(e), 500  # Return error message and HTTP 500 status code
+
+        return redirect("/purchasesynthesizer")
     
     # Grab PurchaseSynthesizer data so we send it to our template to display  
     if request.method == "GET":

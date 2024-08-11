@@ -98,3 +98,41 @@ Traceback (most recent call last):
   File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 390, in purchases
     cur.execute(queryPurchases, (manufacturer, name, price, signal, keyboard))
 NameError: name 'manufacturer' is not defined
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 454, in purchasesynthesizer
+    purchaseID = request.form["orderID"]
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/werkzeug/datastructures/structures.py", line 196, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.BadRequestKeyError: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 454, in purchasesynthesizer
+    purchaseID = request.form["orderID"]
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/werkzeug/datastructures/structures.py", line 196, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.BadRequestKeyError: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 454, in purchasesynthesizer
+    purchaseID = request.form["orderID"]
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/werkzeug/datastructures/structures.py", line 196, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.BadRequestKeyError: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 470, in purchasesynthesizer
+    curAddOrderSynthesizer.execute(query, (purchaseID, synthesizerID, quantity, unit_price, line_price))
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/connections.py", line 261, in query
+    _mysql.connection.query(self, query)
+MySQLdb.IntegrityError: (1452, 'Cannot add or update a child row: a foreign key constraint fails (`cs340_cervanj2`.`OrderSynthesizer`, CONSTRAINT `OrderSynthesizer_ibfk_1` FOREIGN KEY (`orderID`) REFERENCES `Orders` (`orderID`) ON DELETE CASCADE)')
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 470, in purchasesynthesizer
+    curAddPurchaseSynthesizer.execute(query, (purchaseID, synthesizerID, quantity, unit_price, line_price))
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/connections.py", line 261, in query
+    _mysql.connection.query(self, query)
+MySQLdb.OperationalError: (1054, "Unknown column 'orderItemQuantity' in 'field list'")
