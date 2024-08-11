@@ -10,12 +10,6 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_cervanj2"
-app.config["MYSQL_PASSWORD"] = "4397"
-app.config["MYSQL_DB"] = "cs340_cervanj2"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
-
 
 mysql = MySQL(app)
 
@@ -27,7 +21,7 @@ def root():
 
 @app.route('/synthesizers', methods=['GET', 'POST'])
 def synthesizers():
-    # POST 
+    # POST
     #insert a synthesizer into Synthesizers entity
     if request.method == "POST":
         # Execute if user presses Add Synthesizer button
@@ -112,8 +106,8 @@ def manufacturers():
                 email = request.form["email"]
                 phone = request.form["phone"]
                    
-                #account for null street2 input
                 try:
+                    #account for null street2 input
                     if street2 == "":
                         query = "INSERT INTO Manufacturers (manufacturerName, manufacturerStreet, manufacturerCity, manufacturerState, manufacturerZip, manufacturerEmail, manufacturerPhone) \
                         VALUES (%s, %s, %s, %s, %s, %s, %s)"
@@ -125,18 +119,19 @@ def manufacturers():
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
                         cur = mysql.connection.cursor()
                         cur.execute(query, (name, street, street2, city, state, zip, email, phone))
-    
                     mysql.connection.commit()
+                    
                 except Exception as e:
                     tb = traceback.format_exc()
                     log(tb)  # Log the detailed traceback
-                    return str(e), 500     
+                    return str(e), 500   
+                  
                 return redirect("/manufacturers")
+            
             except Exception as e:
                 tb = traceback.format_exc()
                 log(tb)  # Log the detailed traceback
                 return str(e), 500  # Return error message and HTTP 500 status code
-
 
     # Grab Manufacturers data so we send it to our template to display
     if request.method == "GET":
@@ -169,6 +164,7 @@ def customers():
                 phone = request.form["phone"]
                 
                 try:
+                    #account for null street2 input
                     if street2 == "":
                         query = "INSERT INTO Customers (customerFirstName, customerLastName, customerStreet, customerCity, customerState, customerZip, customerEmail, customerPhone) \
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
@@ -215,10 +211,11 @@ def orders():
             customerID = request.form["customerID"]
             orderDate = request.form["orderDate"]
             
-            #grab dynamic data from form inputs
+            #grab dynamic data from form inputs 
             countOrderItems = len([key for key in request.form.keys() if key.startswith('synthesizerID')])
             synthesizerLinePrice = 0
             try: 
+                #calculate total price based on all order line items added by itereating through dynamic data
                 for i in range(1, countOrderItems + 1):
                     synthesizerID = request.form[f"synthesizerID{i}"]
                     quantity = request.form[f"quantity{i}"]
@@ -227,19 +224,17 @@ def orders():
                     curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
                     synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
                     synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
-                    
+           
+                #mySQL query to insert new Orders row         
                 queryOrders = "INSERT INTO Orders (customerID, orderDate, orderPrice) VALUES (%s, %s, %s)"
-
                 cur = mysql.connection.cursor()
                 cur.execute(queryOrders, (customerID, orderDate, synthesizerLinePrice))
                 mysql.connection.commit()
-                
 
             except Exception as e:
                 tb = traceback.format_exc()
                 log(tb) # Log the detailed traceback
                 return str(e), 500  # Return error message and HTTP 500 status code
-
 
             #find the recently added order and grab its auto-incremented/generated id                
             queryAddedOrder = "SELECT LAST_INSERT_ID()"
@@ -259,6 +254,7 @@ def orders():
                 synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
                 synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
 
+                #mySQL query to insert each order line item into OrderSynthesizer table
                 queryOrderSynthesizer = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) VALUES (%s, %s, %s, %s, %s)"
                 curOrderSynthesizer = mysql.connection.cursor()
                 curOrderSynthesizer.execute(queryOrderSynthesizer, (orderIDValue, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
@@ -274,11 +270,13 @@ def orders():
         cur.execute(query)
         data = cur.fetchall()
         
+        # mySQL query to grab all rows from Synthesizers table for SELECT drop-down user-input 
         queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()   
-        
+
+        # mySQL query to grab all rows from Customers table for SELECT drop-down user-input 
         queryGetCustomers = "SELECT customerFirstName, customerLastName, customerID FROM Customers ORDER BY customerFirstName, customerLastName"
         curGetCustomers = mysql.connection.cursor()
         curGetCustomers.execute(queryGetCustomers)
@@ -293,11 +291,14 @@ def log(tb: str):
 
 @app.route('/ordersynthesizer', methods=('GET', 'POST'))
 def ordersynthesizer():
+    # POST 
+    #insert/update an order into OrderSynthesizer entity
     if request.method == "POST":
         print("Form data:", request.form)
-        
+        # Execute if user presses Update_OrderSynthesizer button
         if request.form.get("Update_OrderSynthesizer"):
             try:
+                #grab user form inputs
                 synthOrderID = request.form["synthOrderID"]
                 orderSynthesizerID, orderID = synthOrderID.split(',')
                 synthesizerID = request.form["synthesizerID"]
@@ -305,23 +306,28 @@ def ordersynthesizer():
                 unit_price = request.form["unit-price"]
                 line_price = float(unit_price) * int(quantity)
 
+                #SQL query to find previous orderSynthesizer price
                 getPreviousOrderSynthesizerPrice = "SELECT orderItemLinePrice, 1 FROM OrderSynthesizer WHERE orderSynthesizerID = %s"
                 curGetPrice = mysql.connection.cursor()
                 curGetPrice.execute(getPreviousOrderSynthesizerPrice, (int(orderSynthesizerID),))
                 previousOrderSynthesizerPrice = float(curGetPrice.fetchall()[0]["orderItemLinePrice"])
 
+                #SQL query to update orderSynthesizer
                 updateOrderSynthesizer = "UPDATE OrderSynthesizer SET synthesizerID = %s, orderItemQuantity = %s, orderItemUnitPrice = %s, orderItemLinePrice = %s WHERE orderSynthesizerID = %s"
                 curUpdate = mysql.connection.cursor()
                 curUpdate.execute(updateOrderSynthesizer, (synthesizerID, quantity, unit_price, line_price, orderSynthesizerID))
                 mysql.connection.commit()
 
+                #SQL query to find previous associated order price
                 getPreviousOrderPrice = "SELECT orderPrice, 1 FROM Orders WHERE orderID = %s"
                 curGetOrderPrice = mysql.connection.cursor()
                 curGetOrderPrice.execute(getPreviousOrderPrice, (int(orderID),))
                 previousOrderPrice = float(curGetOrderPrice.fetchall()[0]["orderPrice"])
 
+                #Calculate new order price
                 newOrderPrice = (previousOrderPrice - previousOrderSynthesizerPrice) + line_price
 
+                #SQL query to update associated order price
                 updateOrderPrice = "UPDATE Orders SET orderPrice = %s WHERE orderID = %s"
                 curUpdatePrice = mysql.connection.cursor()
                 curUpdatePrice.execute(updateOrderPrice, (newOrderPrice, orderID))
@@ -332,28 +338,32 @@ def ordersynthesizer():
                 log(tb)  # Log the detailed traceback
                 return str(e), 500  # Return error message and HTTP 500 status code
 
+        # Execute if user presses Add_OrderSynthesizer button
         if request.form.get("Add_OrderSynthesizer"):
             try:
+                #grab user form inputs
                 orderID = request.form["orderID"]
                 synthesizerID = request.form["synthesizerID"]
                 quantity = request.form["quantity"]
                 
+                #mySQL query to find associated synthesizer's price
                 querySynthesizerPrice = "SELECT synthesizerPrice,1 FROM Synthesizers WHERE synthesizerID = %s"
                 curPrice = mysql.connection.cursor()
                 curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
                 synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
                 synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
 
+                #mySQL query to insert order OrderSynthesizer row
                 query = "INSERT INTO OrderSynthesizer (orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice) \
                           VALUES (%s, %s, %s, %s, %s)"
                 curAddOrderSynthesizer = mysql.connection.cursor()
                 curAddOrderSynthesizer.execute(query, (orderID, synthesizerID, quantity, synthesizerUnitPrice, synthesizerLinePrice))
                 mysql.connection.commit()
 
+                #mySQL query to update order based on new OrderSynthesizer row by adding the row total to current Orders price
                 query2 = "UPDATE Orders \
                         SET orderPrice = orderPrice + %s \
-                        WHERE orderID = %s;"
-                        
+                        WHERE orderID = %s;"                        
                 curUpdateOrders = mysql.connection.cursor()
                 curUpdateOrders.execute(query2, (synthesizerLinePrice, orderID))
                 mysql.connection.commit()
@@ -374,16 +384,19 @@ def ordersynthesizer():
         cur.execute(query)
         data = cur.fetchall()
         
+        # mySQL query to grab all rows from orderSynthesizer table for SELECT drop-down user-input 
         queryGetorderSynthesizerID = "SELECT orderSynthesizerID, orderID FROM OrderSynthesizer ORDER BY orderSynthesizerID"
         curGetorderSynthesizerID = mysql.connection.cursor()
         curGetorderSynthesizerID.execute(queryGetorderSynthesizerID)
         synthOrderIds = curGetorderSynthesizerID.fetchall()
         
+        # mySQL query to grab all rows from orders table for SELECT drop-down user-input 
         queryGetorderID = "SELECT orderID FROM Orders"
         curGetorderID = mysql.connection.cursor()
         curGetorderID.execute(queryGetorderID)
         orderIds = curGetorderID.fetchall()
         
+        # mySQL query to grab all rows from synthesizers table for SELECT drop-down user-input 
         queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
@@ -393,11 +406,15 @@ def ordersynthesizer():
 
 @app.route('/delete_orderSynthesizer/<int:orderSynthesizerID>/<float:orderItemLinePrice>/<int:orderID>')
 def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
+    #delete OrderSynthesizer row
+    
+    #mySQL query to delete OrderSynthesizer row
     query = "DELETE FROM OrderSynthesizer WHERE orderSynthesizerID = %s;"
     cur = mysql.connection.cursor()
     cur.execute(query, (orderSynthesizerID,))
     mysql.connection.commit()
 
+    #mySQL query to update associated Order by subtracting deleted OrderSynthesizer row
     query2 = "UPDATE Orders \
               SET orderPrice = orderPrice - %s \
               WHERE orderID = %s;"
@@ -409,9 +426,13 @@ def delete_orderSynthesizer(orderSynthesizerID, orderItemLinePrice, orderID):
 
 @app.route('/purchases', methods=('GET', 'POST'))
 def purchases():
+    # POST 
+    #insert purchase into Purchases table
     if request.method == "POST":
+        # Execute if user presses Add_Purchase button
         if request.form.get("Add_Purchase"):
             try:
+                #grab user form inputs
                 orderID = request.form["orderID"]
                 manufacturerID = request.form["manufacturerID"]
                 purchaseDate = request.form["purchaseDate"]
@@ -490,11 +511,13 @@ def purchases():
         cur.execute(query)
         data = cur.fetchall()
 
+        # mySQL query to grab all rows from orders table for SELECT drop-down user-input 
         queryGetorderID = "SELECT orderID FROM Orders"
         curGetorderID = mysql.connection.cursor()
         curGetorderID.execute(queryGetorderID)
         orderIds = curGetorderID.fetchall()  
 
+        # mySQL query to grab all rows from manufacturers table for SELECT drop-down user-input 
         queryGetManufacturers = "SELECT manufacturerID, manufacturerName FROM Manufacturers"
         curGetManufacturers = mysql.connection.cursor()
         curGetManufacturers.execute(queryGetManufacturers)
@@ -509,10 +532,16 @@ def purchases():
 
 @app.route('/purchasesynthesizer', methods=('GET', 'POST'))
 def purchasesynthesizer():
+    # POST 
+    #insert purchase into PurchaseSynthesizer table
     if request.method == "POST":
         print("Form data:", request.form)
-        if request.form.get("Add_PurchaseSynthesizer"):
-            try:
+        try: 
+            # Execute if user presses Add_PurchaseSynthesizer button
+            if request.form.get("Add_PurchaseSynthesizer"):
+                tb = traceback.format_exc()
+
+                #grab user form inputs
                 purchaseID = request.form["purchaseID"]
                 synthesizerID = request.form["synthesizerID"]
                 quantity = request.form["quantity"]
@@ -522,21 +551,30 @@ def purchasesynthesizer():
                 querySynth = "SELECT synthesizerCost FROM Synthesizers WHERE synthesizerID = %s"
                 cur = mysql.connection.cursor()
                 cur.execute(querySynth, (synthesizerID,))
-                
+                #calculate total line_price based on synthesizer cost     
                 unit_price = float(cur.fetchall()[0]["synthesizerCost"])
                 line_price = float(unit_price) * int(quantity)
 
+                #mySQL query to insert new role into PurchaseSynthesizer
                 query = "INSERT INTO PurchaseSynthesizer (purchaseID, synthesizerID, purchaseItemQuantity, purchaseItemUnitCost, purchaseItemLineCost) \
-                          VALUES (%s, %s, %s, %s, %s)"
+                        VALUES (%s, %s, %s, %s, %s)"
                 curAddPurchaseSynthesizer = mysql.connection.cursor()
                 curAddPurchaseSynthesizer.execute(query, (purchaseID, synthesizerID, quantity, unit_price, line_price))
                 mysql.connection.commit()
                 print("Commit successful")
+             
+                #mySQL query to updated associated purchase by adding PurchaseSynthesizer row cost to current purchase  
+                query2 = "UPDATE Purchases \
+                SET purchaseCost = purchaseCost + %s \
+                WHERE purchaseID = %s;"             
+                curUpdateOrders = mysql.connection.cursor()
+                curUpdateOrders.execute(query2, (line_price, purchaseID))
+                mysql.connection.commit()
 
-            except Exception as e:
-                tb = traceback.format_exc()
-                log(tb)  # Log the detailed traceback
-                return str(e), 500  # Return error message and HTTP 500 status code
+        except Exception as e:
+            tb = traceback.format_exc()
+            log(tb)  # Log the detailed traceback
+            return str(e), 500  # Return error message and HTTP 500 status code
 
         return redirect("/purchasesynthesizer")
     
@@ -547,19 +585,20 @@ def purchasesynthesizer():
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
-
+        
+        # mySQL query to grab all rows from Purchases table for SELECT drop-down user-input 
         queryGetpurchaseID = "SELECT purchaseID FROM Purchases"
         curGetpurchaseID = mysql.connection.cursor()
         curGetpurchaseID.execute(queryGetpurchaseID)
         purchaseIds = curGetpurchaseID.fetchall()
-        
+ 
+        # mySQL query to grab all rows from synthesizers table for SELECT drop-down user-input        
         queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()   
 
     return render_template("purchasesynthesizer.j2", data=data, purchaseIds=purchaseIds, synthesizersNames=synthesizersNames)
-
 
 # Listener
 if __name__ == "__main__":
