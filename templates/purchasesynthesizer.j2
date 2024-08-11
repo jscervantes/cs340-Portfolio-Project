@@ -28,18 +28,6 @@
             {% endif %}
         </table>
 
-    <br>
-    <label for="purchaseSynthesizerTableInput">Display all purchase items associated with a single purchase order</label>
-    <select id="purchaseSynthesizerTableInput" name="purchaseID" onchange="purchaseSynthesizerSearch()">
-        <option value="" disabled selected>Select Purchase ID</option>
-        <option value="1">Purchase ID 1</option>
-        <option value="2">Purchase ID 2</option>
-        <option value="3">Purchase ID 3</option>
-        <option value="4">Purchase ID 4</option>
-        <option value="5">Purchase ID 5</option>
-    </select>
-    </section>
-
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
     <h3>{% block addForm %} Add A Synthesizer Purchase to Database {% endblock %}</h3>
@@ -76,75 +64,6 @@
         <input type="submit" value="Add to Purchase" name="Add_PurchaseSynthesizer">
       </form>
 
-    <form method="post" id="update-form" style="display: none;">
-    <h1>{% block updateForm %} Update A Synthesizer Purchase Order in Database {% endblock %}</h1>
-        <label for="purchaseSynthesizerID">Purchase Synthesizer ID</label>
-        <br>
-            <select required id="purchaseSynthesizerID" name="purchaseSynthesizerID">
-            <option value="" disabled selected>Select Purchase Synthesizer ID</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-            <option value="6">ID 6</option>
-            <option value="7">ID 7</option>
-        </select>
-        <br>
-        <label for="purchaseID">Purchase</label>
-        <br>
-            <select required id="purchaseID" name="purchaseID">
-            <option value="" disabled selected>Select Purchase</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-            <option value="6">ID 6</option>
-        </select>
-        <br>
-        <label for="synthesizerID">Synthesizer</label>
-        <br>
-            <select required id="synthesizerID" name="synthesizerID">
-            <option value="" disabled selected>Select the Synthesizer</option>
-            <option value="1">ID 1: Juno60</option>
-            <option value="2">ID 2: Jupiter8</option>
-            <option value="3">ID 3: Prophet5</option>
-            <option value="4">ID 4: WavestateMK2</option>
-            <option value="5">ID 5: Grandmother</option>
-        </select>
-        <br>
-        <label for="quantity">Quantity</label>
-        <br>
-        <input type="number" 
-               id="quantity"
-               name="quantity"
-               required>
-        <br>
-        <label for="unit-cost">Unit Cost</label>
-        <br>
-        <input type="text" 
-               id="unit-cost"
-               name="unit-cost"
-               placeholder="unit-cost"
-               value="{{ request.form['unit-cost'] }}"
-               min="0"
-               max="10"
-               required>
-        <br>
-        <label for="line-price">Line Cost</label>
-        <br>
-        <input type="text" 
-               id="line-cost"
-               name="line-cost"
-               placeholder="line-cost"
-               value="{{ request.form['line-cost'] }}"
-               min="0"
-               max="10"
-               required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
 </body>
 </html>
 
