@@ -348,7 +348,8 @@ th,
 td {
   padding: 1px 1px;
   text-align: left;
-  border-bottom: 1px solid #E1E1E1; }
+  border-bottom: 1px solid #E1E1E1; 
+  width: 5%; }
 th:first-child,
 td:first-child {
   padding-left: 0; }
