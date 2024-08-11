@@ -78,7 +78,7 @@ def synthesizers():
     # Grab Synthesizers data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the synthesizers in Synthesizer table
-        query = "SELECT synthesizerID, manufacturerID, synthesizerName, synthesizerCost, synthesizerPrice, signalType, keyboard FROM Synthesizers"
+        query = "SELECT synthesizerID AS ID, manufacturerID AS ManufacturerID, synthesizerName AS Name, synthesizerCost AS Cost, synthesizerPrice AS Price, signalType, keyboard as Keyboard FROM Synthesizers"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -141,7 +141,7 @@ def manufacturers():
     # Grab Manufacturers data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the manufacturers in Manufacturers table
-        query = "SELECT manufacturerID, manufacturerName, manufacturerStreet, manufacturerStreet2, manufacturerCity, manufacturerState, manufacturerZip, manufacturerEmail, manufacturerPhone FROM Manufacturers"
+        query = "SELECT manufacturerID AS ID, manufacturerName AS Name, manufacturerStreet AS Street, manufacturerStreet2 AS Street2, manufacturerCity AS City, manufacturerState AS State, manufacturerZip AS Zip, manufacturerEmail AS Email, manufacturerPhone AS Phone FROM Manufacturers"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -197,7 +197,7 @@ def customers():
     # Grab Customers data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the customers in Customers table
-        query = "SELECT customerID, customerFirstName, customerLastName, customerStreet, customerStreet2, customerCity, customerState, customerZip, customerEmail, customerPhone FROM Customers"
+        query = "SELECT customerID AS ID, customerFirstName AS FirstName, customerLastName AS LastName, customerStreet AS Street, customerStreet2 AS Street2, customerCity AS City, customerState AS State, customerZip AS Zip, customerEmail AS Email, customerPhone AS Phone FROM Customers"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -269,7 +269,7 @@ def orders():
     # Grab Orders data so we send it to our template to display  
     if request.method == "GET":
         # mySQL query to grab all the orders in Orders table
-        query = "SELECT orderID, customerID, orderDate, orderPrice FROM Orders"
+        query = "SELECT orderID AS ID, customerID AS CustomerID, orderDate AS Date, orderPrice AS Price FROM Orders"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -368,7 +368,7 @@ def ordersynthesizer():
     # Grab OrderSynthesizer data so we send it to our template to display  
     if request.method == "GET":
         # mySQL query to grab all the OrderSynthesizer in OrderSynthesizer table
-        query = "SELECT orderSynthesizerID, orderID, synthesizerID, orderItemQuantity, orderItemUnitPrice, orderItemLinePrice \
+        query = "SELECT orderSynthesizerID AS ID, orderID AS OrderID, synthesizerID AS SynthesizerID, orderItemQuantity AS ItemQuantity, orderItemUnitPrice AS UnitPrice, orderItemLinePrice AS LinePrice \
                   FROM OrderSynthesizer;"
         cur = mysql.connection.cursor()
         cur.execute(query)
@@ -440,7 +440,7 @@ def purchases():
     # Grab Purchases data so we send it to our template to display  
     if request.method == "GET":
         # mySQL query to grab all the purchases in Purchases table
-        query = "SELECT purchaseID, orderID, manufacturerID, purchaseDate, purchaseCost FROM Purchases"
+        query = "SELECT purchaseID AS ID, orderID AS OrderID, manufacturerID AS ManufacturerID, purchaseDate AS Date, purchaseCost AS Cost FROM Purchases"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -493,7 +493,7 @@ def purchasesynthesizer():
     # Grab PurchaseSynthesizer data so we send it to our template to display  
     if request.method == "GET":
         # mySQL query to grab all the PurchaseSynthesizers in PurchaseSynthesizer table
-        query = "SELECT purchaseSynthesizerID, purchaseID, synthesizerID, purchaseItemQuantity, purchaseItemUnitCost, purchaseItemLineCost FROM PurchaseSynthesizer"
+        query = "SELECT purchaseSynthesizerID AS ID, purchaseID AS PurchaseID, synthesizerID as SynthesizerID, purchaseItemQuantity AS ItemQuantity, purchaseItemUnitCost AS UnitCost, purchaseItemLineCost AS LineCost FROM PurchaseSynthesizer"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
