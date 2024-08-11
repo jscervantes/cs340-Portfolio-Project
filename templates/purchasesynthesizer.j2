@@ -18,7 +18,6 @@
                             {% for key in item.keys() %}
                                 <td> {{item[key]}} </td>
                             {%endfor %}
-                            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
                         </tr>
                         {% endfor %}
                         <tr>
@@ -95,13 +94,6 @@ function purchaseSynthesizerSearch() {
 </script>
 
 <script>
- function deleteRow(r) {
-  var i = r.parentNode.parentNode.rowIndex;
-  document.getElementById("purchaseSynthesizerTable").deleteRow(i);
-}
- function showUpdateForm() {
-  document.getElementById('update-form').style.display = 'block';
- }
  function showAddForm() {
   document.getElementById('add-form').style.display = 'block';
  }

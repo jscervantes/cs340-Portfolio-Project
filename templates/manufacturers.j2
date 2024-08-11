@@ -18,7 +18,6 @@
                             {% for key in item.keys() %}
                                 <td> {{item[key]}} </td>
                             {%endfor %}
-                            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
                         </tr>
                         {% endfor %} 
                         <tr>
@@ -111,109 +110,8 @@
         <br>
               <input type="submit" value="Submit Manufacturer" name="Add_Manufacturer">        
     </form>
-
-    <form method="post" id="update-form" style="display: none;">
-    <h1>{% block customerUpdate %} Update A Manufacturer in Database {% endblock %}</h1>
-        <label for="manufacturerID">Manufacturer ID</label>
-        <br>
-          <select required id="manufacturerID" name="manufacturerID">
-            <option value="" disabled selected>Select the Manufacturer</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-          </select>
-        <br>
-        <label for="manufacturerName">Manufacturer Name</label>
-        <br>
-        <input type="text" 
-               id="manufacturerName"
-               name="manufacturerName"
-               placeholder="Manufacturer Name"
-               value="{{ request.form['manufacturerName'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="manufacturerStreet">Street Address 1</label>
-        <br>
-        <input type="text"
-               id="manufacturerStreet"
-               name="manufacturerStreet"
-               placeholder="Street Address 1"
-               value="{{ request.form['manufacturerStreet'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="manufacturerStreet2">Street Address 2</label>
-        <br>
-        <input type="text" 
-               id="manufacturerStreet2"
-               name="manufacturerStreet2"
-               placeholder="Street Address 2"
-               value="{{ request.form['manufacturerStreet2'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="manufacturerCity">City</label>
-        <br>
-        <input type="text" 
-               id="manufacturerCity"
-               name="manufacturerCity"
-               placeholder="City"
-               maxlength="100"
-               value="{{ request.form['manufacturerCity'] }}">
-        <br>
-        <label for="state">State</label>
-        <br>
-        <input type="text" 
-               id="manufacturerState"
-               name="manufacturerState"
-               placeholder="State"
-               value="{{ request.form['manufacturerState'] }}"
-               maxlength="2"
-               required>
-        <br>
-        <label for="manufacturerZip">Zip Code</label>
-        <br>
-        <input type="text" 
-               id="manufacturerZip"
-               name="manufacturerZip"
-               placeholder="Zip Code"
-               value="{{ request.form['manufacturerZip'] }}"
-               maxlength="10"
-               required>
-        <br>
-        <label for="email">Email</label>
-        <br>
-        <input type="email" 
-               id="manufacturerEmail"
-               name="manufacturerEmail"
-               placeholder="Email"
-               value="{{ request.form['manufacturerEmail'] }}"
-               maxlength="100"
-               required>
-        <br>
-        <label for="phone">Phone Number</label>
-        <br>
-        <input type="tel" 
-               id="manufacturerPhone"
-               name="manufacturerPhone"
-               placeholder="Phone Number"
-               value="{{ request.form['manufacturerPhone'] }}"
-               maxlength="10"
-               required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
+    
 <script>
- function deleteRow(r) {
-  var i = r.parentNode.parentNode.rowIndex;
-  document.getElementById("ManufacturersTable").deleteRow(i);
-} 
- function showUpdateForm() {
-  document.getElementById('update-form').style.display = 'block';
- }
  function showAddForm() {
   document.getElementById('Add_Manufacturer').style.display = 'block';
  }
