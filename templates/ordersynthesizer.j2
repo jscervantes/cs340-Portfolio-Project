@@ -18,7 +18,9 @@
               {% for key in item.keys() %}
               <td> {{ item[key] }}</td>
               {% endfor %}
-              <td><a type="button" href="delete_orderSynthesizer/{{ item.orderSynthesizerID }}/{{ item.orderItemLinePrice }}/{{ item.orderID }}" class="btn btn-default">Delete</a></td>
+              <form action="delete_orderSynthesizer/{{ item.orderSynthesizerID }}/{{ item.orderItemLinePrice }}/{{ item.orderID }}">
+                <td><input type="submit" value="Delete"></td>
+              </form>
           </tr>
           {% endfor %}
           <tr>
