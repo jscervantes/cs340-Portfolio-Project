@@ -61,79 +61,21 @@
         <br>
         <label for="cost">Purchase Cost</label>
         <br>
-        <input type="number" 
-               id="purchaseCost"
-               name="purchaseCost"
-               placeholder="Cost"
-               step="0.01"
-               value="{{ request.form['cost'] }}"
-               min="0"
-               required>
+        <div id="purchase-line-items">
+            <!-- Line items will be added here -->
+        </div>
+        <button type="button" onclick="addPurchaseItem()">Add Line Item</button>
         <br>
       </fieldset>
       <button type="submit" value="Submit Purchase" name="Add_Purchase">Submit</button>
     </form>
     </div>
 
-    
-    <form method="post" id="update-form" style="display: none;">
-    <h1>{% block updateForm %} Update A Purchase in Database {% endblock %}</h1>
-        <label for="purchaseID">Purchase ID</label>
-        <br>
-        <select required id="purchaseID" name="purchaseID">
-            <option value="" disabled selected>Select the Purchase ID</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-            <option value="6">ID 6</option>
-        </select>
-        <br>
-        <label for="orderID">Order</label>
-        <br>
-        <select required id="orderID" name="orderID">
-            <option value="" disabled selected>Select the Order ID</option>
-            <option value="1">ID 1</option>
-            <option value="2">ID 2</option>
-            <option value="3">ID 3</option>
-            <option value="4">ID 4</option>
-            <option value="5">ID 5</option>
-        </select>
-        <br>
-        <label for="manufacturerID">Manufacturer</label>
-        <br>
-            <select required id="manufacturerID" name="manufacturerID">
-            <option value="" disabled selected>Select the Manufacturer</option>
-            <option value="1">ID 1: Roland </option>
-            <option value="2">ID 2: Sequential</option>
-            <option value="3">ID 3: Korg</option>
-            <option value="4">ID 4: Moog</option>
-            <option value="5">ID 5: Yamaha</option>
-        </select>
-        <br>
-        <label for="order-date">Purchase Date</label>
-        <br>
-        <input type="date" 
-               id="purchase-date"
-               name="purchase-date"
-               placeholder="Purchase Date"
-               value="{{ request.form['purchase-date'] }}"
-               required>
-        <br>
-        <label for="cost">Purchase Cost</label>
-        <br>
-        <input type="text" 
-               id="cost"
-               name="cost"
-               placeholder="Cost"
-               value="{{ request.form['cost'] }}"
-               min="0"
-               required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
+
+<!--Javascript-->
 <script>
+countPurchaseItems = 0;
+
  function deleteRow(r) {
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("PurchasesTable").deleteRow(i);
@@ -144,5 +86,33 @@
  function showAddForm() {
   document.getElementById('add-form').style.display = 'block';
  }
+
+ function addPurchaseItem() {
+    countPurchaseItems++;
+    const container = document.getElementById('purchase-line-items');
+    const newPurchaseItem = document.createElement('div');
+    newPurchaseItem.innerHTML = `
+        <h3>Item ${countPurchaseItems}</h3>
+          {% if synthesizersNames %}
+            <label for="synthesizerID${countPurchaseItems}">Synthesizers</label>
+            <select required id="synthesizerID${countPurchaseItems}" name="synthesizerID${countPurchaseItems}">
+                <option value="" disabled selected>Select the Synthesizer</option>
+                {% for synthesizer in synthesizersNames %}
+                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
+                {% endfor %}
+            </select>
+          {% endif %}
+        <br>
+        <label for="quantity${countPurchaseItems}">Quantity</label>
+        <br>
+        <input type="number" 
+            id="quantity${countPurchaseItems}"
+            name="quantity${countPurchaseItems}"
+            min = "1"
+            required>
+        <br>
+    `;
+    container.appendChild(newPurchaseItem);
+}
 </script>
 {% endblock content %}

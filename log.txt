@@ -136,3 +136,11 @@ Traceback (most recent call last):
   File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/venv/lib64/python3.9/site-packages/MySQLdb/connections.py", line 261, in query
     _mysql.connection.query(self, query)
 MySQLdb.OperationalError: (1054, "Unknown column 'orderItemQuantity' in 'field list'")
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 430, in purchases
+    synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
+TypeError: float() argument must be a string or a number, not 'NoneType'
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 430, in purchases
+    synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
+TypeError: float() argument must be a string or a number, not 'NoneType'
