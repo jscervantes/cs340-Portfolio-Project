@@ -26,6 +26,9 @@
           <tr>
               <td><button id="add-button" onclick="showAddForm()">Add</button></td>
           </tr>
+          <tr>
+              <td><button id="add-button" onclick="showUpdateForm()">Update</button></td>
+          </tr>
         </tbody>
         {% endif %}
       </table>
@@ -70,7 +73,7 @@
    
     <!--update-->
     <div id="edit">
-      <form method="post" id="updateOrderSynthesizer">
+      <form method="post" id="updateOrderSynthesizer" style="display: none;">
       <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
         <fieldset>
           <br>
@@ -149,7 +152,7 @@ function orderSynthesizerSearch() {
   document.getElementById("orderSynthesizerTable").deleteRow(i);
 } 
  function showUpdateForm() {
-  document.getElementById('update-form').style.display = 'block';
+  document.getElementById('updateOrderSynthesizer').style.display = 'block';
  }
  function showAddForm() {
   document.getElementById('add-form').style.display = 'block';

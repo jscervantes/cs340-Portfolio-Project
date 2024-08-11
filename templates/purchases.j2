@@ -21,11 +21,14 @@
                             <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
                         </tr>
                         {% endfor %} 
+                        <tr>
+                          <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+                        </tr>
             {% endif %}
         </table>
     
     <div id="insert">
-    <form method="post" id="Add_Purchase">
+    <form method="post" id="Add_Purchase" style="display: none;">
     <h3>Add A Purchase to Database</h3>
     <fieldset>
         <br>
@@ -84,7 +87,7 @@ countPurchaseItems = 0;
   document.getElementById('update-form').style.display = 'block';
  }
  function showAddForm() {
-  document.getElementById('add-form').style.display = 'block';
+  document.getElementById('Add_Purchase').style.display = 'block';
  }
 
  function addPurchaseItem() {
