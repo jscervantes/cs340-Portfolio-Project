@@ -193,7 +193,7 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"] {
   display: inline-block;
-  height: 20px;
+  height: 30px;
   color: #555;
   text-align: center;
   font-size: 10px;
@@ -348,6 +348,9 @@ td {
   text-align: left;
   border-bottom: 1px solid #E1E1E1; 
   width: 5%; }
+td#delete-button {
+  padding: 0px 0px;
+}
 th:first-child,
 td:first-child {
   padding-left: 0; }

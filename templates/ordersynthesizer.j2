@@ -37,17 +37,19 @@
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
     <h3>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h3>
-        <br>
-          {% if orderIds %}
-            <label for="orderID">Order ID</label>
-            <select required id="orderID" name="orderID">
-                <option value="" disabled selected>Select the Associated Order</option>
-                {% for id in orderIds %}
-                  <option value="{{id.orderID}}">OrderID: {{id.orderID}}</option>
-                {% endfor %}
-            </select>
-          {% endif %}
-        <br>
+        <div class="row">
+          <div class="four columns">
+            {% if orderIds %}
+              <label for="orderID">Order ID</label>
+              <select required id="orderID" name="orderID">
+                  <option value="" disabled selected>Select the Associated Order</option>
+                  {% for id in orderIds %}
+                    <option value="{{id.orderID}}">OrderID: {{id.orderID}}</option>
+                  {% endfor %}
+              </select>
+            {% endif %}
+          </div>
+          <div class="five columns">
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
@@ -57,17 +59,15 @@
                 {% endfor %}
             </select>
           {% endif %}
-
-        <br>
+          </div>
+        </div>
         <label for="quantity">Quantity</label>
-        <br>
         <input type="number" 
                id="quantity"
                name="quantity"
                min = "1"
                required>
-        <br>
-        <input type="submit" value="Add to Order" name="Add_OrderSynthesizer">           
+        <input type="submit" value="Add to Order" name="Add_OrderSynthesizer">
     </form>
 
    
