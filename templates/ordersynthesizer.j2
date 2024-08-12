@@ -19,7 +19,7 @@
               <td> {{ item[key] }}</td>
               {% endfor %}
               <form action="delete_orderSynthesizer/{{ item.ID }}/{{ item.LinePrice }}/{{ item.OrderID }}">
-                <td><input type="submit" value="Delete"></td>
+                <td id="delete-button"><input type="submit" value="Delete"></td>
               </form>
           </tr>
           {% endfor %}
