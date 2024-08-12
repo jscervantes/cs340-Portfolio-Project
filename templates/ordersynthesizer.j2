@@ -29,6 +29,10 @@
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
         <td><button id="add-button" onclick="showUpdateForm()">Update</button></td>
     </div>
+  
+    <p><i>When a customer places an order, at least one orderSynthesizer is generated. Each orderSynthesizer
+    in an order represents the quantity of a specific synthesizer ordered. Adding, deleting or updating an 
+    orderSynthesizer will automatically update the associated order.</i></p>
    
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
@@ -76,9 +80,9 @@
           {% if synthOrderIds %}
             <label for="orderSynthesizerID">Synthesizer Order</label>
             <select required id="synthOrderID" name="synthOrderID">
-                <option value="" disabled selected>Select the Associated Order</option>
+                <option value="" disabled selected>Select the Synthesizer Order</option>
                 {% for id in synthOrderIds %}
-                  <option value="{{id.orderSynthesizerID}}, {{id.orderID}}">ID: {{id.orderSynthesizerID}} OrderID: {{id.orderID}}</option>
+                  <option value="{{id.orderSynthesizerID}}, {{id.orderID}}">Synthesizer Order ID: {{id.orderSynthesizerID}}</option>
                 {% endfor %}
             </select>
           {% endif %}

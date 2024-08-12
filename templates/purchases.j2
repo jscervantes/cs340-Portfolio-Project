@@ -24,6 +24,13 @@
         </table>
 
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+    </div>
+
+    <p><i>When a customer places an order, our store, Ciani Synths, must fulfill the customer's
+     order by placing a purchase order from the manufacturer, which is what Purchases represent. This allows
+     the customer's order to be dropshipped directly from the manufacturer.
+     Each purchase generates at least one purchaseSynthesizer. Each purchaseSynthesizer
+    in a purchase represents the quantity of a specific synthesizer being purchased.</i></p>
 
     <!--insert-->
     <form method="post" id="Add_Purchase" style="display: none;">
@@ -82,7 +89,7 @@ countPurchaseItems = 0;
     const container = document.getElementById('purchase-line-items');
     const newPurchaseItem = document.createElement('div');
     newPurchaseItem.innerHTML = `
-        <h3>Item ${countPurchaseItems}</h3>
+        <h5>Item ${countPurchaseItems}</h5>
           {% if synthesizersNames %}
             <label for="synthesizerID${countPurchaseItems}">Synthesizers</label>
             <select required id="synthesizerID${countPurchaseItems}" name="synthesizerID${countPurchaseItems}">
