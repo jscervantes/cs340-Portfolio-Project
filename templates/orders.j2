@@ -31,8 +31,11 @@
     in an order represents the quantity of a specific synthesizer being ordered. Adding, or updating an 
     orderSynthesizer will automatically update the associated order.</i></p>
 
+    <!--insert-->
     <form method="post" id="Add_Order" style="display: none;">
-    <legend><strong>Add an Order to Database</strong></legend>
+    <h4>Add an Order to Database</h4>
+      <div class="row">
+        <div class="three columns">
           {% if customerNames %}
             <label for="customerID">Customer</label>
             <select required id="customerID" name="customerID">
@@ -42,22 +45,23 @@
                 {% endfor %}
             </select>
           {% endif %}
-        <br>
-        <label for="orderDate">Order Date</label>
-        <br>
-        <input type="date" 
-               id="orderDate"
-               name="orderDate"
-               placeholder="Order Date"
-               value="{{ request.form['orderDate'] }}"
-               required>
-        <br>
+        </div>
+        <div class="three columns">
+          <label for="orderDate">Order Date</label>
+          <input type="date" 
+                 id="orderDate"
+                 name="orderDate"
+                 placeholder="Order Date"
+                 value="{{ request.form['orderDate'] }}"
+                 required>
+        </div>
+      </div>
         <div id="order-line-items">
             <!-- Line items will be added here -->
         </div>
         <button type="button" onclick="addOrderItem()">Add Line Item</button>
         <br><br>
-       <input type="submit" value="Submit Order" name="Add_Order">        
+       <input class="button-primary" type="submit" value="Submit Order" name="Add_Order">        
     </form>
 
 <script>
@@ -72,6 +76,8 @@ function addOrderItem() {
     const newOrderItem = document.createElement('div');
     newOrderItem.innerHTML = `
         <h5>Item ${countOrderItems}</h5>
+          <div class="row">
+            <div class="three columns"
           {% if synthesizersNames %}
             <label for="synthesizerID${countOrderItems}">Synthesizers</label>
             <select required id="synthesizerID${countOrderItems}" name="synthesizerID${countOrderItems}">
@@ -81,15 +87,16 @@ function addOrderItem() {
                 {% endfor %}
             </select>
           {% endif %}
-        <br>
-        <label for="quantity${countOrderItems}">Quantity</label>
-        <br>
-        <input type="number" 
-            id="quantity${countOrderItems}"
-            name="quantity${countOrderItems}"
-            min = "1"
-            required>
-        <br>
+            </div>
+            <div class="three columns"
+              <label for="quantity${countOrderItems}">Quantity</label>
+              <input type="number" 
+                  id="quantity${countOrderItems}"
+                  name="quantity${countOrderItems}"
+                  min = "1"
+                  required>
+            </div>
+          </div>
     `;
     container.appendChild(newOrderItem);
 }
