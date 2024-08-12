@@ -113,15 +113,15 @@ FROM PurchaseSynthesizer;
 
 
 -- selects for user input fields (dynamic drop-down options for fks)
--- get manufacturerID and manufacturerName from Manufacturers, ordered by manufacturerID
+-- get manufacturerID and manufacturerName from Manufacturers, ordered by manufacturerName
 SELECT manufacturerID, manufacturerName 
 FROM Manufacturers 
-ORDER BY manufacturerID;
+ORDER BY manufacturerName;
 
--- get synthesizerID and synthesizerName from Synthesizers, ordered by synthesizerID
+-- get synthesizerID and synthesizerName from Synthesizers, ordered by synthesizerName
 SELECT synthesizerID, synthesizerName 
 FROM Synthesizers 
-ORDER BY synthesizerID;
+ORDER BY synthesizerName;
 
 -- get customerFirstName and customerLastName, customerID from Customers, ordered by customerFirstName and customerLastName
 SELECT customerFirstName, customerLastName, customerID 
