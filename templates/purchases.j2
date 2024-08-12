@@ -25,11 +25,11 @@
 
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
 
-    <div id="insert">
+    <!--insert-->
     <form method="post" id="Add_Purchase" style="display: none;">
-    <h3>Add A Purchase to Database</h3>
-    <fieldset>
-        <br>
+    <h4>Add A Purchase to Database</h4>
+    <div class="row">
+      <div class="three columns">
         {% if orderIds %}
           <label for="orderID">Order</label>
           <select id="orderID" name="orderID">
@@ -39,7 +39,8 @@
               {% endfor %}
           </select>
         {% endif %}
-        <br>
+      </div>
+      <div class="three columns">
         {% if manufacturerIds %}
           <label for="manufacturerID">Manufacturer</label>
           <br>
@@ -50,27 +51,23 @@
                 {% endfor %}
           </select>
         {% endif %}
-        <br>
-        <label for="order-date">Purchase Date</label>
-        <br>
-        <input type="date" 
-               id="purchaseDate"
-               name="purchaseDate"
-               placeholder="Purchase Date"
-               value="{{ request.form['purchase-date'] }}"
-               required>
-        <br>
-        <label for="cost">Purchase Cost</label>
-        <br>
-        <div id="purchase-line-items">
-            <!-- Line items will be added here -->
-        </div>
-        <button type="button" onclick="addPurchaseItem()">Add Line Item</button>
-        <br>
-      </fieldset>
-      <button type="submit" value="Submit Purchase" name="Add_Purchase">Submit</button>
-    </form>
+      </div>
     </div>
+      <label for="order-date">Purchase Date</label>
+      <br>
+      <input type="date" 
+             id="purchaseDate"
+             name="purchaseDate"
+             placeholder="Purchase Date"
+             value="{{ request.form['purchase-date'] }}"
+             required>
+      <div id="purchase-line-items">
+          <!-- Line items will be added here -->
+      </div>
+      <button type="button" onclick="addPurchaseItem()">Add Line Item</button>
+      <br>
+      <button class="button-primary" type="submit" value="Submit Purchase" name="Add_Purchase">Submit</button>
+    </form>
 
 
 <!--Javascript-->

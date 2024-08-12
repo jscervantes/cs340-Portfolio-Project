@@ -32,8 +32,9 @@
    
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
-    <h3>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h3>
-        <br>
+    <h4>Add A Synthesizer Customer Order to Database</h4>
+        <div class="row">
+          <div class="four columns">
           {% if orderIds %}
             <label for="orderID">Order ID</label>
             <select required id="orderID" name="orderID">
@@ -43,7 +44,8 @@
                 {% endfor %}
             </select>
           {% endif %}
-        <br>
+          </div>
+          <div class="six columns">
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
@@ -53,26 +55,24 @@
                 {% endfor %}
             </select>
           {% endif %}
-
-        <br>
+          </div>
+        </div>
         <label for="quantity">Quantity</label>
-        <br>
         <input type="number" 
                id="quantity"
                name="quantity"
                min = "1"
                required>
-        <br>
-        <input type="submit" value="Add to Order" name="Add_OrderSynthesizer">           
+        <input class="button-primary" type="submit" value="Add to Order" name="Add_OrderSynthesizer">           
     </form>
 
    
     <!--update-->
     <div id="edit">
       <form method="post" id="updateOrderSynthesizer" style="display: none;">
-      <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
-        <fieldset>
-          <br>
+      <h3>Update A Synthesizer Customer Order in Database</h3>
+        <div class="row">
+          <div class="four columns">
           {% if synthOrderIds %}
             <label for="orderSynthesizerID">Synthesizer Order</label>
             <select required id="synthOrderID" name="synthOrderID">
@@ -82,7 +82,8 @@
                 {% endfor %}
             </select>
           {% endif %}
-          <br>
+          </div>
+          <div class="six columns">
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
@@ -92,30 +93,30 @@
                 {% endfor %}
             </select>
           {% endif %}
-
-          <br>
-          <label for="quantity">Quantity</label>
-          <br>
-          <input type="number" 
-                 id="quantity"
-                 name="quantity"
-                 min = "1"
-                 required>
-          <br>
-          <label for="unit-price">Unit Price</label>
-          <br>
-          <input type="text" 
-                 id="unit-price"
-                 name="unit-price"
-                 placeholder="unit-price"
-                 value="{{ request.form['unit-price'] }}"
-                 min="0"
-                 max="10"
-                 required>
-          <br>
-          
-        </fieldset>   
-        			<input type="submit" value="Update" name="Update_OrderSynthesizer">           
+          </div>
+        </div>
+        <div class="row">
+          <div class="four columns">
+            <label for="quantity">Quantity</label>
+            <input type="number" 
+                   id="quantity"
+                   name="quantity"
+                   min = "1"
+                   required>
+          </div>
+          <div class="six columns">
+            <label for="unit-price">Unit Price</label>
+            <input type="text" 
+                   id="unit-price"
+                   name="unit-price"
+                   placeholder="unit-price"
+                   value="{{ request.form['unit-price'] }}"
+                   min="0"
+                   max="10"
+                   required>
+          </div>
+        </div>
+        <input type="submit" value="Update" name="Update_OrderSynthesizer">           
       </form>
     </div>
     
