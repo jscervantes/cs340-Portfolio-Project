@@ -11,11 +11,10 @@ app = Flask(__name__)
 # database connection
 # Template:
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_ogleznee"
-app.config["MYSQL_PASSWORD"] = "5978"
-app.config["MYSQL_DB"] = "cs340_ogleznee"
+app.config["MYSQL_USER"] = "cs340_cervanj2"
+app.config["MYSQL_PASSWORD"] = "4397"
+app.config["MYSQL_DB"] = "cs340_cervanj2"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
-
 mysql = MySQL(app)
 
 # Routes
@@ -228,6 +227,8 @@ def orders():
                     curPrice = mysql.connection.cursor()
                     curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
                     synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                    if synthesizerUnitPrice is None:
+                        synthesizerUnitPrice = 0
                     synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
            
                 #mySQL query to insert new Orders row         
@@ -257,6 +258,8 @@ def orders():
                 curPrice = mysql.connection.cursor()
                 curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
                 synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                if synthesizerUnitPrice is None:
+                    synthesizerUnitPrice = 0
                 synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
 
                 #mySQL query to insert each order line item into OrderSynthesizer table
@@ -309,6 +312,8 @@ def ordersynthesizer():
                 synthesizerID = request.form["synthesizerID"]
                 quantity = request.form["quantity"]
                 unit_price = request.form["unit-price"]
+                if unit_price is None:
+                    unit_price = 0
                 line_price = float(unit_price) * int(quantity)
 
                 #SQL query to find previous orderSynthesizer price
@@ -356,6 +361,8 @@ def ordersynthesizer():
                 curPrice = mysql.connection.cursor()
                 curPrice.execute(querySynthesizerPrice, (int(synthesizerID),))
                 synthesizerUnitPrice = curPrice.fetchall()[0]["synthesizerPrice"]
+                if synthesizerUnitPrice is None:
+                    synthesizerUnitPrice = 0
                 synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
 
                 #mySQL query to insert order OrderSynthesizer row
@@ -556,7 +563,9 @@ def purchasesynthesizer():
                 cur = mysql.connection.cursor()
                 cur.execute(querySynth, (synthesizerID,))
                 #calculate total line_price based on synthesizer cost     
-                unit_price = float(cur.fetchall()[0]["synthesizerCost"])
+                unit_price = cur.fetchall()[0]["synthesizerCost"]
+                if unit_price is None:
+                    unit_price = 0
                 line_price = float(unit_price) * int(quantity)
 
                 #mySQL query to insert new role into PurchaseSynthesizer
