@@ -158,3 +158,15 @@ Traceback (most recent call last):
   File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 469, in purchases
     synthesizerLinePrice = (float(synthesizerUnitPrice) * float(quantity))
 TypeError: float() argument must be a string or a number, not 'NoneType'
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 232, in orders
+    synthesizerLinePrice = float(synthesizerLinePrice) + (float(synthesizerUnitPrice) * float(quantity))
+TypeError: float() argument must be a string or a number, not 'NoneType'
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 319, in ordersynthesizer
+    line_price = float(unit_price) * int(quantity)
+ValueError: could not convert string to float: '3333,33'
+Traceback (most recent call last):
+  File "/nfs/stak/users/cervanj2/cs340/cs340-Portfolio-Project/app.py", line 569, in purchasesynthesizer
+    unit_price = float(cur.fetchall()[0]["synthesizerCost"])
+TypeError: float() argument must be a string or a number, not 'NoneType'
