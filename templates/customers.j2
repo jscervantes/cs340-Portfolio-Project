@@ -4,6 +4,7 @@
     <h2>Customers</h2>
     <div id="browse">
         <table>
+        <!--iterate through data from SQL query and display as table-->
             {% if data %}
                 <thead>
                     <tr>
@@ -24,6 +25,7 @@
             {% endif %}
         </table>
 
+      <!--Add form will pop up if clicked-->
        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
        </div>
 
@@ -124,7 +126,9 @@
        <input class="button-primary" type="submit" value="Submit Customer" name="Add_Customer">        
     </form>
 
+<!--Javascript-->
 <script>
+  <!--Displays add-form if clicked-->
  function showAddForm() {
   document.getElementById('Add_Customer').style.display = 'block';
  }

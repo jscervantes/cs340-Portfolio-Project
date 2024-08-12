@@ -4,6 +4,7 @@
     <h2>Purchase Synthesizer</h2>
     <div id="browse">
         <table>
+        <!--iterate through data from SQL query and display as table-->
             {% if data %}
                 <thead>
                     <tr>
@@ -24,6 +25,7 @@
             {% endif %}
         </table>
 
+        <!--Add form will pop up if clicked-->
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
 
     </div>
@@ -40,8 +42,9 @@
     <form method="post" id="add-form" style="display: none;">
     <h4>Add A Synthesizer Purchase to Database</h4>
       <div class="row">
-        <div class="three columns">  
-           {% if purchaseIds %}
+        <div class="three columns"> 
+          <!--iterate through data from SQL query and display as select drop-down-->
+            {% if purchaseIds %}
               <label for="purchaseID">Purchase ID</label>
               <select required id="purchaseID" name="purchaseID">
                   <option value="" disabled selected>Select the Associated Purchase</option>
@@ -52,6 +55,7 @@
             {% endif %}
         </div>
         <div class="three columns">
+          <!--iterate through data from SQL query and display as select drop-down-->
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
@@ -77,31 +81,9 @@
 </body>
 </html>
 
-
- <script>
-function purchaseSynthesizerSearch() {
-  var purchaseSelectionID, filter, table, tr, td, i, dropDownValue;
-  purchaseSelectionID = document.getElementById("purchaseSynthesizerTableInput");
-  filter = purchaseSelectionID.value.toUpperCase();
-  table = document.getElementById("purchaseSynthesizerTable");
-  tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      dropDownValue = td.textContent || td.innerText;
-      if (dropDownValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
-</script>
-
+<!--Javascript-->
 <script>
+   <!--Displays add-form if clicked-->
  function showAddForm() {
   document.getElementById('add-form').style.display = 'block';
  }

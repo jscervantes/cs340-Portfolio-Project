@@ -4,6 +4,7 @@
     <h2>Synthesizer Customer Orders</h2>
     <div id="browse">
       <table>
+        <!--iterate through data from SQL query and display as table-->
         {% if data %}
         <thead>
           <tr>
@@ -26,7 +27,9 @@
         </tbody>
         {% endif %}
       </table>
+        <!--Add form will pop up if clicked-->
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+        <!--Update form will pop up if clicked-->
         <td><button id="add-button" onclick="showUpdateForm()">Update</button></td>
     </div>
   
@@ -40,6 +43,7 @@
         <div class="row">
           <div class="four columns">
           {% if orderIds %}
+            <!--iterate through data from SQL query and display as select drop-down-->
             <label for="orderID">Order ID</label>
             <select required id="orderID" name="orderID">
                 <option value="" disabled selected>Select the Associated Order</option>
@@ -50,6 +54,7 @@
           {% endif %}
           </div>
           <div class="six columns">
+          <!--iterate through data from SQL query and display as select drop-down-->
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
@@ -77,6 +82,7 @@
       <h3>Update A Synthesizer Customer Order in Database</h3>
         <div class="row">
           <div class="four columns">
+            <!--iterate through data from SQL query and display as select drop-down-->
           {% if synthOrderIds %}
             <label for="orderSynthesizerID">Synthesizer Order</label>
             <select required id="synthOrderID" name="synthOrderID">
@@ -88,6 +94,7 @@
           {% endif %}
           </div>
           <div class="six columns">
+            <!--iterate through data from SQL query and display as select drop-down-->
           {% if synthesizersNames %}
             <label for="synthesizerID">Synthesizers</label>
             <select required id="synthesizerID" name="synthesizerID">
@@ -123,38 +130,19 @@
         <input type="submit" value="Update" name="Update_OrderSynthesizer">           
       </form>
     </div>
-    
- <script>
-function orderSynthesizerSearch() {
-  var orderSelectionID, filter, table, tr, td, i, dropDownValue;
-  orderSelectionID = document.getElementById("orderSynthesizerTableInput");
-  filter = orderSelectionID.value.toUpperCase();
-  table = document.getElementById("orderSynthesizerTable");
-  tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      dropDownValue = td.textContent || td.innerText;
-      if (dropDownValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
-</script>
-
+<!--Javascript-->
 <script>
+  <!--Displays delete-form if clicked-->
  function deleteRow(r) {
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("orderSynthesizerTable").deleteRow(i);
 } 
+  <!--Displays update-form if clicked-->
  function showUpdateForm() {
   document.getElementById('updateOrderSynthesizer').style.display = 'block';
  }
+   <!--Displays add-form if clicked-->
  function showAddForm() {
   document.getElementById('add-form').style.display = 'block';
  }
