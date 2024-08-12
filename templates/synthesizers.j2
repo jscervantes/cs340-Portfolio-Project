@@ -27,14 +27,14 @@
             {% endfor %}
           </tr>
           {% endfor %}
-          <tr>
-            <td><button id="add-button" onclick="showAddForm()">Add</button></td>
-          </tr>
         </tbody>
         {% endif %}
       </table>
+
     </div>
-    
+
+          <p><button id="add-button" onclick="showAddForm()">Add</button></p>
+
     <!-- insert -->
       <form method="post" id="Add_Synthesizer" style="display: none;">
         <h3>{% block customerAdd %} Add a Synthesizer to Database {% endblock %}</h3>
