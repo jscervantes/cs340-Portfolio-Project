@@ -53,7 +53,7 @@
           <select required id="manufacturerID" name="manufacturerID">
               <option value="" disabled selected>Select the Manufacturer</option>
                 {% for manufacturer in manufacturerIds %}
-                  <option value="{{manufacturer.manufacturerID}}">{{ manufacturer.manufacturerID }} : {{ manufacturer.manufacturerName }}</option>
+                  <option value="{{manufacturer.manufacturerID}}">{{ manufacturer.manufacturerName }} (ID: {{ manufacturer.manufacturerID }})</option>
                 {% endfor %}
           </select>
         {% endif %}
@@ -98,7 +98,7 @@ countPurchaseItems = 0;
             <select required id="synthesizerID${countPurchaseItems}" name="synthesizerID${countPurchaseItems}">
                 <option value="" disabled selected>Select the Synthesizer</option>
                 {% for synthesizer in synthesizersNames %}
-                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
+                  <option value="{{synthesizer.synthesizerID}}">{{synthesizer.synthesizerName}} (ID: {{synthesizer.synthesizerID}})</option>
                 {% endfor %}
             </select>
           {% endif %}

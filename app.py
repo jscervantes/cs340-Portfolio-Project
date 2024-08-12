@@ -10,11 +10,7 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_cervanj2"
-app.config["MYSQL_PASSWORD"] = "4397"
-app.config["MYSQL_DB"] = "cs340_cervanj2"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+
 mysql = MySQL(app)
 
 # Routes
@@ -82,7 +78,7 @@ def synthesizers():
         data = cur.fetchall()
         
         # Get info from db for manufacturer drop down
-        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers ORDER BY manufacturerID"
+        query2 = "SELECT manufacturerID, manufacturerName FROM Manufacturers ORDER BY manufacturerName"
         cur = mysql.connection.cursor()
         cur.execute(query2)
         manufacturerData = cur.fetchall()
@@ -279,7 +275,7 @@ def orders():
         data = cur.fetchall()
         
         # mySQL query to grab all rows from Synthesizers table for SELECT drop-down user-input 
-        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerName"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()   
@@ -409,7 +405,7 @@ def ordersynthesizer():
         orderIds = curGetorderID.fetchall()
         
         # mySQL query to grab all rows from synthesizers table for SELECT drop-down user-input 
-        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerName"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()   
@@ -453,6 +449,7 @@ def purchases():
                 countPurchaseItems = len([key for key in request.form.keys() if key.startswith('synthesizerID')])
                 synthesizerLinePrice = 0
                 try: 
+                    #calculate total price based on all purchase line items added by itereating through dynamic data
                     for i in range(1, countPurchaseItems + 1):
                         synthesizerID = request.form[f"synthesizerID{i}"]
                         quantity = request.form[f"quantity{i}"]
@@ -471,6 +468,7 @@ def purchases():
                             cur.execute(queryPurchases, (manufacturerID, purchaseDate, synthesizerLinePrice))
                             mysql.connection.commit()
 
+                        # no null inputs
                         else:
                             queryPurchases = "INSERT INTO Purchases (orderID, manufacturerID, purchaseDate, purchaseCost) VALUES (%s, %s, %s, %s)"
                             cur = mysql.connection.cursor()
@@ -534,7 +532,8 @@ def purchases():
         curGetManufacturers.execute(queryGetManufacturers)
         manufacturerIds = curGetManufacturers.fetchall()    
 
-        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        #mySQL query to grab all rows from synthesziers table for SELET drop-down user-input
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerName"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()  
@@ -606,7 +605,7 @@ def purchasesynthesizer():
         purchaseIds = curGetpurchaseID.fetchall()
  
         # mySQL query to grab all rows from synthesizers table for SELECT drop-down user-input        
-        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerID"
+        queryGetSynthesizer = "SELECT synthesizerID, synthesizerName FROM Synthesizers ORDER BY synthesizerName"
         curGetSynthesizers = mysql.connection.cursor()
         curGetSynthesizers.execute(queryGetSynthesizer)
         synthesizersNames = curGetSynthesizers.fetchall()   
@@ -618,4 +617,4 @@ if __name__ == "__main__":
 
     #Elizabeth port: 49408
     #Main port: 49484
-    app.run(port=49783, debug=True)
+    app.run(port=49484, debug=True)

@@ -42,9 +42,9 @@
             <label for="manufacturerID">Manufacturer</label>
             <br>
             <select required id="manufacturerID" name="manufacturerID">
-                <option value="" disabled selected>Select the Synthesizer</option>
+                <option value="" disabled selected>Select the Manufacturer</option>
                 {% for manufacturer in manufacturerData %}
-                  <option value="{{manufacturer.manufacturerID}}">ID: {{manufacturer.manufacturerID}} {{manufacturer.manufacturerName}}</option>
+                  <option value="{{manufacturer.manufacturerID}}">{{manufacturer.manufacturerName}} (ID: {{manufacturer.manufacturerID}})</option>
                 {% endfor %}
             </select>
           {% endif %}
