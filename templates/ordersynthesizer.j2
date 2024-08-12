@@ -29,11 +29,16 @@
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
         <td><button id="add-button" onclick="showUpdateForm()">Update</button></td>
     </div>
+  
+    <p><i>When a customer places an order, at least one orderSynthesizer is generated. Each orderSynthesizer
+    in an order represents the quantity of a specific synthesizer ordered. Adding, deleting or updating an 
+    orderSynthesizer will automatically update the associated order.</i></p>
    
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
-    <h3>{% block addForm %} Add A Synthesizer Customer Order to Database {% endblock %}</h3>
-        <br>
+    <legend><strong>Add A Synthesizer Customer Order to Database</strong></legend>
+          <p>To add an orderSynthesizer, select and input the following values. 
+          This will also update the associated order to which it belongs.</p>
           {% if orderIds %}
             <label for="orderID">Order ID</label>
             <select required id="orderID" name="orderID">
@@ -72,13 +77,14 @@
       <form method="post" id="updateOrderSynthesizer" style="display: none;">
       <legend><strong>Update A Synthesizer Customer Order in Database</strong></legend>
         <fieldset>
-          <br>
+          <p>To update an orderSynthesizer, select and input the following values. 
+          This will also update the associated order to which it belongs.</p>
           {% if synthOrderIds %}
             <label for="orderSynthesizerID">Synthesizer Order</label>
             <select required id="synthOrderID" name="synthOrderID">
-                <option value="" disabled selected>Select the Associated Order</option>
+                <option value="" disabled selected>Select the Synthesizer Order</option>
                 {% for id in synthOrderIds %}
-                  <option value="{{id.orderSynthesizerID}}, {{id.orderID}}">ID: {{id.orderSynthesizerID}} OrderID: {{id.orderID}}</option>
+                  <option value="{{id.orderSynthesizerID}}, {{id.orderID}}">Synthesizer Order ID: {{id.orderSynthesizerID}}</option>
                 {% endfor %}
             </select>
           {% endif %}

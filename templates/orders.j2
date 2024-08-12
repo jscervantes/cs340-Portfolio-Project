@@ -25,10 +25,14 @@
         </table>
 
     <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+    </div>
+
+    <p><i>When a customer places an order, at least one orderSynthesizer is generated. Each orderSynthesizer
+    in an order represents the quantity of a specific synthesizer being ordered. Adding, or updating an 
+    orderSynthesizer will automatically update the associated order.</i></p>
 
     <form method="post" id="Add_Order" style="display: none;">
-    <h1>{% block orderAdd %} Add an Order to Database {% endblock %}</h1>
-        <br>
+    <legend><strong>Add an Order to Database</strong></legend>
           {% if customerNames %}
             <label for="customerID">Customer</label>
             <select required id="customerID" name="customerID">
@@ -67,7 +71,7 @@ function addOrderItem() {
     const container = document.getElementById('order-line-items');
     const newOrderItem = document.createElement('div');
     newOrderItem.innerHTML = `
-        <h3>Item ${countOrderItems}</h3>
+        <h5>Item ${countOrderItems}</h5>
           {% if synthesizersNames %}
             <label for="synthesizerID${countOrderItems}">Synthesizers</label>
             <select required id="synthesizerID${countOrderItems}" name="synthesizerID${countOrderItems}">
