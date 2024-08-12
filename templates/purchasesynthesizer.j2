@@ -57,7 +57,7 @@
             <select required id="synthesizerID" name="synthesizerID">
                 <option value="" disabled selected>Select the Synthesizer</option>
                 {% for synthesizer in synthesizersNames %}
-                  <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
+                  <option value="{{synthesizer.synthesizerID}}">{{synthesizer.synthesizerName}} (ID: {{synthesizer.synthesizerID}})</option>
                 {% endfor %}
             </select>
           {% endif %}

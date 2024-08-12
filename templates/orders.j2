@@ -78,15 +78,15 @@ function addOrderItem() {
         <h5>Item ${countOrderItems}</h5>
           <div class="row">
             <div class="three columns"
-            {% if synthesizersNames %}
-              <label for="synthesizerID${countOrderItems}">Synthesizers</label>
-              <select required id="synthesizerID${countOrderItems}" name="synthesizerID${countOrderItems}">
-                  <option value="" disabled selected>Select the Synthesizer</option>
-                  {% for synthesizer in synthesizersNames %}
-                    <option value="{{synthesizer.synthesizerID}}">ID: {{synthesizer.synthesizerID}} {{synthesizer.synthesizerName}}</option>
-                  {% endfor %}
-              </select>
-            {% endif %}
+          {% if synthesizersNames %}
+            <label for="synthesizerID${countOrderItems}">Synthesizers</label>
+            <select required id="synthesizerID${countOrderItems}" name="synthesizerID${countOrderItems}">
+                <option value="" disabled selected>Select the Synthesizer</option>
+                {% for synthesizer in synthesizersNames %}
+                  <option value="{{synthesizer.synthesizerID}}">{{synthesizer.synthesizerName}} (ID: {{synthesizer.synthesizerID}})</option>
+                {% endfor %}
+            </select>
+          {% endif %}
             </div>
             <div class="three columns"
               <label for="quantity${countOrderItems}">Quantity</label>
