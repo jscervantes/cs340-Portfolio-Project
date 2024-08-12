@@ -15,8 +15,6 @@ app.config["MYSQL_USER"] = "cs340_cervanj2"
 app.config["MYSQL_PASSWORD"] = "4397"
 app.config["MYSQL_DB"] = "cs340_cervanj2"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
-
-
 mysql = MySQL(app)
 
 # Routes
@@ -479,7 +477,6 @@ def purchases():
                             cur.execute(queryPurchases, (orderID, manufacturerID, purchaseDate, synthesizerLinePrice))
                             mysql.connection.commit()
 
-
                 except Exception as e:
                     tb = traceback.format_exc()
                     log(tb) # Log the detailed traceback
@@ -621,4 +618,4 @@ if __name__ == "__main__":
 
     #Elizabeth port: 49408
     #Main port: 49484
-    app.run(port=49484, debug=True)
+    app.run(port=49783, debug=True)

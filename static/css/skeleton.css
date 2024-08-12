@@ -342,7 +342,16 @@ pre > code {
 
 /* Tables
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-th,
+table{
+  overflow-y:scroll;
+  height:400px;
+  display:block;
+}
+th {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+}
 td {
   padding: 5px 3px;
   text-align: left;

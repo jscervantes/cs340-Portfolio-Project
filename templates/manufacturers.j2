@@ -20,12 +20,12 @@
                             {%endfor %}
                         </tr>
                         {% endfor %} 
-                        <tr>
-                            <td><button id="add-button" onclick="showAddForm()">Add</button></td>
-                        </tr>
                      </tbody>
             {% endif %}
         </table>
+
+        <td><button id="add-button" onclick="showAddForm()">Add</button></td>
+
 
     <form method="post" id="Add_Manufacturer" style="display: none;">
     <h3>{% block manufacturer %} Add A Manufacturer to Database {% endblock %}</h3>
