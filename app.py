@@ -1,5 +1,7 @@
-#References: 
-# https://canvas.oregonstate.edu/courses/1967354/pages/exploration-developing-in-flask?module_item_id=24460849
+# Citation for the following code:
+# Date: 08/12/2024
+# Based on:
+# Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app
 
 from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
