@@ -618,4 +618,4 @@ if __name__ == "__main__":
 
     #Elizabeth port: 49408
     #Main port: 49484
-    app.run(port=49783, debug=True)
+    app.run(port=49484, debug=True)
