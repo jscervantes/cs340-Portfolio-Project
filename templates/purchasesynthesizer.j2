@@ -26,12 +26,19 @@
 
         <td><button id="add-button" onclick="showAddForm()">Add</button></td>
 
-    <br>
+    </div>
+
+    <p><i>When a customer places an order, our store, Ciani Synths, must fulfill the customer's
+     order by placing a purchase order from the manufacturer. This allows
+     the customer's order to be dropshipped directly from the manufacturer.
+     Each purchase generates at least one purchaseSynthesizer. Each purchaseSynthesizer
+    in a purchase represents the quantity of a specific synthesizer being purchased. Adding a new purchaseSynthesizer
+    will automatically update the associated purchase.</i></p>
 
 
     <!--insert-->
     <form method="post" id="add-form" style="display: none;">
-    <h3>{% block addForm %} Add A Synthesizer Purchase to Database {% endblock %}</h3>
+    <legend><strong>Add A Synthesizer Purchase to Database</strong></legend>
         <label for="purchaseID">Purchase</label>
         <br>
          {% if purchaseIds %}

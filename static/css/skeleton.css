@@ -348,6 +348,7 @@ table{
   overflow-y:scroll;
   height:400px;
   display:block;
+  margin: 0;
 }
 th {
   position: sticky;
